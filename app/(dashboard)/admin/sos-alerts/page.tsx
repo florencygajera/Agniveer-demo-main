@@ -86,7 +86,7 @@ const initialAlerts: SosAlert[] = [
   {
     id: "SOS-0035",
     type: "Drill",
-    target: "1st Parachute Regiment",
+    target: "2nd Parachute Regiment",
     message: "Fire drill. Evacuate to parade ground immediately.",
     triggered: "16:00 hrs, 05 Mar 2025",
     by: "Col. S.P. Mehta",
