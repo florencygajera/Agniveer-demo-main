@@ -386,8 +386,8 @@ function StatusBadge({ status }: { status: Status }) {
 function BattalionChip({ code }: { code: string }) {
   const map: Record<string, string> = {
     "RR-1": "bg-[#eef3e6] text-[#4a5c2f] border-[#c5d9a0]",
-    "PARA-1": "bg-violet-50 text-violet-700 border-violet-200",
-    "BEN-2": "bg-sky-50 text-sky-700 border-sky-200",
+    "PARA-2": "bg-violet-50 text-violet-700 border-violet-200",
+    "BEN-3": "bg-sky-50 text-sky-700 border-sky-200",
     "MAR-4": "bg-amber-50 text-amber-700 border-amber-200",
   }
   return (
