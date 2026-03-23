@@ -149,12 +149,6 @@ export function AdminSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <div className="flex items-center justify-between px-2 py-1">
-              <span className="text-sm text-muted-foreground">Theme</span>
-              <ThemeToggle />
-            </div>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
                 <LogOut /> Logout

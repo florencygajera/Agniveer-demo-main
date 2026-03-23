@@ -1,7 +1,5 @@
 import { AdminSidebar } from "@/components/navigation/sidebar/AdminSidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Moon, Sun } from "lucide-react"
 
 export default function AdminLayout({
   children,
@@ -10,18 +8,20 @@ export default function AdminLayout({
 }) {
   return (
     <SidebarProvider>
-      <AdminSidebar />
-      <main className="w-full">
-        <div className="flex items-center justify-end gap-4 border-b px-4 py-3">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">Admin</span>
-            <span>|</span>
-            <span>Maj. Ankit Verma</span>
+      <div className="flex min-h-screen w-full">
+        <AdminSidebar />
+        <main className="flex flex-1 flex-col overflow-hidden bg-[#f4f3ef]">
+          <div className="flex items-center justify-between gap-4 border-b bg-background p-2">
+            <SidebarTrigger />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">Admin</span>
+              <span>|</span>
+              <span>Maj. Ankit Verma</span>
+            </div>
           </div>
-          <ThemeToggle />
-        </div>
-        {children}
-      </main>
+          <div className="flex-1 overflow-auto">{children}</div>
+        </main>
+      </div>
     </SidebarProvider>
   )
 }
