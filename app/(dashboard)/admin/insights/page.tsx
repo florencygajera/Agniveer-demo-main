@@ -24,14 +24,14 @@ const ALL_SOLDIERS = [
   { id: "AGN-2024-0104", name: "Sunil Kumar", battalion: "RR-1", batName: "1st Rajputana Rifles", physical: 68, weapons: 72, mental: 65, combat: 70, attendance: 82, discipline: 75, overall: 72 },
   { id: "AGN-2024-0105", name: "Kavita Rajput", battalion: "RR-1", batName: "1st Rajputana Rifles", physical: 78, weapons: 74, mental: 82, combat: 76, attendance: 88, discipline: 85, overall: 80.5 },
   { id: "AGN-2024-0106", name: "Mahesh Choudhary", battalion: "RR-1", batName: "1st Rajputana Rifles", physical: 82, weapons: 91, mental: 70, combat: 84, attendance: 91, discipline: 88, overall: 84.3 },
-  { id: "AGN-2024-0201", name: "Vikram Nair", battalion: "PARA-1", batName: "1st Parachute Regiment", physical: 94, weapons: 88, mental: 86, combat: 93, attendance: 97, discipline: 94, overall: 92 },
-  { id: "AGN-2024-0202", name: "Ananya Krishnan", battalion: "PARA-1", batName: "1st Parachute Regiment", physical: 80, weapons: 75, mental: 91, combat: 78, attendance: 95, discipline: 96, overall: 85.8 },
-  { id: "AGN-2024-0203", name: "Rohit Sharma", battalion: "PARA-1", batName: "1st Parachute Regiment", physical: 75, weapons: 69, mental: 72, combat: 71, attendance: 79, discipline: 74, overall: 73.3 },
-  { id: "AGN-2024-0204", name: "Deepak Yadav", battalion: "PARA-1", batName: "1st Parachute Regiment", physical: 88, weapons: 82, mental: 79, combat: 86, attendance: 93, discipline: 90, overall: 86.3 },
-  { id: "AGN-2024-0301", name: "Sourav Das", battalion: "BEN-2", batName: "2nd Bengal Regiment", physical: 86, weapons: 80, mental: 83, combat: 85, attendance: 94, discipline: 88, overall: 86 },
-  { id: "AGN-2024-0302", name: "Rekha Bose", battalion: "BEN-2", batName: "2nd Bengal Regiment", physical: 79, weapons: 71, mental: 90, combat: 75, attendance: 96, discipline: 94, overall: 84.2 },
-  { id: "AGN-2024-0303", name: "Amit Ghosh", battalion: "BEN-2", batName: "2nd Bengal Regiment", physical: 72, weapons: 65, mental: 68, combat: 69, attendance: 80, discipline: 72, overall: 71 },
-  { id: "AGN-2024-0304", name: "Ranjit Singh", battalion: "BEN-2", batName: "2nd Bengal Regiment", physical: 90, weapons: 92, mental: 84, combat: 91, attendance: 98, discipline: 95, overall: 91.7 },
+  { id: "AGN-2024-0201", name: "Vikram Nair", battalion: "PARA-1", batName: "2nd Parachute Regiment", physical: 94, weapons: 88, mental: 86, combat: 93, attendance: 97, discipline: 94, overall: 92 },
+  { id: "AGN-2024-0202", name: "Ananya Krishnan", battalion: "PARA-1", batName: "2nd Parachute Regiment", physical: 80, weapons: 75, mental: 91, combat: 78, attendance: 95, discipline: 96, overall: 85.8 },
+  { id: "AGN-2024-0203", name: "Rohit Sharma", battalion: "PARA-1", batName: "2nd Parachute Regiment", physical: 75, weapons: 69, mental: 72, combat: 71, attendance: 79, discipline: 74, overall: 73.3 },
+  { id: "AGN-2024-0204", name: "Deepak Yadav", battalion: "PARA-1", batName: "2nd Parachute Regiment", physical: 88, weapons: 82, mental: 79, combat: 86, attendance: 93, discipline: 90, overall: 86.3 },
+  { id: "AGN-2024-0301", name: "Sourav Das", battalion: "BEN-2", batName: "3rd Bengal Regiment", physical: 86, weapons: 80, mental: 83, combat: 85, attendance: 94, discipline: 88, overall: 86 },
+  { id: "AGN-2024-0302", name: "Rekha Bose", battalion: "BEN-2", batName: "3rd Bengal Regiment", physical: 79, weapons: 71, mental: 90, combat: 75, attendance: 96, discipline: 94, overall: 84.2 },
+  { id: "AGN-2024-0303", name: "Amit Ghosh", battalion: "BEN-2", batName: "3rd Bengal Regiment", physical: 72, weapons: 65, mental: 68, combat: 69, attendance: 80, discipline: 72, overall: 71 },
+  { id: "AGN-2024-0304", name: "Ranjit Singh", battalion: "BEN-2", batName: "3rd Bengal Regiment", physical: 90, weapons: 92, mental: 84, combat: 91, attendance: 98, discipline: 95, overall: 91.7 },
   { id: "AGN-2024-0401", name: "Suresh Patil", battalion: "MAR-4", batName: "4th Maratha Light Infantry", physical: 83, weapons: 79, mental: 76, combat: 81, attendance: 89, discipline: 86, overall: 82.3 },
   { id: "AGN-2024-0402", name: "Rohini Jadhav", battalion: "MAR-4", batName: "4th Maratha Light Infantry", physical: 76, weapons: 68, mental: 86, combat: 72, attendance: 91, discipline: 90, overall: 79.5 },
   { id: "AGN-2024-0403", name: "Santosh More", battalion: "MAR-4", batName: "4th Maratha Light Infantry", physical: 70, weapons: 66, mental: 62, combat: 68, attendance: 78, discipline: 70, overall: 69 },
@@ -40,8 +40,8 @@ const ALL_SOLDIERS = [
 
 const ALL_BATTALIONS = [
   { id: "RR-1", name: "1st Rajputana Rifles", commander: "Col. R.K. Verma", location: "Jaipur, Rajasthan" },
-  { id: "PARA-1", name: "1st Parachute Regiment", commander: "Col. S.P. Mehta", location: "Agra, Uttar Pradesh" },
-  { id: "BEN-2", name: "2nd Bengal Regiment", commander: "Col. D.K. Roy", location: "Kolkata, West Bengal" },
+  { id: "PARA-2", name: "2nd  Parachute Regiment", commander: "Col. S.P. Mehta", location: "Agra, Uttar Pradesh" },
+  { id: "BEN-3", name: "3rd Bengal Regiment", commander: "Col. D.K. Roy", location: "Kolkata, West Bengal" },
   { id: "MAR-4", name: "4th Maratha Light Infantry", commander: "Col. V.B. Patil", location: "Pune, Maharashtra" },
 ]
 

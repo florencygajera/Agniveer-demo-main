@@ -59,7 +59,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 2,
     name: "Vikram Nair",
-    battalion: "PARA-1",
+    battalion: "PARA-2",
     physical: 94,
     weapons: 88,
     mental: 86,
@@ -71,7 +71,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 3,
     name: "Ranjit Singh",
-    battalion: "BEN-2",
+    battalion: "BEN-3",
     physical: 90,
     weapons: 92,
     mental: 84,
@@ -119,7 +119,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 7,
     name: "Deepak Yadav",
-    battalion: "PARA-1",
+    battalion: "PARA-2",
     physical: 88,
     weapons: 82,
     mental: 79,
@@ -131,7 +131,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 8,
     name: "Sourav Das",
-    battalion: "BEN-2",
+    battalion: "BEN-3",
     physical: 86,
     weapons: 80,
     mental: 83,
@@ -143,7 +143,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 9,
     name: "Ananya Krishnan",
-    battalion: "PARA-1",
+    battalion: "PARA-2",
     physical: 80,
     weapons: 75,
     mental: 91,
@@ -167,7 +167,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 11,
     name: "Rekha Bose",
-    battalion: "BEN-2",
+    battalion: "BEN-3",
     physical: 79,
     weapons: 71,
     mental: 90,
@@ -215,7 +215,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 15,
     name: "Rohit Sharma",
-    battalion: "PARA-1",
+    battalion: "PARA-2",
     physical: 75,
     weapons: 69,
     mental: 72,
@@ -251,7 +251,7 @@ const LEADERBOARD: Soldier[] = [
   {
     rank: 18,
     name: "Amit Ghosh",
-    battalion: "BEN-2",
+    battalion: "BEN-3",
     physical: 65,
     weapons: 68,
     mental: 70,
@@ -262,7 +262,7 @@ const LEADERBOARD: Soldier[] = [
   },
 ]
 
-const BATTALIONS = ["All", "RR-1", "PARA-1", "BEN-2", "MAR-4"]
+const BATTALIONS = ["All", "RR-1", "PARA-2", "BEN-3", "MAR-4"]
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function scoreColor(s: number) {

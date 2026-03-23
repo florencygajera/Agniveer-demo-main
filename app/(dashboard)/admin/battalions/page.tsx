@@ -69,7 +69,7 @@ const INITIAL: Battalion[] = [
   {
     id: "2",
     code: "PARA-1",
-    name: "1st Parachute Regiment",
+    name: "2nd Parachute Regiment",
     location: "Agra, Uttar Pradesh",
     commander: "Col. S.P. Mehta",
     score: 84.4,
@@ -86,7 +86,7 @@ const INITIAL: Battalion[] = [
   {
     id: "3",
     code: "BEN-2",
-    name: "2nd Bengal Regiment",
+    name: "3rd Bengal Regiment",
     location: "Kolkata, West Bengal",
     commander: "Col. D.K. Roy",
     score: 83.2,
