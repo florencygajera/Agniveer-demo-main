@@ -193,10 +193,10 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
                                       <span className={`text-sm font-black ${sc(v)}`}>{v}</span>
                                   </div>
                                   <div className="h-2 overflow-hidden rounded-full bg-stone-100">
-                            <div className={`h-full rounded-full ${bc(v)}`} style={{ width: `${v}%` }} />
-                        </div>
-                    </div>
-                )
+                          <div className={`h-full rounded-full ${bc(v)}`} style={{ width: `${v}%` }} />
+                      </div>
+                  </div>
+              )
             })}
                   </CardContent>
               </Card>
