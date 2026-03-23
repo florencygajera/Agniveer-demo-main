@@ -14,6 +14,7 @@ import {
 } from "../ui/sheet"
 import { Menu as MenuIcon } from "lucide-react"
 import { Brand } from "../shared/Brand"
+import { ThemeToggle } from "../theme-toggle"
 
 export default function Topbar() {
   const isMobile = useSize(900)
@@ -25,6 +26,7 @@ export default function Topbar() {
         <Brand />
         {!isMobile && <Menu />}
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           {isMobile && <MobileMenu />}
           {!isMobileTwo && <CTABtn />}
         </div>

@@ -40,6 +40,7 @@ import {
     LogOut,
 } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -92,8 +93,12 @@ function Sidebar({ active, setActive }: { active: Section; setActive: (s: Sectio
         ))}
           </nav>
 
-          {/* Logout */}
-          <div className="border-t border-stone-100 p-2">
+          {/* Theme Toggle & Logout */}
+          <div className="border-t border-stone-100 p-2 space-y-1">
+              <div className="flex items-center justify-between px-3 py-2">
+                  <span className="text-xs text-stone-400">Theme</span>
+                  <ThemeToggle />
+              </div>
               <Link href="/">
                   <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-colors">
                       <LogOut size={14} /> Logout
