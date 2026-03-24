@@ -1,3 +1,4 @@
+import Link from "next/link"
 import W from "../custom/W"
 import { Button } from "../ui/button"
 
@@ -9,7 +10,9 @@ export default function StartApplication() {
         <p className="text-xl font-medium text-muted-foreground">
           Agnipath Batch 2025 open. Last date: 31 March 2025.
         </p>
-        <Button className="h-12 px-6 text-lg">Start Application</Button>
+        <Link href="/apply-now">
+          <Button className="h-12 px-6 text-lg">Start Application</Button>
+        </Link>
       </div>
     </W>
   )

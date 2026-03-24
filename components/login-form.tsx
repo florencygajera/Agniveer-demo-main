@@ -1,15 +1,12 @@
-'use client'
+"use client"
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 const LOGIN_TABS = [
   { id: "candidate", label: "Candidate" },
@@ -23,7 +20,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-
   const route = useRouter()
 
   const [selectedTab, setSelectedTab] = useState(LOGIN_TABS[2].id)
@@ -34,10 +30,11 @@ export function LoginForm({
         <div className="flex flex-col items-center gap-3 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
           <p className="text-sm text-balance text-muted-foreground">
-            Enter your email below to login as a {LOGIN_TABS.find(tab => tab.id === selectedTab)?.label}
+            Enter your email below to login as a{" "}
+            {LOGIN_TABS.find((tab) => tab.id === selectedTab)?.label}
           </p>
-          <div className="flex justify-center gap-2 mt-2 mb-1">
-            {LOGIN_TABS.map(tab => (
+          <div className="mt-2 mb-1 flex justify-center gap-2">
+            {LOGIN_TABS.map((tab) => (
               <Button
                 key={tab.id}
                 type="button"
@@ -68,12 +65,6 @@ export function LoginForm({
         <Field>
           <div className="flex items-center">
             <FieldLabel htmlFor="password">Password</FieldLabel>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </a>
           </div>
           <Input
             id="password"
@@ -82,9 +73,17 @@ export function LoginForm({
             className="bg-background"
             autoComplete="current-password"
           />
+          <a
+            href="#"
+            className="ml-auto text-xs underline-offset-4 hover:underline"
+          >
+            Forgot your password?
+          </a>
         </Field>
         <Field>
-          <Button onClick={() => route.replace(selectedTab) } type="button">Login</Button>
+          <Button onClick={() => route.replace(selectedTab)} type="button">
+            Login
+          </Button>
         </Field>
       </FieldGroup>
     </form>

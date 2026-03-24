@@ -14,7 +14,7 @@ import {
 } from "../ui/sheet"
 import { Menu as MenuIcon } from "lucide-react"
 import { Brand } from "../shared/Brand"
-import { ThemeToggle } from "../theme-toggle"
+import Link from "next/link"
 
 export default function Topbar() {
   const isMobile = useSize(900)
@@ -26,7 +26,6 @@ export default function Topbar() {
         <Brand />
         {!isMobile && <Menu />}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
           {isMobile && <MobileMenu />}
           {!isMobileTwo && <CTABtn />}
         </div>
@@ -34,7 +33,6 @@ export default function Topbar() {
     </W>
   )
 }
-
 
 function Menu() {
   return (
@@ -51,15 +49,15 @@ function Menu() {
 function CTABtn() {
   return (
     <div className="flex items-center gap-2">
-      {CTA.map((m) => (
+      <Link href="/apply-now">
         <Button
-          key={m.name}
-          variant={m.variant}
+          key={"getStrt"}
+          variant="default"
           className="h-9 rounded p-4 shadow"
         >
-          {m.name}
+          Get Started
         </Button>
-      ))}
+      </Link>
     </div>
   )
 }
@@ -76,21 +74,6 @@ const MENU: { name: string }[] = [
   },
   {
     name: "Results",
-  },
-]
-
-//@ts-ignore
-const CTA: { name: string; variant: "default" | "secondary", link:string }[] = [
-  {
-    name: "Login to Portal",
-    variant: "secondary",
-    link:"/login"
-  },
-  ,
-  {
-    name: "Apply Now",
-    variant: "default",
-    link:"/login"
   },
 ]
 

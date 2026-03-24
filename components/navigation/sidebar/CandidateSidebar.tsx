@@ -14,108 +14,48 @@ import {
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 import {
-  Award,
+  BookCopy,
   Bot,
   Brain,
-  CalendarRange,
   ChevronsUpDown,
   ClipboardClock,
+  IdCard,
   Landmark,
   LayoutDashboard,
   LogOut,
   ScrollText,
+  Search,
   TriangleAlert,
   Trophy,
   Users,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ThemeToggle } from "../../theme-toggle"
 
 const MENU = [
   {
-    label: "Overview",
+    label: "Candidate Portal",
     items: [
       {
-        name: "Dashboard",
-        icon: LayoutDashboard,
-        path: "/admin",
+        name: "My Application",
+        icon: BookCopy,
+        path: "/candidate",
       },
       {
-        name: "SOS Alerts",
-        icon: TriangleAlert,
-        path: "/admin/sos-alerts",
+        name: "Track Status",
+        icon: Search,
+        path: "/candidate/track-status",
       },
       {
-        name: "Audit Log",
-        icon: ClipboardClock,
-        path: "/admin/audit-log",
-      },
-    ],
-  },
-  {
-    label: "AI & Intelligence",
-    items: [
-      {
-        name: "AgniAssist AI",
-        icon: Bot,
-        path: "/admin/assist",
-      },
-      {
-        name: "ML Insights",
-        icon: Brain,
-        path: "/admin/insights",
-      },
-    ],
-  },
-  {
-    label: "Recruitment",
-    items: [
-      {
-        name: "Applications",
-        icon: ScrollText,
-        path: "/admin/applications",
-      },
-    ],
-  },
-  {
-    label: "Events participations and awards",
-    items: [
-      {
-        name: "Events",
-        icon: CalendarRange,
-        path: "/admin/events",
-      },
-      {
-        name: "Awards",
-        icon: Award,
-        path: "/admin/awards",
-      },
-    ],
-  },
-  {
-    label: "Battalion & Soldiers",
-    items: [
-      {
-        name: "All Battalions",
-        icon: Landmark,
-        path: "/admin/battalions",
-      },
-      {
-        name: "All Soldiers",
-        icon: Users,
-        path: "/admin/soldiers",
-      },
-      {
-        name: "Rankings",
-        icon: Trophy,
-        path: "/admin/rankings",
+        name: "Admin Card",
+        icon: IdCard,
+        path: "/candidate/admin-card",
       },
     ],
   },
 ]
 
-export function AdminSidebar() {
+export function CandidateSidebar() {
   const pathName = usePathname()
 
   return (
@@ -125,8 +65,8 @@ export function AdminSidebar() {
           <BrandLogo className="text-white" />
           <div className="flex w-full items-center justify-between gap-2">
             <div className="flex flex-col text-sm">
-              <span> Admin</span>
-              <span className="text-muted-foreground">Maj. Ankit Verma</span>
+              <span>Candidate</span>
+              <span className="text-muted-foreground">Aryan Kumar</span>
             </div>
             <ChevronsUpDown className="text-muted-foreground" size={16} />
           </div>
