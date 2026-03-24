@@ -101,14 +101,6 @@ export default function EventsPage() {
                       >
                         View details <ChevronRight size={14} />
                       </Link>
-                      {winner && (
-                        <Link
-                          href={`/admin/events/${event.id}/${winner.candidateId}`}
-                          className="flex items-center gap-1 text-xs font-medium text-amber-700 hover:underline"
-                        >
-                          View winner <ChevronRight size={14} />
-                        </Link>
-                      )}
                     </div>
                   </div>
                 </CardContent>
