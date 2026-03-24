@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -52,6 +52,7 @@ import {
 import { label } from "framer-motion/client"
 import { PerformanceGraph } from "./PerformanceGraph"
 import { SoldierOverview } from "./SoldierOverview"
+import { usePathname } from "next/navigation"
 
 // ══════════════════════════════════════════════════════════════
 // TYPES
@@ -2478,11 +2479,24 @@ export default function BattalionsPage() {
   const [editBat, setEditBat] = useState<Battalion | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  // drill-down state
   const [view, setView] = useState<View>("grid")
   const [activeBattalion, setActiveBattalion] = useState<Battalion | null>(null)
   const [selectedSoldier, setSelectedSoldier] = useState<Soldier | null>(null)
   const [soldierModalOpen, setSoldierModalOpen] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search)
+      const batCode = params.get("bat")
+      if (batCode) {
+        const found = BATTALIONS.find((b) => b.id === batCode)
+
+        if (found) {
+          handleViewSoldiers(found)
+        }
+      }
+    }
+  }, [])
 
   const filtered = battalions.filter(
     (b) =>
