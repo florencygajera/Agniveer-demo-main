@@ -117,10 +117,10 @@ export default function AwardDetailPage({
                             {selectedWinner && (
                               <>
                                 <DialogHeader>
-                                  <DialogTitle className="text-xl">Winner: {selectedWinner.candidateName}</DialogTitle>
+                                  <DialogTitle className="text-xl">🏆 Winner: {selectedWinner.candidateName}</DialogTitle>
                                 </DialogHeader>
                                 <div className="space-y-4 py-4">
-                                  <div className="flex items-center gap-4 text-sm text-stone-600">
+                                  <div className="flex flex-wrap items-center gap-4 text-sm text-stone-600">
                                     <span className="flex items-center gap-1">
                                       <CalendarDays size={14} /> {selectedWinner.awardedOn}
                                     </span>
@@ -131,9 +131,14 @@ export default function AwardDetailPage({
                                     <p className="text-sm italic">"{selectedWinner.citation}"</p>
                                   </div>
                                   <div className="rounded-lg border border-stone-200 p-4">
-                                    <h4 className="font-semibold mb-2">Details</h4>
-                                    <p className="text-sm">Candidate ID: {selectedWinner.candidateId}</p>
-                                    <p className="text-sm">Battalion: {selectedWinner.battalion}</p>
+                                    <h4 className="font-semibold mb-2">Winner Details</h4>
+                                    <div className="space-y-2 text-sm">
+                                      <p><span className="font-medium">Candidate ID:</span> {selectedWinner.candidateId}</p>
+                                      <p><span className="font-medium">Battalion:</span> {selectedWinner.battalion}</p>
+                                      {selectedWinner.relatedEventId && (
+                                        <p><span className="font-medium">Related Event:</span> {selectedWinner.relatedEventId}</p>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
                               </>

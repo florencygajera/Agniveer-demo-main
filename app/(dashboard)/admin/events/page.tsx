@@ -125,23 +125,36 @@ export default function EventsPage() {
                             <>
                               <DialogHeader>
                                 <DialogTitle className="text-xl">{selectedEvent.title}</DialogTitle>
+                                <p className="text-sm text-stone-500">{selectedEvent.category}</p>
                               </DialogHeader>
                               <div className="space-y-4 py-4">
-                                <div className="flex items-center gap-4 text-sm text-stone-600">
+                                <div className="flex flex-wrap items-center gap-4 text-sm text-stone-600">
                                   <span className="flex items-center gap-1">
                                     <CalendarDays size={14} /> {selectedEvent.date}
                                   </span>
                                   <span className="flex items-center gap-1">
                                     <Users size={14} /> {selectedEvent.participants.length} participants
                                   </span>
+                                  <span className="text-sm text-stone-500">{selectedEvent.location}</span>
                                 </div>
+                                {selectedEvent.description && (
+                                  <p className="text-sm text-stone-600">{selectedEvent.description}</p>
+                                )}
                                 <div className="rounded-lg border border-stone-200 p-4">
-                                  <h4 className="font-semibold mb-2">Participants</h4>
-                                  <div className="space-y-2">
+                                  <h4 className="font-semibold mb-2">Participants & Results</h4>
+                                  <div className="space-y-3">
                                     {selectedEvent.participants.map((p, idx) => (
-                                      <div key={idx} className="flex justify-between items-center text-sm">
-                                        <span>{p.candidateName} ({p.candidateId})</span>
-                                        <span className="text-stone-500">{p.position} - {p.performanceTime}</span>
+                                      <div key={idx} className="flex justify-between items-center text-sm border-b border-stone-100 pb-2 last:border-0">
+                                        <div>
+                                          <span className="font-medium">{p.candidateName}</span>
+                                          <span className="text-stone-500 ml-2">({p.candidateId})</span>
+                                          <span className="text-stone-400 ml-2 text-xs">| {p.battalion}</span>
+                                        </div>
+                                        <div className="text-right">
+                                          <span className={`font-semibold ${p.position === 1 ? 'text-amber-600' : p.position === 2 ? 'text-stone-400' : p.position === 3 ? 'text-amber-700' : 'text-stone-600'}`}>
+                                            {p.position === 1 ? '🥇' : p.position === 2 ? '🥈' : p.position === 3 ? '🥉' : `${p.position}.`} {p.performanceTime}
+                                          </span>
+                                        </div>
                                       </div>
                                     ))}
                                   </div>

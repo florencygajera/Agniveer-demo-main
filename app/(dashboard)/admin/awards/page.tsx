@@ -105,16 +105,33 @@ export default function AwardsPage() {
                   <>
                     <DialogHeader>
                       <DialogTitle className="text-xl">{selectedAward.title}</DialogTitle>
+                      <p className="text-sm text-stone-500">{selectedAward.category}</p>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <p className="text-sm text-stone-600">{selectedAward.description}</p>
                       <div className="rounded-lg border border-stone-200 p-4">
-                        <h4 className="font-semibold mb-2">Winners</h4>
-                        <div className="space-y-2">
+                        <h4 className="font-semibold mb-3">Award Winners</h4>
+                        <div className="space-y-3">
                           {selectedAward.winners.map((winner, idx) => (
-                            <div key={idx} className="flex justify-between items-center text-sm">
-                              <span>{winner.candidateName} ({winner.candidateId})</span>
-                              <span className="text-stone-500">{winner.awardedOn}</span>
+                            <div key={idx} className="rounded-lg bg-stone-50 p-3 border border-stone-200">
+                              <div className="flex justify-between items-start mb-2">
+                                <div>
+                                  <span className="font-semibold">{winner.candidateName}</span>
+                                  <span className="text-stone-500 ml-2">({winner.candidateId})</span>
+                                </div>
+                                <span className="text-xs text-amber-600 font-medium">🏆 Winner</span>
+                              </div>
+                              <div className="text-xs text-stone-500 space-y-1">
+                                <p><span className="font-medium">Battalion:</span> {winner.battalion}</p>
+                                <p><span className="font-medium">Awarded On:</span> {winner.awardedOn}</p>
+                                <p><span className="font-medium">Awarded By:</span> {winner.awardedBy}</p>
+                                {winner.citation && (
+                                  <p className="italic">"{winner.citation}"</p>
+                                )}
+                                {winner.relatedEventId && (
+                                  <p className="text-blue-600">Related Event ID: {winner.relatedEventId}</p>
+                                )}
+                              </div>
                             </div>
                           ))}
                         </div>
