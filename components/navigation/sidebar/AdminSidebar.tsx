@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 import {
+  Award,
   Bot,
   Brain,
+  CalendarRange,
   ChevronsUpDown,
   ClipboardClock,
   Landmark,
@@ -73,6 +75,21 @@ const MENU = [
         name: "Applications",
         icon: ScrollText,
         path: "/admin/applications",
+      },
+    ],
+  },
+  {
+    label: "Events participations and awards",
+    items: [
+      {
+        name: "Events",
+        icon: CalendarRange,
+        path: "/admin/events",
+      },
+      {
+        name: "Awards",
+        icon: Award,
+        path: "/admin/awards",
       },
     ],
   },
