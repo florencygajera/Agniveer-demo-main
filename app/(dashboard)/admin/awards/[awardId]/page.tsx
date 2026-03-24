@@ -1,6 +1,17 @@
+"use client"
+
+import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { AWARD_RECORDS } from "@/lib/admin/events-awards-data"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { AWARD_RECORDS, CANDIDATE_PROFILES } from "@/lib/admin/events-awards-data"
 import { Award, CalendarDays } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -12,6 +23,9 @@ export default function AwardDetailPage({
 }) {
   const award = AWARD_RECORDS.find((item) => item.id === params.awardId)
   if (!award) notFound()
+
+  const [selectedWinner, setSelectedWinner] = useState<typeof award.winners[0] | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-[#f4f3ef] font-sans">
@@ -85,13 +99,47 @@ export default function AwardDetailPage({
                         {winner.citation}
                       </td>
                       <td className="px-3 py-2">
-                        <Link
-                          href={`/admin/awards/${award.id}/${winner.candidateId}`}
-                          className="inline-flex items-center gap-1 text-sm font-medium text-[#1a2d4a] hover:underline"
-                        >
-                          <Award size={14} />
-                          View winner details
-                        </Link>
+                        <Dialog open={modalOpen && selectedWinner?.candidateId === winner.candidateId} onOpenChange={(open) => {
+                          if (open) {
+                            setSelectedWinner(winner)
+                            setModalOpen(true)
+                          } else {
+                            setModalOpen(false)
+                          }
+                        }}>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="sm" className="inline-flex items-center gap-1 text-sm font-medium text-[#1a2d4a] hover:underline h-auto p-0">
+                              <Award size={14} />
+                              View winner details
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+                            {selectedWinner && (
+                              <>
+                                <DialogHeader>
+                                  <DialogTitle className="text-xl">Winner: {selectedWinner.candidateName}</DialogTitle>
+                                </DialogHeader>
+                                <div className="space-y-4 py-4">
+                                  <div className="flex items-center gap-4 text-sm text-stone-600">
+                                    <span className="flex items-center gap-1">
+                                      <CalendarDays size={14} /> {selectedWinner.awardedOn}
+                                    </span>
+                                    <span>Awarded by: {selectedWinner.awardedBy}</span>
+                                  </div>
+                                  <div className="rounded-lg border border-stone-200 p-4">
+                                    <h4 className="font-semibold mb-2">Citation</h4>
+                                    <p className="text-sm italic">"{selectedWinner.citation}"</p>
+                                  </div>
+                                  <div className="rounded-lg border border-stone-200 p-4">
+                                    <h4 className="font-semibold mb-2">Details</h4>
+                                    <p className="text-sm">Candidate ID: {selectedWinner.candidateId}</p>
+                                    <p className="text-sm">Battalion: {selectedWinner.battalion}</p>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </DialogContent>
+                        </Dialog>
                       </td>
                     </tr>
                   ))}

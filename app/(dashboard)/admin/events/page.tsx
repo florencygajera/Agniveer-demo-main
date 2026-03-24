@@ -1,10 +1,22 @@
+"use client"
+
+import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { EVENT_RECORDS } from "@/lib/admin/events-awards-data"
 import { CalendarDays, ChevronRight, Medal, Trophy, Users } from "lucide-react"
-import Link from "next/link"
 
 export default function EventsPage() {
+  const [selectedEvent, setSelectedEvent] = useState<typeof EVENT_RECORDS[0] | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
   const totalEvents = EVENT_RECORDS.length
   const totalParticipants = EVENT_RECORDS.reduce(
     (sum, event) => sum + event.participants.length,
@@ -95,12 +107,50 @@ export default function EventsPage() {
                       </span>
                     )}
                     <div className="ml-auto flex items-center gap-3">
-                      <Link
-                        href={`/admin/events/${event.id}`}
-                        className="flex items-center gap-1 text-xs font-medium text-[#1a2d4a] hover:underline"
-                      >
-                        View details <ChevronRight size={14} />
-                      </Link>
+                      <Dialog open={modalOpen && selectedEvent?.id === event.id} onOpenChange={(open) => {
+                        if (open) {
+                          setSelectedEvent(event)
+                          setModalOpen(true)
+                        } else {
+                          setModalOpen(false)
+                        }
+                      }}>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="sm" className="text-xs font-medium text-[#1a2d4a] hover:underline">
+                            View details <ChevronRight size={14} />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+                          {selectedEvent && (
+                            <>
+                              <DialogHeader>
+                                <DialogTitle className="text-xl">{selectedEvent.title}</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4 py-4">
+                                <div className="flex items-center gap-4 text-sm text-stone-600">
+                                  <span className="flex items-center gap-1">
+                                    <CalendarDays size={14} /> {selectedEvent.date}
+                                  </span>
+                                  <span className="flex items-center gap-1">
+                                    <Users size={14} /> {selectedEvent.participants.length} participants
+                                  </span>
+                                </div>
+                                <div className="rounded-lg border border-stone-200 p-4">
+                                  <h4 className="font-semibold mb-2">Participants</h4>
+                                  <div className="space-y-2">
+                                    {selectedEvent.participants.map((p, idx) => (
+                                      <div key={idx} className="flex justify-between items-center text-sm">
+                                        <span>{p.candidateName} ({p.candidateId})</span>
+                                        <span className="text-stone-500">{p.position} - {p.performanceTime}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </CardContent>
