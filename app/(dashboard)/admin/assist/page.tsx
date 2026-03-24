@@ -16,6 +16,8 @@ import {
   ChevronRight,
   Wifi,
   Loader2,
+  Shield,
+  Flame,
 } from "lucide-react"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -84,57 +86,59 @@ function MessageBubble({ msg }: { msg: Message }) {
     >
       {/* Avatar */}
       <div
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-sm ${
-          isUser ? "bg-stone-700" : "bg-[#4a5c2f]"
+        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white shadow ${
+          isUser
+            ? "bg-gradient-to-br from-slate-700 to-slate-900"
+            : "bg-gradient-to-br from-orange-500 to-amber-600"
         }`}
       >
-        {isUser ? <User size={14} /> : <Bot size={14} />}
+        {isUser ? <User size={15} /> : <Bot size={15} />}
       </div>
 
       {/* Bubble */}
       <div
-        className={`max-w-[75%] space-y-1 sm:max-w-[65%] ${isUser ? "items-end" : "items-start"} flex flex-col`}
+        className={`flex max-w-[78%] flex-col gap-1 ${isUser ? "items-end" : "items-start"}`}
       >
         <div
-          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+          className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
             isUser
-              ? "rounded-tr-sm bg-[#4a5c2f] text-white"
-              : "rounded-tl-sm border border-stone-100 bg-white text-stone-800"
+              ? "rounded-tr-sm bg-gradient-to-br from-orange-500 to-amber-500 text-white"
+              : "rounded-tl-sm border border-orange-100 bg-white text-slate-800"
           }`}
         >
-          {msg.content.split("\n").map((line, i) => (
+          {msg.content.split("\n").map((line, i, arr) => (
             <React.Fragment key={i}>
               {line}
-              {i < msg.content.split("\n").length - 1 && <br />}
+              {i < arr.length - 1 && <br />}
             </React.Fragment>
           ))}
         </div>
 
-        {/* Actions row (assistant only) */}
+        {/* Actions (assistant only) */}
         {!isUser && (
           <div className="flex items-center gap-1 px-1 opacity-0 transition-opacity group-hover:opacity-100">
             <button
               onClick={copy}
-              className="rounded-md p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-600"
+              className="rounded p-1 text-slate-400 transition hover:bg-orange-50 hover:text-orange-600"
               title="Copy"
             >
               <Copy size={12} />
             </button>
-            <button className="rounded-md p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-emerald-600">
+            <button className="rounded p-1 text-slate-400 transition hover:bg-green-50 hover:text-green-600">
               <ThumbsUp size={12} />
             </button>
-            <button className="rounded-md p-1 text-stone-400 transition-colors hover:bg-stone-100 hover:text-rose-500">
+            <button className="rounded p-1 text-slate-400 transition hover:bg-rose-50 hover:text-rose-500">
               <ThumbsDown size={12} />
             </button>
             {copied && (
-              <span className="ml-1 text-[10px] font-medium text-emerald-600">
+              <span className="ml-1 text-[10px] font-semibold text-orange-500">
                 Copied!
               </span>
             )}
           </div>
         )}
 
-        <span className="px-1 text-[10px] text-stone-400">
+        <span className="px-1 text-[10px] text-slate-400">
           {msg.timestamp.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -150,15 +154,15 @@ function MessageBubble({ msg }: { msg: Message }) {
 function TypingIndicator() {
   return (
     <div className="flex gap-3">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#4a5c2f] shadow-sm">
-        <Bot size={14} className="text-white" />
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-amber-600 shadow">
+        <Bot size={15} className="text-white" />
       </div>
-      <div className="rounded-2xl rounded-tl-sm border border-stone-100 bg-white px-4 py-3 shadow-sm">
+      <div className="rounded-2xl rounded-tl-sm border border-orange-100 bg-white px-4 py-3 shadow-sm">
         <div className="flex items-center gap-1.5">
           {[0, 1, 2].map((i) => (
             <span
               key={i}
-              className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400"
+              className="h-1.5 w-1.5 animate-bounce rounded-full bg-orange-400"
               style={{ animationDelay: `${i * 150}ms` }}
             />
           ))}
@@ -183,7 +187,6 @@ export default function AgniAssistPage() {
   const [input, setInput] = useState("")
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -193,25 +196,29 @@ export default function AgniAssistPage() {
     const content = text.trim()
     if (!content || typing) return
 
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content,
-      timestamp: new Date(),
-    }
-    setMessages((prev) => [...prev, userMsg])
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        role: "user",
+        content,
+        timestamp: new Date(),
+      },
+    ])
     setInput("")
     setTyping(true)
 
     setTimeout(
       () => {
-        const reply: Message = {
-          id: (Date.now() + 1).toString(),
-          role: "assistant",
-          content: getResponse(content),
-          timestamp: new Date(),
-        }
-        setMessages((prev) => [...prev, reply])
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: getResponse(content),
+            timestamp: new Date(),
+          },
+        ])
         setTyping(false)
       },
       1200 + Math.random() * 600
@@ -232,104 +239,96 @@ export default function AgniAssistPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f4f3ef] font-sans">
-      {/* ── Header ── */}
-      <div className="sticky top-0 z-10 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3.5 sm:px-6">
+    <div className="flex h-full flex-col bg-gradient-to-b from-orange-50/60 via-amber-50/30 to-white">
+      <div className="shrink-0 border-b border-orange-100 bg-white/80 px-4 py-3 backdrop-blur-md sm:px-6">
+        <div className="mx-auto flex max-w-3xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#4a5c2f] shadow-sm">
-              <Bot size={18} className="text-white" />
+            {/* Logo mark */}
+            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-md shadow-orange-200">
+              <Flame size={20} className="text-white" />
+              <span className="absolute -right-1 -bottom-1 flex h-4 w-4 items-center justify-center rounded-full bg-green-500 ring-2 ring-white">
+                <span className="h-1.5 w-1.5 rounded-full bg-white" />
+              </span>
             </div>
             <div>
-              <h1 className="text-base leading-tight font-bold text-stone-900">
+              <h1 className="text-base leading-none font-bold tracking-tight text-slate-900">
                 AgniAssist
               </h1>
-              <p className="flex items-center gap-1.5 text-xs text-stone-400">
-                <Zap size={10} className="text-amber-500" />
-                Powered by RAG · Offline military knowledge base
+              <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-500">
+                <Zap size={10} className="text-orange-500" />
+                RAG · Offline military knowledge base
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge className="gap-1 border border-emerald-200 bg-emerald-50 text-xs font-medium text-emerald-600 hover:bg-emerald-50">
+            <Badge className="gap-1 border border-green-200 bg-green-50 text-[11px] font-medium text-green-700 hover:bg-green-50">
               <Wifi size={10} />
               Online
             </Badge>
             <button
               onClick={reset}
-              className="rounded-lg p-2 text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700"
               title="Reset conversation"
+              className="rounded-lg p-1.5 text-slate-400 transition hover:bg-orange-50 hover:text-orange-600"
             >
-              <RotateCcw size={15} />
+              <RotateCcw size={16} />
             </button>
           </div>
         </div>
       </div>
-
-      {/* ── Chat Area ── */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-4xl space-y-5 px-4 py-6 sm:px-6">
+      <div className="min-h-0 flex-1 overflow-y-auto pb-120">
+        <div className="mx-auto max-w-3xl space-y-4 px-4 py-5 pb-2 sm:px-6">
           {messages.map((msg) => (
             <MessageBubble key={msg.id} msg={msg} />
           ))}
           {typing && <TypingIndicator />}
-          <div ref={bottomRef} />
+          <div ref={bottomRef} className="h-1" />
         </div>
       </div>
 
-      {/* ── Bottom Bar ── */}
-      <div className="border-t border-stone-200 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto max-w-4xl space-y-3 px-4 py-3 sm:px-6">
-          {/* Suggestion chips */}
-          <div className="flex flex-wrap gap-2">
+      <div className="fixed bottom-0 w-full shrink-0 border-t border-orange-100 bg-white/90 px-4 py-3 backdrop-blur-md sm:px-6">
+        <div className="mx-auto max-w-2xl space-y-2.5">
+          <div className="flex flex-wrap gap-1.5">
             {SUGGESTIONS.map((s) => (
               <button
                 key={s}
                 onClick={() => sendMessage(s)}
                 disabled={typing}
-                className="flex items-center gap-1 rounded-full border border-stone-200 bg-stone-50 px-3 py-1.5 text-xs font-medium text-stone-600 transition-all hover:border-[#4a5c2f] hover:bg-[#4a5c2f] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[11px] font-medium text-orange-700 transition hover:border-orange-400 hover:bg-orange-100 disabled:cursor-not-allowed disabled:opacity-40"
               >
+                <Shield size={9} className="opacity-70" />
                 {s}
-                <ChevronRight size={10} className="opacity-60" />
               </button>
             ))}
           </div>
-
-          {/* Input row */}
           <div className="flex items-end gap-2">
-            <div className="relative flex-1">
-              <Textarea
-                ref={textareaRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKey}
-                placeholder="Ask about training, stipend, medical standards, SOS..."
-                rows={1}
-                disabled={typing}
-                className="max-h-[140px] min-h-[44px] resize-none rounded-xl border-stone-200 bg-stone-50 py-3 pr-4 text-sm placeholder:text-stone-400 focus:border-[#4a5c2f] focus:ring-1 focus:ring-[#4a5c2f] disabled:opacity-50"
-                style={{
-                  overflow: input.split("\n").length > 3 ? "auto" : "hidden",
-                }}
-              />
-            </div>
+            <Textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKey}
+              placeholder="Ask about training, stipend, medical standards, SOS..."
+              rows={1}
+              disabled={typing}
+              className="max-h-[120px] min-h-[42px] flex-1 resize-none rounded-xl border border-orange-200 bg-orange-50/60 py-2.5 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus-visible:border-orange-400 focus-visible:ring-2 focus-visible:ring-orange-200 disabled:opacity-50"
+              style={{
+                overflow: input.split("\n").length > 3 ? "auto" : "hidden",
+              }}
+            />
             <Button
               onClick={() => sendMessage(input)}
               disabled={!input.trim() || typing}
-              className="h-11 w-11 shrink-0 rounded-xl bg-[#4a5c2f] p-0 text-white shadow-sm hover:bg-[#3a4a22] disabled:opacity-40"
+              className="h-[42px] w-[42px] shrink-0 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 p-0 text-white shadow-md shadow-orange-200 transition hover:from-orange-600 hover:to-amber-600 disabled:opacity-40"
             >
               {typing ? (
-                <Loader2 size={16} className="animate-spin" />
+                <Loader2 size={17} className="animate-spin" />
               ) : (
-                <Send size={16} />
+                <Send size={17} />
               )}
             </Button>
           </div>
-
-          {/* Footer note */}
-          <p className="text-center text-[10px] text-stone-400">
-            Backend: AgniAssist RAG Service (Port 8012) · Knowledge base:
-            Agnipath training manuals
+          <p className="text-center text-[10px] text-slate-400">
+            AgniAssist RAG Service · Port 8012 · Agnipath training knowledge
+            base
           </p>
         </div>
       </div>

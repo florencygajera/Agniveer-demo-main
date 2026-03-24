@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import {
   Select,
   SelectContent,
@@ -14,14 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-const LOGIN_TABS = [
-  { id: "candidate", label: "Candidate" },
-  { id: "soldier", label: "Soldier" },
-  { id: "admin", label: "Admin" },
-  { id: "trainer", label: "Trainer" },
-  { id: "doctor", label: "Doctor" },
-]
 
 const INDIAN_STATES = [
   "Andhra Pradesh",
@@ -68,7 +59,6 @@ export function SignupForm({
 }: React.ComponentProps<"form">) {
   const route = useRouter()
 
-  const [selectedTab, setSelectedTab] = useState(LOGIN_TABS[2].id)
   const [selectedState, setSelectedState] = useState(INDIAN_STATES[0])
 
   return (
@@ -77,26 +67,8 @@ export function SignupForm({
         <div className="flex flex-col items-center gap-3 text-center">
           <h1 className="text-xl font-bold">Apply for Agnipath Scheme</h1>
           <p className="text-sm text-muted-foreground">
-            Enter your details below to start your application as a{" "}
-            {LOGIN_TABS.find((tab) => tab.id === selectedTab)?.label}
+            Enter your details below to start your application
           </p>
-          <div className="mt-2 mb-1 flex justify-center gap-2">
-            {LOGIN_TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                type="button"
-                variant={selectedTab === tab.id ? "default" : "outline"}
-                size="sm"
-                className={cn(
-                  "rounded px-3 py-1 text-xs",
-                  selectedTab === tab.id ? "" : "bg-background"
-                )}
-                onClick={() => setSelectedTab(tab.id)}
-              >
-                {tab.label}
-              </Button>
-            ))}
-          </div>
         </div>
         <Field>
           <FieldLabel htmlFor="fullName">
