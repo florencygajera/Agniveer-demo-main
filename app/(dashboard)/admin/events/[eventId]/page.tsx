@@ -1,7 +1,12 @@
+"use client"
+
+import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { EVENT_RECORDS } from "@/lib/admin/events-awards-data"
-import { Medal, Trophy, Users } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { EVENT_RECORDS, CANDIDATE_PROFILES, AWARD_RECORDS } from "@/lib/admin/events-awards-data"
+import { Medal, Trophy, Users, CalendarDays, X } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -13,9 +18,33 @@ export default function EventDetailPage({
   const event = EVENT_RECORDS.find((item) => item.id === params.eventId)
   if (!event) notFound()
 
+  const [selectedParticipant, setSelectedParticipant] = useState<typeof event.participants[0] | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+
   const orderedParticipants = [...event.participants].sort(
     (a, b) => a.position - b.position
   )
+
+  const handleViewDetails = (participant: typeof event.participants[0]) => {
+    setSelectedParticipant(participant)
+    setModalOpen(true)
+  }
+
+  // Get profile for selected participant
+  const profile = selectedParticipant ? CANDIDATE_PROFILES.find(p => p.candidateId === selectedParticipant.candidateId) : null
+  
+  // Get award history for selected participant
+  const awardHistory = selectedParticipant ? AWARD_RECORDS.flatMap(award =>
+    award.winners
+      .filter(w => w.candidateId === selectedParticipant.candidateId)
+      .map(w => ({
+        awardId: award.id,
+        awardTitle: award.title,
+        awardedOn: w.awardedOn,
+        citation: w.citation,
+        awardedBy: w.awardedBy
+      }))
+  ) : []
 
   return (
     <div className="min-h-screen bg-[#f4f3ef] font-sans">
@@ -122,12 +151,14 @@ export default function EventDetailPage({
                         {participant.status}
                       </td>
                       <td className="px-3 py-2">
-                        <Link
-                          href={`/admin/events/${event.id}/${participant.candidateId}`}
-                          className="text-sm font-medium text-[#1a2d4a] hover:underline"
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleViewDetails(participant)}
+                          className="text-sm font-medium text-[#1a2d4a] hover:underline h-auto p-0"
                         >
                           View details
-                        </Link>
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -136,6 +167,110 @@ export default function EventDetailPage({
             </div>
           </CardContent>
         </Card>
+
+        {/* Participant Detail Modal */}
+        <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+          <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl p-0 gap-0">
+            {selectedParticipant && (
+              <>
+                <div className="bg-sky-600 px-5 py-4 text-white rounded-t-xl">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-lg font-bold flex items-center gap-2">
+                        <Medal size={20} /> Participant Details
+                      </h2>
+                      <p className="text-white/70 text-sm mt-1">{event.title}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-black text-white">#{selectedParticipant.position}</div>
+                      <div className="text-[10px] text-white/60">Position</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 space-y-4">
+                  {/* Performance Details */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-lg border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs text-stone-500">Performance Time</p>
+                      <p className="mt-1 text-lg font-semibold text-stone-900">{selectedParticipant.performanceTime}</p>
+                    </div>
+                    <div className="rounded-lg border border-stone-200 bg-stone-50 p-3">
+                      <p className="text-xs text-stone-500">Status</p>
+                      <p className="mt-1 text-lg font-semibold text-emerald-600">{selectedParticipant.status}</p>
+                    </div>
+                  </div>
+
+                  {/* Person Details */}
+                  <div className="rounded-lg border border-stone-200 p-4">
+                    <p className="mb-3 text-xs font-semibold tracking-wide text-stone-500 uppercase">Person Details</p>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <p className="text-stone-500">Name</p>
+                        <p className="font-medium text-stone-900">{selectedParticipant.candidateName}</p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500">Candidate ID</p>
+                        <p className="font-mono text-stone-700">{selectedParticipant.candidateId}</p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500">Rank</p>
+                        <p className="font-medium text-stone-900">{selectedParticipant.rank}</p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500">Battalion</p>
+                        <p className="font-medium text-stone-900">{selectedParticipant.battalion}</p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500">State</p>
+                        <p className="font-medium text-stone-900">{selectedParticipant.state}</p>
+                      </div>
+                      <div>
+                        <p className="text-stone-500">Role in Event</p>
+                        <p className="font-medium text-stone-900">{selectedParticipant.unitRole}</p>
+                      </div>
+                    </div>
+                    {profile && (
+                      <div className="mt-3 pt-3 border-t border-stone-200">
+                        <p className="text-xs text-stone-500">Specialization</p>
+                        <p className="text-sm text-stone-700">{profile.specialization}</p>
+                      </div>
+                    )}
+                    <div className="mt-3 pt-3 border-t border-stone-200">
+                      <p className="text-xs text-stone-500">Performance Note</p>
+                      <p className="text-sm text-stone-700">{selectedParticipant.performanceNote}</p>
+                    </div>
+                  </div>
+
+                  {/* Award History */}
+                  {awardHistory.length > 0 && (
+                    <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                      <p className="mb-3 text-xs font-semibold tracking-wide text-amber-700 uppercase">Award History</p>
+                      <div className="space-y-2">
+                        {awardHistory.map((award, idx) => (
+                          <div key={idx} className="rounded-md border border-amber-200 bg-white p-3">
+                            <p className="flex items-center gap-1 text-sm font-semibold text-stone-900">
+                              <Trophy size={14} className="text-amber-600" />
+                              {award.awardTitle}
+                            </p>
+                            <p className="mt-1 text-xs text-stone-600">
+                              Awarded: {award.awardedOn} | By: {award.awardedBy}
+                            </p>
+                            <p className="mt-1 text-xs text-stone-500">{award.citation}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <Button onClick={() => setModalOpen(false)} className="w-full">
+                    Close
+                  </Button>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   )

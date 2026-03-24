@@ -142,6 +142,178 @@ function MiniBar({ value }: { value: number }) {
 
 // ── Soldier Detail Modal ──────────────────────────────────────────────────────
 
+// ═══════════════════════════════════════════════════════════════
+// Needs Attention Modal - Shows why soldier needs attention and how to improve
+// ═══════════════════════════════════════════════════════════════
+
+function getWeakAreas(soldier: Soldier) {
+  const areas = []
+  if (soldier.physical < 70) areas.push({ key: "physical", label: "Physical Fitness", value: soldier.physical, threshold: 70 })
+  if (soldier.weapons < 70) areas.push({ key: "weapons", label: "Weapons Handling", value: soldier.weapons, threshold: 70 })
+  if (soldier.mental < 70) areas.push({ key: "mental", label: "Mental Resilience", value: soldier.mental, threshold: 70 })
+  if (soldier.combat < 70) areas.push({ key: "combat", label: "Combat Drills", value: soldier.combat, threshold: 70 })
+  if (soldier.attendance < 85) areas.push({ key: "attendance", label: "Attendance", value: soldier.attendance, threshold: 85 })
+  if (soldier.discipline < 70) areas.push({ key: "discipline", label: "Discipline", value: soldier.discipline, threshold: 70 })
+  return areas
+}
+
+function getRecommendations(soldier: Soldier, weakAreas: ReturnType<typeof getWeakAreas>) {
+  const recs: { area: string; tip: string; icon: React.ReactNode }[] = []
+  
+  weakAreas.forEach(area => {
+    if (area.key === "physical") {
+      recs.push({ 
+        area: "Physical Fitness", 
+        tip: "Daily 5km timed run, strength circuit 3×/week. Target +8 pts in 4 weeks. Add sprint intervals twice weekly.",
+        icon: <Dumbbell size={14} />
+      })
+    }
+    if (area.key === "weapons") {
+      recs.push({ 
+        area: "Weapons Handling", 
+        tip: "Daily dry-fire drills, increase live range sessions to 3×/week. Focus on trigger control and reload speed.",
+        icon: <Target size={14} />
+      })
+    }
+    if (area.key === "mental") {
+      recs.push({ 
+        area: "Mental Resilience", 
+        tip: "Weekly counselling, 20 min daily meditation. Group problem-solving workshops recommended.",
+        icon: <Brain size={14} />
+      })
+    }
+    if (area.key === "combat") {
+      recs.push({ 
+        area: "Combat Drills", 
+        tip: "Extra obstacle course 3×/week. Buddy-training exercises mandatory. Night navigation practice.",
+        icon: <Swords size={14} />
+      })
+    }
+    if (area.key === "attendance") {
+      recs.push({ 
+        area: "Attendance", 
+        tip: "Mandatory counselling, investigate health issues. Ensure all absences documented and justified promptly.",
+        icon: <CalendarDays size={14} />
+      })
+    }
+    if (area.key === "discipline") {
+      recs.push({ 
+        area: "Discipline", 
+        tip: "One-on-one counselling sessions. Review conduct expectations. Assign senior mentor for guidance.",
+        icon: <ShieldCheck size={14} />
+      })
+    }
+  })
+  
+  // Add general recommendations if overall is low
+  if (soldier.overall < 70) {
+    recs.push({
+      area: "General",
+      tip: "Assign senior Lance Naik as buddy trainer. Schedule weekly progress reviews. Consider reduced physical load initially.",
+      icon: <Star size={14} />
+    })
+  }
+  
+  return recs
+}
+
+function NeedsAttentionModal({ soldier, open, onClose }: {
+  soldier: Soldier | null; open: boolean; onClose: () => void
+}) {
+  if (!soldier) return null
+  
+  const weakAreas = getWeakAreas(soldier)
+  const recommendations = getRecommendations(soldier, weakAreas)
+  
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl p-0 gap-0">
+        
+        {/* Header */}
+        <div className="bg-rose-600 px-5 py-4 text-white rounded-t-xl">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                <AlertTriangle size={20} /> Needs Attention
+              </h2>
+              <p className="text-white/70 text-sm mt-1">{soldier.name} · {soldier.battalionName}</p>
+            </div>
+            <div className="text-right">
+              <div className="text-3xl font-black text-white">{soldier.overall}</div>
+              <div className="text-[10px] text-white/60">Overall Score</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Content */}
+        <div className="p-5 space-y-5">
+          
+          {/* Why Needs Attention */}
+          <div>
+            <h3 className="text-sm font-bold text-stone-800 mb-3 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+              Why Attention Needed
+            </h3>
+            <div className="space-y-2">
+              {weakAreas.map(area => (
+                <div key={area.key} className="flex items-center justify-between rounded-lg border border-rose-200 bg-rose-50 p-3">
+                  <div className="flex items-center gap-2">
+                    {area.key === "physical" && <Dumbbell size={14} className="text-rose-600" />}
+                    {area.key === "weapons" && <Target size={14} className="text-rose-600" />}
+                    {area.key === "mental" && <Brain size={14} className="text-rose-600" />}
+                    {area.key === "combat" && <Swords size={14} className="text-rose-600" />}
+                    {area.key === "attendance" && <CalendarDays size={14} className="text-rose-600" />}
+                    {area.key === "discipline" && <ShieldCheck size={14} className="text-rose-600" />}
+                    <span className="text-sm font-medium text-stone-700">{area.label}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-black text-rose-600">{area.value}</span>
+                    <span className="text-xs text-stone-400">/ {area.threshold}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Recommendations */}
+          <div>
+            <h3 className="text-sm font-bold text-stone-800 mb-3 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Recommended Actions
+            </h3>
+            <div className="space-y-3">
+              {recommendations.map((rec, idx) => (
+                <div key={idx} className="flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3">
+                  <div className="mt-0.5 text-emerald-600 shrink-0">{rec.icon}</div>
+                  <div>
+                    <div className="text-xs font-bold text-emerald-700">{rec.area}</div>
+                    <div className="text-xs text-stone-600 mt-0.5">{rec.tip}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex gap-2 pt-2">
+            <Button className="flex-1 bg-rose-600 hover:bg-rose-700 text-xs" onClick={onClose}>
+              Acknowledge
+            </Button>
+            <Button variant="outline" className="flex-1 text-xs" onClick={onClose}>
+              Schedule Review
+            </Button>
+          </div>
+          
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Soldier Detail Modal
+// ═══════════════════════════════════════════════════════════════
+
 function SoldierDetailModal({ soldier, open, onClose }: {
   soldier: Soldier | null; open: boolean; onClose: () => void
 }) {
@@ -491,6 +663,14 @@ function BattalionSoldiersView({ battalion, soldiers, onBack, onSoldierClick }: 
 // ── Dashboard Overview ─────────────────────────────────────────────────────────
 
 function DashboardView({ onBattalionClick }: { onBattalionClick: (b: Battalion) => void }) {
+  const [needsAttnSoldier, setNeedsAttnSoldier] = useState<Soldier | null>(null)
+  const [needsAttnModalOpen, setNeedsAttnModalOpen] = useState(false)
+
+  const handleNeedsAttnClick = (s: Soldier) => {
+    setNeedsAttnSoldier(s)
+    setNeedsAttnModalOpen(true)
+  }
+
   const topPerformers = [...SOLDIERS].sort((a, b) => b.overall - a.overall).slice(0, 5)
   const needsAttention = SOLDIERS.filter(s => s.overall < 75).sort((a, b) => a.overall - b.overall)
 
@@ -612,7 +792,11 @@ function DashboardView({ onBattalionClick }: { onBattalionClick: (b: Battalion) 
             ) : (
               <div className="divide-y divide-stone-50">
                   {needsAttention.map(s => (
-                  <div key={s.id} className="flex items-center gap-3 py-2.5">
+                  <div 
+                    key={s.id} 
+                    className="flex items-center gap-3 py-2.5 cursor-pointer hover:bg-stone-50 rounded-lg transition-colors -mx-2 px-2"
+                    onClick={() => handleNeedsAttnClick(s)}
+                  >
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-semibold text-stone-800 truncate">{s.name}</div>
                       <div className="text-xs text-stone-400">{s.battalion} · {s.battalionName}</div>
@@ -621,6 +805,7 @@ function DashboardView({ onBattalionClick }: { onBattalionClick: (b: Battalion) 
                       {s.overall < 70 ? "Critical" : "Monitor"}
                     </Badge>
                     <span className={`text-sm font-black shrink-0 ${scoreColor(s.overall)}`}>{s.overall}</span>
+                    <ChevronRight size={14} className="text-stone-300" />
                   </div>
                 ))}
               </div>
@@ -628,6 +813,13 @@ function DashboardView({ onBattalionClick }: { onBattalionClick: (b: Battalion) 
           </CardContent>
         </Card>
       </div>
+
+      {/* Needs Attention Modal */}
+      <NeedsAttentionModal 
+        soldier={needsAttnSoldier} 
+        open={needsAttnModalOpen} 
+        onClose={() => setNeedsAttnModalOpen(false)} 
+      />
     </div>
   )
 }
