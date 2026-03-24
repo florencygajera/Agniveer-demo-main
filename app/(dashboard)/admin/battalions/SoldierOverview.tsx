@@ -196,7 +196,16 @@ export function SoldierOverview({
                 >
                   <span>{item.label}</span>
                   <span>
-                    {item.status === "completed" ? "✔ Completed" : "⏳ Pending"}
+                    {item.status === "completed" ? (
+                      <>
+                        ✔ Completed{" "}
+                        <span className="ml-1 text-green-600">
+                          ({Math.floor(Math.random() * 30) + 70} marks)
+                        </span>
+                      </>
+                    ) : (
+                      "⏳ Pending"
+                    )}
                   </span>
                 </div>
               ))}

@@ -1,14 +1,5 @@
 "use client"
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts"
 import React, { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -53,6 +44,7 @@ import { label } from "framer-motion/client"
 import { PerformanceGraph } from "./PerformanceGraph"
 import { SoldierOverview } from "./SoldierOverview"
 import { usePathname } from "next/navigation"
+import { BatalionDetailsDialog } from "./BattalionDerailsDialog"
 
 // ══════════════════════════════════════════════════════════════
 // TYPES
@@ -2333,6 +2325,16 @@ function BattalionCard({
           >
             <Users size={13} /> View Soldiers <ChevronRight size={12} />
           </Button>
+          {/* ddt */}
+          <BatalionDetailsDialog bat={bat}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 gap-1.5 border-stone-200 text-xs text-stone-600 hover:bg-stone-50"
+            >
+              <Users size={12} /> Details
+            </Button>
+          </BatalionDetailsDialog>
           <Button
             variant="outline"
             size="sm"
