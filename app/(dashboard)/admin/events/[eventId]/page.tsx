@@ -71,9 +71,13 @@ export default function EventDetailPage({
                       "Position",
                       "Candidate ID",
                       "Candidate Name",
+                      "Rank",
+                      "State",
                       "Battalion",
+                      "Role",
                       "Performance Time/Score",
                       "Status",
+                      "Action",
                     ].map((h) => (
                       <th
                         key={h}
@@ -100,13 +104,30 @@ export default function EventDetailPage({
                         {participant.candidateName}
                       </td>
                       <td className="px-3 py-2 text-stone-600">
+                        {participant.rank}
+                      </td>
+                      <td className="px-3 py-2 text-stone-600">
+                        {participant.state}
+                      </td>
+                      <td className="px-3 py-2 text-stone-600">
                         {participant.battalion}
+                      </td>
+                      <td className="px-3 py-2 text-stone-600">
+                        {participant.unitRole}
                       </td>
                       <td className="px-3 py-2 text-stone-700">
                         {participant.performanceTime}
                       </td>
                       <td className="px-3 py-2 text-stone-600">
                         {participant.status}
+                      </td>
+                      <td className="px-3 py-2">
+                        <Link
+                          href={`/admin/events/${event.id}/${participant.candidateId}`}
+                          className="text-sm font-medium text-[#1a2d4a] hover:underline"
+                        >
+                          View details
+                        </Link>
                       </td>
                     </tr>
                   ))}

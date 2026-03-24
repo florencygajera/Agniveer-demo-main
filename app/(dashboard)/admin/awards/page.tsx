@@ -73,7 +73,7 @@ export default function AwardsPage() {
                   <div className="flex items-center gap-3 text-sm text-stone-600">
                     <span>{award.winners.length} winner records</span>
                     <span className="ml-auto flex items-center gap-1 text-xs font-medium text-[#1a2d4a]">
-                      View winners <ChevronRight size={14} />
+                      View awards <ChevronRight size={14} />
                     </span>
                   </div>
                 </CardContent>

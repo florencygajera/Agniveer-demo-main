@@ -47,6 +47,8 @@ export default function AwardDetailPage({
                       "Candidate Name",
                       "Battalion",
                       "Awarded On",
+                      "Awarded By",
+                      "Description/Citation",
                       "Action",
                     ].map((h) => (
                       <th
@@ -76,13 +78,19 @@ export default function AwardDetailPage({
                           {winner.awardedOn}
                         </span>
                       </td>
+                      <td className="px-3 py-2 text-stone-700">
+                        {winner.awardedBy}
+                      </td>
+                      <td className="px-3 py-2 text-stone-600">
+                        {winner.citation}
+                      </td>
                       <td className="px-3 py-2">
                         <Link
                           href={`/admin/awards/${award.id}/${winner.candidateId}`}
                           className="inline-flex items-center gap-1 text-sm font-medium text-[#1a2d4a] hover:underline"
                         >
                           <Award size={14} />
-                          View person details
+                          View winner details
                         </Link>
                       </td>
                     </tr>

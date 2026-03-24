@@ -5,6 +5,10 @@ export type EventParticipation = {
   position: number
   performanceTime: string
   status: "Completed" | "Disqualified"
+  rank: string
+  state: string
+  unitRole: string
+  performanceNote: string
 }
 
 export type EventRecord = {
@@ -36,6 +40,109 @@ export type AwardRecord = {
   winners: AwardWinner[]
 }
 
+export type CandidateProfile = {
+  candidateId: string
+  candidateName: string
+  rank: string
+  battalion: string
+  state: string
+  joinedOn: string
+  specialization: string
+}
+
+export const CANDIDATE_PROFILES: CandidateProfile[] = [
+  {
+    candidateId: "AGN-2024-0103",
+    candidateName: "Arjun Mehra",
+    rank: "Lance Naik",
+    battalion: "RR-1",
+    state: "Punjab",
+    joinedOn: "2024-01-15",
+    specialization: "Obstacle endurance, combat leadership",
+  },
+  {
+    candidateId: "AGN-2024-0201",
+    candidateName: "Vikram Nair",
+    rank: "Sepoy",
+    battalion: "PARA-2",
+    state: "Kerala",
+    joinedOn: "2024-02-01",
+    specialization: "Combat drills, tactical movement",
+  },
+  {
+    candidateId: "AGN-2024-0304",
+    candidateName: "Ranjit Singh",
+    rank: "Lance Naik",
+    battalion: "BEN-3",
+    state: "Punjab",
+    joinedOn: "2024-02-15",
+    specialization: "Precision shooting",
+  },
+  {
+    candidateId: "AGN-2024-0402",
+    candidateName: "Vijay Deshmukh",
+    rank: "Sepoy",
+    battalion: "MAR-4",
+    state: "Maharashtra",
+    joinedOn: "2024-03-01",
+    specialization: "All-round field drills",
+  },
+  {
+    candidateId: "AGN-2024-0106",
+    candidateName: "Mahesh Choudhary",
+    rank: "Sepoy",
+    battalion: "RR-1",
+    state: "Rajasthan",
+    joinedOn: "2024-01-15",
+    specialization: "Weapons handling",
+  },
+  {
+    candidateId: "AGN-2024-0204",
+    candidateName: "Deepak Yadav",
+    rank: "Sepoy",
+    battalion: "PARA-2",
+    state: "Bihar",
+    joinedOn: "2024-02-01",
+    specialization: "Rapid response drills",
+  },
+  {
+    candidateId: "AGN-2024-0401",
+    candidateName: "Suresh Patil",
+    rank: "Sepoy",
+    battalion: "MAR-4",
+    state: "Maharashtra",
+    joinedOn: "2024-03-01",
+    specialization: "Field mobility",
+  },
+  {
+    candidateId: "AGN-2024-0101",
+    candidateName: "Rajveer Singh Chauhan",
+    rank: "Sepoy",
+    battalion: "RR-1",
+    state: "Rajasthan",
+    joinedOn: "2024-01-15",
+    specialization: "Combat simulation",
+  },
+  {
+    candidateId: "AGN-2024-0301",
+    candidateName: "Sourav Das",
+    rank: "Sepoy",
+    battalion: "BEN-3",
+    state: "West Bengal",
+    joinedOn: "2024-02-15",
+    specialization: "Team tactical coordination",
+  },
+  {
+    candidateId: "AGN-2024-0404",
+    candidateName: "Vijay Deshmukh",
+    rank: "Sepoy",
+    battalion: "MAR-4",
+    state: "Maharashtra",
+    joinedOn: "2024-03-01",
+    specialization: "Field execution",
+  },
+]
+
 export const EVENT_RECORDS: EventRecord[] = [
   {
     id: "national-obstacle-trial-2025",
@@ -54,6 +161,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 1,
         performanceTime: "03:18",
         status: "Completed",
+        rank: "Lance Naik",
+        state: "Punjab",
+        unitRole: "Lead runner",
+        performanceNote: "Clean run, no obstacle penalties.",
       },
       {
         candidateId: "AGN-2024-0201",
@@ -62,6 +173,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 2,
         performanceTime: "03:26",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Kerala",
+        unitRole: "Sprint specialist",
+        performanceNote: "Strong final segment recovery.",
       },
       {
         candidateId: "AGN-2024-0304",
@@ -70,6 +185,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 3,
         performanceTime: "03:34",
         status: "Completed",
+        rank: "Lance Naik",
+        state: "Punjab",
+        unitRole: "Obstacle specialist",
+        performanceNote: "One rope-climb retry, otherwise stable.",
       },
       {
         candidateId: "AGN-2024-0402",
@@ -78,6 +197,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 4,
         performanceTime: "03:41",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Maharashtra",
+        unitRole: "Reserve competitor",
+        performanceNote: "Consistent pace throughout course.",
       },
     ],
   },
@@ -98,6 +221,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 1,
         performanceTime: "98/100",
         status: "Completed",
+        rank: "Lance Naik",
+        state: "Punjab",
+        unitRole: "Primary marksman",
+        performanceNote: "Highest accuracy in long-range segment.",
       },
       {
         candidateId: "AGN-2024-0106",
@@ -106,6 +233,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 2,
         performanceTime: "95/100",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Rajasthan",
+        unitRole: "Rapid-fire specialist",
+        performanceNote: "Best rapid-fire grouping.",
       },
       {
         candidateId: "AGN-2024-0204",
@@ -114,6 +245,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 3,
         performanceTime: "93/100",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Bihar",
+        unitRole: "Range qualifier",
+        performanceNote: "Clean execution in timed lane.",
       },
       {
         candidateId: "AGN-2024-0401",
@@ -122,6 +257,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 4,
         performanceTime: "89/100",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Maharashtra",
+        unitRole: "Support marksman",
+        performanceNote: "Stable control, missed two long shots.",
       },
     ],
   },
@@ -142,6 +281,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 1,
         performanceTime: "12:42",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Kerala",
+        unitRole: "Team lead",
+        performanceNote: "Fastest tactical decision cycle.",
       },
       {
         candidateId: "AGN-2024-0101",
@@ -150,6 +293,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 2,
         performanceTime: "12:58",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Rajasthan",
+        unitRole: "Forward scout",
+        performanceNote: "Strong objective control under pressure.",
       },
       {
         candidateId: "AGN-2024-0301",
@@ -158,6 +305,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 3,
         performanceTime: "13:09",
         status: "Completed",
+        rank: "Sepoy",
+        state: "West Bengal",
+        unitRole: "Communications support",
+        performanceNote: "Good coordination and timing discipline.",
       },
       {
         candidateId: "AGN-2024-0404",
@@ -166,6 +317,10 @@ export const EVENT_RECORDS: EventRecord[] = [
         position: 4,
         performanceTime: "13:20",
         status: "Completed",
+        rank: "Sepoy",
+        state: "Maharashtra",
+        unitRole: "Rear guard",
+        performanceNote: "Balanced performance in all checkpoints.",
       },
     ],
   },

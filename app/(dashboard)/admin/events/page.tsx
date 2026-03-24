@@ -63,42 +63,56 @@ export default function EventsPage() {
           {EVENT_RECORDS.map((event) => {
             const winner = event.participants.find((p) => p.position === 1)
             return (
-              <Link key={event.id} href={`/admin/events/${event.id}`}>
-                <Card className="border-stone-200 bg-white shadow-sm transition-all hover:shadow-md">
-                  <CardHeader className="pb-2">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <CardTitle className="text-base text-stone-900">
-                          {event.title}
-                        </CardTitle>
-                        <p className="mt-1 text-xs text-stone-500">
-                          {event.date} | {event.startTime} | {event.location}
-                        </p>
-                      </div>
-                      <Badge className="border border-stone-200 bg-stone-50 text-stone-700">
-                        {event.category}
-                      </Badge>
+              <Card
+                key={event.id}
+                className="border-stone-200 bg-white shadow-sm transition-all hover:shadow-md"
+              >
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <CardTitle className="text-base text-stone-900">
+                        {event.title}
+                      </CardTitle>
+                      <p className="mt-1 text-xs text-stone-500">
+                        {event.date} | {event.startTime} | {event.location}
+                      </p>
                     </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <div className="flex flex-wrap items-center gap-4 text-sm">
-                      <span className="flex items-center gap-1 text-stone-600">
-                        <Users size={14} />
-                        {event.participants.length} participants
+                    <Badge className="border border-stone-200 bg-stone-50 text-stone-700">
+                      {event.category}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <div className="flex flex-wrap items-center gap-4 text-sm">
+                    <span className="flex items-center gap-1 text-stone-600">
+                      <Users size={14} />
+                      {event.participants.length} participants
+                    </span>
+                    {winner && (
+                      <span className="flex items-center gap-1 text-amber-700">
+                        <Medal size={14} />
+                        Winner: {winner.candidateName} ({winner.performanceTime})
                       </span>
-                      {winner && (
-                        <span className="flex items-center gap-1 text-amber-700">
-                          <Medal size={14} />
-                          Winner: {winner.candidateName} ({winner.performanceTime})
-                        </span>
-                      )}
-                      <span className="ml-auto flex items-center gap-1 text-xs font-medium text-[#1a2d4a]">
+                    )}
+                    <div className="ml-auto flex items-center gap-3">
+                      <Link
+                        href={`/admin/events/${event.id}`}
+                        className="flex items-center gap-1 text-xs font-medium text-[#1a2d4a] hover:underline"
+                      >
                         View details <ChevronRight size={14} />
-                      </span>
+                      </Link>
+                      {winner && (
+                        <Link
+                          href={`/admin/events/${event.id}/${winner.candidateId}`}
+                          className="flex items-center gap-1 text-xs font-medium text-amber-700 hover:underline"
+                        >
+                          View winner <ChevronRight size={14} />
+                        </Link>
+                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                  </div>
+                </CardContent>
+              </Card>
             )
           })}
         </div>

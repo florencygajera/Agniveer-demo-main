@@ -1,7 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { AWARD_RECORDS, EVENT_RECORDS } from "@/lib/admin/events-awards-data"
-import { CalendarDays, ClipboardList, User } from "lucide-react"
+import {
+  AWARD_RECORDS,
+  CANDIDATE_PROFILES,
+  EVENT_RECORDS,
+} from "@/lib/admin/events-awards-data"
+import { CalendarDays, ClipboardList, Trophy, User } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -21,6 +25,21 @@ export default function AwardWinnerDetailPage({
   const relatedEvent = winner.relatedEventId
     ? EVENT_RECORDS.find((event) => event.id === winner.relatedEventId)
     : undefined
+  const profile = CANDIDATE_PROFILES.find(
+    (item) => item.candidateId === winner.candidateId
+  )
+
+  const allAwardsForCandidate = AWARD_RECORDS.flatMap((awardItem) =>
+    awardItem.winners
+      .filter((winnerItem) => winnerItem.candidateId === winner.candidateId)
+      .map((winnerItem) => ({
+        awardId: awardItem.id,
+        awardTitle: awardItem.title,
+        awardedOn: winnerItem.awardedOn,
+        awardedBy: winnerItem.awardedBy,
+        citation: winnerItem.citation,
+      }))
+  ).sort((a, b) => b.awardedOn.localeCompare(a.awardedOn))
 
   return (
     <div className="min-h-screen bg-[#f4f3ef] font-sans">
@@ -79,6 +98,32 @@ export default function AwardWinnerDetailPage({
               </div>
             </div>
 
+            {profile && (
+              <div className="rounded-lg border border-stone-200 p-4">
+                <p className="mb-2 text-xs font-semibold tracking-wide text-stone-500 uppercase">
+                  Person Details
+                </p>
+                <p className="text-sm text-stone-700">
+                  <span className="font-medium text-stone-900">Rank:</span>{" "}
+                  {profile.rank}
+                </p>
+                <p className="mt-1 text-sm text-stone-700">
+                  <span className="font-medium text-stone-900">State:</span>{" "}
+                  {profile.state}
+                </p>
+                <p className="mt-1 text-sm text-stone-700">
+                  <span className="font-medium text-stone-900">Joined On:</span>{" "}
+                  {profile.joinedOn}
+                </p>
+                <p className="mt-1 text-sm text-stone-700">
+                  <span className="font-medium text-stone-900">
+                    Specialization:
+                  </span>{" "}
+                  {profile.specialization}
+                </p>
+              </div>
+            )}
+
             <div className="rounded-lg border border-stone-200 p-4">
               <p className="mb-2 text-xs font-semibold tracking-wide text-stone-500 uppercase">
                 Award Information
@@ -109,6 +154,32 @@ export default function AwardWinnerDetailPage({
                   </Link>
                 </p>
               )}
+            </div>
+
+            <div className="rounded-lg border border-stone-200 p-4">
+              <p className="mb-2 text-xs font-semibold tracking-wide text-stone-500 uppercase">
+                Full Award History
+              </p>
+              <div className="space-y-2">
+                {allAwardsForCandidate.map((awardItem) => (
+                  <div
+                    key={`${awardItem.awardId}-${awardItem.awardedOn}`}
+                    className="rounded-md border border-stone-200 bg-stone-50 p-3"
+                  >
+                    <p className="flex items-center gap-1 text-sm font-semibold text-stone-900">
+                      <Trophy size={14} className="text-amber-600" />
+                      {awardItem.awardTitle}
+                    </p>
+                    <p className="mt-1 text-xs text-stone-600">
+                      Awarded On: {awardItem.awardedOn} | Awarded By:{" "}
+                      {awardItem.awardedBy}
+                    </p>
+                    <p className="mt-1 text-xs text-stone-600">
+                      {awardItem.citation}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
