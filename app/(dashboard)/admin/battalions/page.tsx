@@ -73,7 +73,7 @@ interface Agniveer {
   AgniveerId: string
   name: string
   rank: string
-  battalion: string // battalion code e.g. "RR-1"
+  battalion: string
   battalionName: string
   gender: string
   state: string
@@ -96,22 +96,10 @@ interface Agniveer {
   events: string[]
   emergency: { name: string; phone: string; relation: string }
   training?: {
-    physical: {
-      title: string
-      items: { label: string; value: string }[]
-    }
-    weapons: {
-      title: string
-      items: { label: string; value: string }[]
-    }
-    mental: {
-      title: string
-      items: { label: string; value: string }[]
-    }
-    combat: {
-      title: string
-      items: { label: string; value: string }[]
-    }
+    physical: { title: string; items: { label: string; value: string }[] }
+    weapons: { title: string; items: { label: string; value: string }[] }
+    mental: { title: string; items: { label: string; value: string }[] }
+    combat: { title: string; items: { label: string; value: string }[] }
   }
 }
 
@@ -1470,20 +1458,23 @@ function bc(v: number) {
   if (v >= 70) return "bg-amber-500"
   return "bg-rose-500"
 }
+
+// ── UPDATED grade labels ──
 function grade(v: number) {
   if (v >= 90)
     return {
-      l: "Outstanding",
+      l: "Excellent",
       c: "bg-emerald-100 text-emerald-700 border-emerald-200",
     }
   if (v >= 80) return { l: "Good", c: "bg-sky-100 text-sky-700 border-sky-200" }
   if (v >= 70)
-    return { l: "Average", c: "bg-amber-100 text-amber-700 border-amber-200" }
+    return { l: "SAT", c: "bg-amber-100 text-amber-700 border-amber-200" }
   return {
-    l: "Needs Improvement",
+    l: "Fail",
     c: "bg-rose-100 text-rose-600 border-rose-200",
   }
 }
+
 function MiniBar({ value }: { value: number }) {
   return (
     <div className="flex items-center gap-1.5">
@@ -1942,7 +1933,6 @@ function AgniveerDetailModal({
           )}
 
           {/* Performance Graph */}
-          {/* Performance Graph */}
           {tab === "performance-graph" && (
             <PerformanceGraph Agniveer={Agniveer} />
           )}
@@ -2031,7 +2021,8 @@ function BattalionAgniveersView({
                 },
                 {
                   label: "On Leave",
-                  value: Agniveers.filter((s) => s.status === "on_leave").length,
+                  value: Agniveers.filter((s) => s.status === "on_leave")
+                    .length,
                   icon: <UserMinus size={13} className="text-amber-500" />,
                 },
                 {
@@ -2087,6 +2078,7 @@ function BattalionAgniveersView({
       </div>
 
       {/* Agniveers table — clickable rows */}
+      {/* ── UPDATED: removed Rank and Discip. columns ── */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -2095,13 +2087,11 @@ function BattalionAgniveersView({
                 {[
                   "Agniveer ID",
                   "Name",
-                  "Rank",
                   "Physical",
                   "Weapons",
                   "Mental",
                   "Combat",
                   "Attend.",
-                  "Discip.",
                   "Overall",
                   "Grade",
                   "Status",
@@ -2119,7 +2109,7 @@ function BattalionAgniveersView({
               {filtered.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={12}
+                    colSpan={10}
                     className="py-12 text-center text-sm text-stone-400"
                   >
                     No Agniveers match your search.
@@ -2146,9 +2136,6 @@ function BattalionAgniveersView({
                         {s.name}
                       </span>
                     </td>
-                    <td className="px-3 py-3 text-xs text-stone-500">
-                      {s.rank}
-                    </td>
                     <td className="px-3 py-3">
                       <MiniBar value={s.physical} />
                     </td>
@@ -2163,9 +2150,6 @@ function BattalionAgniveersView({
                     </td>
                     <td className="px-3 py-3">
                       <MiniBar value={s.attendance} />
-                    </td>
-                    <td className="px-3 py-3">
-                      <MiniBar value={s.discipline} />
                     </td>
                     <td className="px-3 py-3">
                       <span className={`text-lg font-black ${sc(s.overall)}`}>
@@ -2483,7 +2467,9 @@ export default function BattalionsPage() {
 
   const [view, setView] = useState<View>("grid")
   const [activeBattalion, setActiveBattalion] = useState<Battalion | null>(null)
-  const [selectedAgniveer, setSelectedAgniveer] = useState<Agniveer | null>(null)
+  const [selectedAgniveer, setSelectedAgniveer] = useState<Agniveer | null>(
+    null
+  )
   const [AgniveerModalOpen, setAgniveerModalOpen] = useState(false)
 
   useEffect(() => {
@@ -2492,7 +2478,6 @@ export default function BattalionsPage() {
       const batCode = params.get("bat")
       if (batCode) {
         const found = BATTALIONS.find((b) => b.id === batCode)
-
         if (found) {
           handleViewAgniveers(found)
         }

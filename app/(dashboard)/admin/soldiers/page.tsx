@@ -40,7 +40,7 @@ import {
 } from "lucide-react"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type Grade = "Outstanding" | "Good" | "Average" | "Poor"
+type Grade = "Excellent" | "Good" | "SAT" | "Fail"
 type Status = "Active" | "On Leave" | "Injured"
 type Gender = "Male" | "Female"
 
@@ -104,7 +104,7 @@ const AgniveerS: Agniveer[] = [
     mental: 88,
     combat: 95,
     overall: 95,
-    grade: "Outstanding",
+    grade: "Excellent",
     status: "Active",
   },
   {
@@ -119,7 +119,7 @@ const AgniveerS: Agniveer[] = [
     mental: 65,
     combat: 70,
     overall: 72,
-    grade: "Average",
+    grade: "SAT",
     status: "Active",
   },
   {
@@ -164,7 +164,7 @@ const AgniveerS: Agniveer[] = [
     mental: 86,
     combat: 93,
     overall: 92,
-    grade: "Outstanding",
+    grade: "Excellent",
     status: "Active",
   },
   {
@@ -194,7 +194,7 @@ const AgniveerS: Agniveer[] = [
     mental: 72,
     combat: 71,
     overall: 73.3,
-    grade: "Average",
+    grade: "SAT",
     status: "Active",
   },
   {
@@ -254,7 +254,7 @@ const AgniveerS: Agniveer[] = [
     mental: 70,
     combat: 66,
     overall: 71,
-    grade: "Average",
+    grade: "SAT",
     status: "Active",
   },
   {
@@ -269,7 +269,7 @@ const AgniveerS: Agniveer[] = [
     mental: 87,
     combat: 91,
     overall: 91.7,
-    grade: "Outstanding",
+    grade: "Excellent",
     status: "Active",
   },
   {
@@ -284,7 +284,7 @@ const AgniveerS: Agniveer[] = [
     mental: 70,
     combat: 65,
     overall: 69,
-    grade: "Average",
+    grade: "Fail",
     status: "Active",
   },
   {
@@ -337,10 +337,10 @@ const AgniveerS: Agniveer[] = [
 const BATTALIONS = ["All Battalions", "RR-1", "PARA-2", "BEN-3", "MAR-4"]
 const GRADES: (Grade | "All Grades")[] = [
   "All Grades",
-  "Outstanding",
+  "Excellent",
   "Good",
-  "Average",
-  "Poor",
+  "SAT",
+  "Fail",
 ]
 const STATUSES: (Status | "All")[] = ["All", "Active", "On Leave", "Injured"]
 
@@ -354,10 +354,10 @@ function scoreColor(s: number) {
 
 function GradeBadge({ grade }: { grade: Grade }) {
   const map: Record<Grade, string> = {
-    Outstanding: "bg-emerald-100 text-emerald-700 border-emerald-200",
+    Excellent: "bg-emerald-100 text-emerald-700 border-emerald-200",
     Good: "bg-sky-100 text-sky-700 border-sky-200",
-    Average: "bg-amber-100 text-amber-700 border-amber-200",
-    Poor: "bg-rose-100 text-rose-600 border-rose-200",
+    SAT: "bg-amber-100 text-amber-700 border-amber-200",
+    Fail: "bg-rose-100 text-rose-600 border-rose-200",
   }
   return (
     <Badge
@@ -533,12 +533,12 @@ function EditDialog({
               const overall = calcOverall(form)
               const grade: Grade =
                 overall >= 90
-                  ? "Outstanding"
+                  ? "Excellent"
                   : overall >= 80
                     ? "Good"
                     : overall >= 70
-                      ? "Average"
-                      : "Poor"
+                      ? "SAT"
+                      : "Fail"
               onSave({ ...form, overall, grade })
               onClose()
             }}
@@ -556,7 +556,7 @@ function MobileCard({ s, onEdit }: { s: Agniveer; onEdit: () => void }) {
   const [expanded, setExpanded] = useState(false)
   return (
     <div
-      className={`overflow-hidden rounded-xl border bg-white shadow-sm ${s.grade === "Outstanding" ? "border-emerald-200" : s.grade === "Average" ? "border-amber-200" : "border-stone-200"}`}
+      className={`overflow-hidden rounded-xl border bg-white shadow-sm ${s.grade === "Excellent" ? "border-emerald-200" : s.grade === "SAT" ? "border-amber-200" : "border-stone-200"}`}
     >
       <div className="flex items-start gap-3 p-4">
         <div className="min-w-0 flex-1">
@@ -567,7 +567,6 @@ function MobileCard({ s, onEdit }: { s: Agniveer; onEdit: () => void }) {
           </div>
           <p className="text-sm font-semibold text-stone-900">{s.name}</p>
           <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
-            <span className="text-xs text-stone-500">{s.rank}</span>
             <span className="flex items-center gap-0.5 text-xs text-stone-400">
               <MapPin size={9} />
               {s.state}
@@ -651,7 +650,7 @@ export default function AllAgniveersPage() {
     total: Agniveers.length,
     active: Agniveers.filter((s) => s.status === "Active").length,
     onLeave: Agniveers.filter((s) => s.status === "On Leave").length,
-    outstanding: Agniveers.filter((s) => s.grade === "Outstanding").length,
+    outstanding: Agniveers.filter((s) => s.grade === "Excellent").length,
     avgOverall:
       Math.round(
         (Agniveers.reduce((a, s) => a + s.overall, 0) / Agniveers.length) * 10
@@ -761,7 +760,7 @@ export default function AllAgniveersPage() {
               color: "text-amber-600",
             },
             {
-              label: "Outstanding",
+              label: "Excellent",
               value: counts.outstanding,
               icon: <Shield size={14} />,
               color: "text-violet-600",
@@ -796,7 +795,6 @@ export default function AllAgniveersPage() {
                   {[
                     "Agniveer ID",
                     "Name",
-                    "Rank",
                     "Gender",
                     "Battalion",
                     "State",
@@ -822,7 +820,7 @@ export default function AllAgniveersPage() {
                 {filtered.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={14}
+                      colSpan={13}
                       className="py-12 text-center text-sm text-stone-400"
                     >
                       No Agniveers match your filters.
@@ -832,16 +830,13 @@ export default function AllAgniveersPage() {
                   filtered.map((s) => (
                     <tr
                       key={s.id}
-                      className={`transition-colors hover:bg-stone-50 ${s.grade === "Outstanding" ? "bg-emerald-50/20" : s.grade === "Average" ? "bg-amber-50/20" : ""}`}
+                      className={`transition-colors hover:bg-stone-50 ${s.grade === "Excellent" ? "bg-emerald-50/20" : s.grade === "SAT" ? "bg-amber-50/20" : ""}`}
                     >
                       <td className="px-3 py-2.5 font-mono text-xs whitespace-nowrap text-stone-400">
                         {s.id}
                       </td>
                       <td className="px-3 py-2.5 font-semibold whitespace-nowrap text-stone-900">
                         {s.name}
-                      </td>
-                      <td className="px-3 py-2.5 text-xs whitespace-nowrap text-stone-500">
-                        {s.rank}
                       </td>
                       <td className="px-3 py-2.5 text-xs text-stone-400">
                         {s.gender}

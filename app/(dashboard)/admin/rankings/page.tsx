@@ -265,6 +265,13 @@ const LEADERBOARD: Agniveer[] = [
 const BATTALIONS = ["All", "RR-1", "PARA-2", "BEN-3", "MAR-4"]
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function getGrade(s: number) {
+  if (s >= 90) return "Excellent"
+  if (s >= 80) return "Good"
+  if (s >= 70) return "SAT"
+  return "Fail"
+}
+
 function scoreColor(s: number) {
   if (s >= 90) return "text-emerald-600"
   if (s >= 80) return "text-[#4a5c2f]"
@@ -315,25 +322,29 @@ function BattalionChip({ code }: { code: string }) {
   )
 }
 
-function ScoreCell({ value }: { value: number }) {
-  const color = scoreColor(value)
-  const bgBar =
-    value >= 90
-      ? "bg-emerald-500"
-      : value >= 80
-        ? "bg-[#4a5c2f]"
-        : value >= 70
-          ? "bg-amber-500"
-          : "bg-rose-500"
+function GradeBadge({ value }: { value: number }) {
+  const grade = getGrade(value)
+  const style =
+    grade === "Excellent"
+      ? "bg-emerald-50 text-emerald-700 border-emerald-300"
+      : grade === "Good"
+        ? "bg-[#eef3e6] text-[#4a5c2f] border-[#c5d9a0]"
+        : grade === "SAT"
+          ? "bg-amber-50 text-amber-700 border-amber-300"
+          : "bg-rose-50 text-rose-600 border-rose-300"
   return (
-    <div className="flex flex-col items-center gap-0.5">
-      <span className={`text-sm font-bold tabular-nums ${color}`}>{value}</span>
-      <div className="h-1 w-8 overflow-hidden rounded-full bg-stone-100">
-        <div
-          className={`h-full rounded-full ${bgBar}`}
-          style={{ width: `${value}%` }}
-        />
-      </div>
+    <Badge variant="outline" className={`text-xs font-semibold ${style}`}>
+      {grade}
+    </Badge>
+  )
+}
+
+// Score + Grade together in one cell
+function ScoreCell({ value }: { value: number }) {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className={`text-sm font-bold ${scoreColor(value)}`}>{value}</span>
+      <GradeBadge value={value} />
     </div>
   )
 }
@@ -382,6 +393,7 @@ function MobileRankCard({ s }: { s: Agniveer }) {
               {s.overall}
             </span>
             <span className="text-xs text-stone-400">overall score</span>
+            <GradeBadge value={s.overall} />
           </div>
         </div>
         <button
@@ -407,11 +419,6 @@ function MobileRankCard({ s }: { s: Agniveer }) {
               value: s.attend,
               icon: <CalendarDays size={10} />,
             },
-            {
-              label: "Discip.",
-              value: s.discip,
-              icon: <ShieldCheck size={10} />,
-            },
           ].map((f) => (
             <div key={f.label} className="flex flex-col items-center gap-0.5">
               <span className="flex items-center gap-0.5 text-[10px] text-stone-400">
@@ -421,6 +428,7 @@ function MobileRankCard({ s }: { s: Agniveer }) {
               <span className={`text-sm font-bold ${scoreColor(f.value)}`}>
                 {f.value}
               </span>
+              <GradeBadge value={f.value} />
             </div>
           ))}
         </div>
@@ -613,7 +621,6 @@ export default function PerformanceRankingsPage() {
               <thead>
                 <tr className="border-b border-stone-100 bg-stone-50">
                   {[
-                    { label: "Rank" },
                     { label: "Name" },
                     { label: "Battalion" },
                     { label: "Physical", icon: <Dumbbell size={11} /> },
@@ -621,8 +628,8 @@ export default function PerformanceRankingsPage() {
                     { label: "Mental", icon: <Brain size={11} /> },
                     { label: "Combat", icon: <Swords size={11} /> },
                     { label: "Attend.", icon: <CalendarDays size={11} /> },
-                    { label: "Discip.", icon: <ShieldCheck size={11} /> },
                     { label: "Overall" },
+                    { label: "Grade" },
                   ].map((h) => (
                     <th
                       key={h.label}
@@ -640,7 +647,7 @@ export default function PerformanceRankingsPage() {
                 {filtered.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={10}
+                      colSpan={9}
                       className="py-12 text-center text-sm text-stone-400"
                     >
                       No results found.
@@ -652,9 +659,6 @@ export default function PerformanceRankingsPage() {
                       key={s.rank}
                       className={`transition-colors ${rowBg(s.rank)}`}
                     >
-                      <td className="px-4 py-3">
-                        <RankDisplay rank={s.rank} />
-                      </td>
                       <td className="px-4 py-3 font-semibold whitespace-nowrap text-stone-900">
                         {s.name}
                       </td>
@@ -676,15 +680,15 @@ export default function PerformanceRankingsPage() {
                       <td className="px-4 py-3 text-center">
                         <ScoreCell value={s.attend} />
                       </td>
-                      <td className="px-4 py-3 text-center">
-                        <ScoreCell value={s.discip} />
-                      </td>
                       <td className="px-4 py-3">
                         <span
                           className={`text-xl font-black ${scoreColor(s.overall)}`}
                         >
                           {s.overall}
                         </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <GradeBadge value={s.overall} />
                       </td>
                     </tr>
                   ))
