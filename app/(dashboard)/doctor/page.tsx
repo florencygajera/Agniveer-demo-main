@@ -1,66 +1,70 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import {
-  LayoutDashboard,
-  FilePlus,
-  BarChart3,
-  Search,
-  HeartPulse,
-  AlertTriangle,
-  CheckCircle2,
-  ChevronRight,
-  User,
-  Stethoscope,
   Activity,
-  LogOut,
-  Plus,
-  X,
+  AlertTriangle,
+  BarChart3,
+  Bolt,
   CalendarDays,
-  Shield,
-  FileText,
-  Eye,
+  CheckCircle2,
   ChevronDown,
+  ChevronRight,
   ChevronUp,
-  Ruler,
-  ScanEye,
   ClipboardList,
   Clock7,
-} from "lucide-react"
-import Link from "next/link"
-import { ThemeToggle } from "@/components/theme-toggle"
+  Eye,
+  FilePlus,
+  FileText,
+  HeartPulse,
+  LayoutDashboard,
+  LogOut,
+  Plus,
+  Ruler,
+  ScanEye,
+  Search,
+  Shield,
+  Stethoscope,
+  User,
+  X,
+} from "lucide-react";
+import { UserCog, Rocket, GraduationCap, Factory,  ShieldOff, FlaskConical, Wrench, Tractor } from "lucide-react";
+
+import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { IconChalkboardTeacher } from "@tabler/icons-react";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type Section = "dashboard" | "add" | "records" | "stats"
+type Section = "dashboard" | "add" | "records" | "stats";
 
 // ── Theme constants ────────────────────────────────────────────────────────────
-const SIDEBAR_BG = "#1a2d4a"
-const ACTIVE_BG = "#CA3500"
+const SIDEBAR_BG = "#1a2d4a";
+const ACTIVE_BG = "#CA3500";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const DOCTOR = {
@@ -68,213 +72,282 @@ const DOCTOR = {
   id: "MED-001",
   role: "Medical Officer",
   unit: "Agnipath Command",
-}
-
+};
 const INIT_RECORDS = [
   {
     id: "MR-001",
-    soldierName: "Arjun Mehra",
+    soldierName: "Maj. Ravi Kumar",
     soldierId: "AGN-2024-0103",
-    date: "01 Mar 2025",
-    type: "Pre-Exercise Screening",
+    date: "15 Mar 2026",
+    description: "Low Energy",
     doctor: "Dr. Sunita Rao",
     doctorDesignation: "Medical Officer",
-    diagnosis: "Fit for Duty",
-    status: "Normal",
-    followup: "01 Sep 2025",
+    diagnosis: "General Fatigue",
+    status: "Under Care",
+    followup: "22 Mar 2026",
     bp: "118/76",
-    hr: "64",
-    weight: "72",
-    notes: "Excellent fitness. No issues detected during examination.",
-    admitDate: "11 Oct 2024",
-    dischargeDate: "01 Nov 2024",
+    hr: "72",
+    weight: "68",
+    notes:
+      "Soldier complaining of low energy during field obstacle training. Suggested rest and protein intake.",
+    admitDate: "15 Mar 2026",
+    dischargeDate: "—",
     hospitalLocation: "Base Hospital Delhi",
-    treatment: "None required.",
-    prescriptions: "Multivitamins (preventive)",
+    treatment: "Rest (2 days), balanced diet recommendation.",
+    prescriptions: "Iron supplement (21 days)",
     eyeSight: "6/6",
     height: "178 cm",
     lasikReport: "N/A",
   },
   {
     id: "MR-002",
-    soldierName: "Rajveer Singh",
-    soldierId: "AGN-2024-0101",
-    date: "01 Mar 2025",
-    type: "Mental Health Review",
-    doctor: "Dr. Sunita Rao",
-    doctorDesignation: "Medical Officer",
-    diagnosis: "Fit for Duty",
-    status: "Normal",
-    followup: "01 Sep 2025",
-    bp: "120/78",
+    soldierName: "Jay Chauhan",
+    soldierId: "AGN-2024-0104",
+    date: "12 Mar 2026",
+    description: "Knee Pain after Training Maneuvers",
+    doctor: "Col. Sharma",
+    doctorDesignation: "Orthopedic Surgeon",
+    diagnosis: "Knee Tendinitis",
+    status: "Under Care",
+    followup: "19 Mar 2026",
+    bp: "116/74",
     hr: "68",
-    weight: "68",
-    notes: "Good overall health. All parameters within normal limits.",
-    admitDate: "8 Jan 2024",
-    dischargeDate: "10 Jan 2024",
-    hospitalLocation: "Base Hospital Delhi",
-    treatment: "None required.",
-    prescriptions: "None",
+    weight: "72",
+    notes:
+      "Acute knee pain following long march practice. Restricted from high-impact exercises and loaded marching.",
+    admitDate: "12 Mar 2026",
+    dischargeDate: "—",
+    hospitalLocation: "Command Hospital Pune",
+    treatment: "Ice therapy, physiotherapy 3x weekly.",
+    prescriptions: "Ibuprofen 400mg (10 days), pain relief gel.",
     eyeSight: "6/6",
     height: "175 cm",
     lasikReport: "N/A",
   },
   {
     id: "MR-003",
-    soldierName: "Sunil Kumar",
-    soldierId: "AGN-2024-0104",
-    date: "15 Jan 2025",
-    type: "Emergency",
-    doctor: "Dr. Rajan Mehta",
-    doctorDesignation: "Orthopedic Surgeon",
-    diagnosis: "Minor sprain — right ankle",
-    status: "Recovered",
-    followup: "15 Mar 2025",
-    bp: "116/74",
-    hr: "72",
+    soldierName: "Om Singh",
+    soldierId: "AGN-2024-0203",
+    date: "10 Mar 2026",
+    description: "Deep Weakness",
+    doctor: "Maj. Sharma",
+    doctorDesignation: "Senior Medical Officer",
+    diagnosis: "Mild Anemia",
+    status: "Under Care",
+    followup: "24 Mar 2026",
+    bp: "112/70",
+    hr: "76",
     weight: "65",
-    notes: "Ankle fully recovered. Cleared for full duty post review.",
-    admitDate: "15 Jan 2025",
-    dischargeDate: "16 Jan 2025",
-    hospitalLocation: "Command Hospital Pune",
-    treatment: "R.I.C.E protocol, minor physiotherapy.",
-    prescriptions: "Ibuprofen 400mg as needed.",
+    notes:
+      "Soldier showing signs of fatigue during parade. Additional rest and iron supplements advised.",
+    admitDate: "10 Mar 2026",
+    dischargeDate: "—",
+    hospitalLocation: "Base Hospital Delhi",
+    treatment: "Iron-rich diet, light duty schedule.",
+    prescriptions: "Iron tablets daily (30 days), multivitamin.",
     eyeSight: "6/6",
     height: "172 cm",
     lasikReport: "N/A",
   },
   {
     id: "MR-004",
-    soldierName: "Rohit Sharma",
-    soldierId: "AGN-2024-0203",
-    date: "20 Feb 2025",
-    type: "Treatment",
-    doctor: "Dr. Sunita Rao",
-    doctorDesignation: "Medical Officer",
-    diagnosis: "Knee pain — patellofemoral syndrome",
-    status: "Under Observation",
-    followup: "20 Mar 2025",
+    soldierName: "Kishan Patel",
+    soldierId: "AGN-2024-0403",
+    date: "05 Mar 2026",
+    description: "Severe Headache and Intense Chills",
+    doctor: "Col. Chauhan",
+    doctorDesignation: "Chief Medical Officer",
+    diagnosis: "Migraine with possible infection",
+    status: "Under Care",
+    followup: "09 Mar 2026",
     bp: "122/80",
-    hr: "76",
+    hr: "74",
     weight: "70",
-    notes: "Restricted from high-impact training for 3 weeks. Monitor progress.",
-    admitDate: "12 Sep 2024",
-    dischargeDate: "14 Sep 2024",
+    notes:
+      "Severe headache, intense chills, and high fever after overnight field exercises. Soldier appears extremely weak and low on energy.",
+    admitDate: "05 Mar 2026",
+    dischargeDate: "—",
     hospitalLocation: "Base Hospital Delhi",
-    treatment: "Physiotherapy sessions twice weekly.",
-    prescriptions: "Pain relief gel (topical).",
-    eyeSight: "6/9",
+    treatment: "Paracetamol, IV fluids, isolation for observation.",
+    prescriptions:
+      "Paracetamol 500mg (as needed), antibiotics (pending culture)",
+    eyeSight: "6/5",
     height: "180 cm",
     lasikReport: "N/A",
   },
   {
     id: "MR-005",
-    soldierName: "Santosh More",
-    soldierId: "AGN-2024-0403",
-    date: "10 Feb 2025",
-    type: "Treatment",
+    soldierName: "Manish Rawat",
+    soldierId: "AGN-2024-0506",
+    date: "02 Mar 2026",
+    description: "High Fever and Body Aches after Night Outpost Duty",
     doctor: "Dr. Sunita Rao",
     doctorDesignation: "Medical Officer",
-    diagnosis: "Lower back strain",
-    status: "Under Observation",
-    followup: "10 Mar 2025",
-    bp: "124/82",
-    hr: "74",
-    weight: "67",
-    notes: "Physiotherapy recommended. Avoid heavy lifting and strenuous activity.",
-    admitDate: "23 Feb 2025",
-    dischargeDate: "25 Feb 2025",
-    hospitalLocation: "Base Hospital Delhi",
-    treatment: "Rest and localized heat therapy.",
-    prescriptions: "Muscle relaxants for 5 days.",
+    diagnosis: "Suspected Dengue",
+    status: "Discharge",
+    followup: "07 Mar 2026",
+    bp: "119/78",
+    hr: "80",
+    weight: "64",
+    notes:
+      "Reported shivering and muscular aches after 24-hour guard rotation. Kept under observation, daily temperature monitoring.",
+    admitDate: "02 Mar 2026",
+    dischargeDate: "07 Mar 2026",
+    hospitalLocation: "Army Field Hospital Ambala",
+    treatment: "ORS, paracetamol, fever monitoring.",
+    prescriptions: "Paracetamol 500mg, hydration therapy",
     eyeSight: "6/6",
-    height: "169 cm",
+    height: "176 cm",
     lasikReport: "N/A",
   },
   {
     id: "MR-006",
-    soldierName: "Priya Sharma",
-    soldierId: "AGN-2024-0102",
-    date: "01 Mar 2025",
-    type: "Mental Health Review",
-    doctor: "Dr. Sunita Rao",
-    doctorDesignation: "Medical Officer",
-    diagnosis: "Fit for Duty",
-    status: "Normal",
-    followup: "01 Sep 2025",
-    bp: "110/70",
-    hr: "66",
-    weight: "56",
-    notes: "All vitals normal. BMI optimal. Excellent overall health profile.",
-    admitDate: "10 Dec 2024",
-    dischargeDate: "12 Dec 2024",
-    hospitalLocation: "Base Hospital Delhi",
-    treatment: "None",
-    prescriptions: "None",
-    eyeSight: "6/6",
-    height: "162 cm",
-    lasikReport: "N/A",
-  },
-  {
-    id: "MR-007",
-    soldierName: "Vikram Nair",
-    soldierId: "AGN-2024-0201",
-    date: "15 Feb 2025",
-    type: "Treatment",
-    doctor: "Dr. Sunita Rao",
-    doctorDesignation: "Medical Officer",
-    diagnosis: "Fit for Duty",
-    status: "Normal",
-    followup: "15 Aug 2025",
-    bp: "116/74",
-    hr: "62",
-    weight: "74",
-    notes: "Outstanding physical fitness. No issues found.",
-    admitDate: "25 Jan 2025",
-    dischargeDate: "27 Jan 2025",
+    soldierName: "Arjun Singh",
+    soldierId: "AGN-2024-0607",
+    date: "28 Feb 2026",
+    description: "Shoulder Injury During Live-Fire Drill",
+    doctor: "Maj. Rajput",
+    doctorDesignation: "Senior Medical Officer",
+    diagnosis: "Rotator Cuff Strain",
+    status: "Discharge",
+    followup: "10 Mar 2026",
+    bp: "117/76",
+    hr: "77",
+    weight: "75",
+    notes:
+      "Injury sustained during rifle drill. Movement restricted, not fit for parade or strenuous PT.",
+    admitDate: "28 Feb 2026",
+    dischargeDate: "10 Mar 2026",
     hospitalLocation: "Command Hospital Pune",
-    treatment: "None",
-    prescriptions: "None",
+    treatment: "Arm sling, pain management, physiotherapy.",
+    prescriptions: "Analgesic as prescribed, muscle relaxant (5 days)",
     eyeSight: "6/6",
-    height: "182 cm",
+    height: "179 cm",
     lasikReport: "N/A",
+  },
+];
+
+const energyByMonth = [
+  {
+    month: "Jan 2024",
+    records: [
+      {
+        name: "Rohit Singh",
+        soldierId: "AGN0012",
+        energy: 88,
+        desc: "Severe headache",
+        date: "2024-01-18",
+        avatar: <User size={20} />,
+      },
+      {
+        name: "Harsh Kumar",
+        soldierId: "AGN0025",
+        energy: 91,
+        desc: "Intense chills",
+        date: "2024-01-10",
+        avatar: <User size={20} />,
+      },
+      // Single concise desc like first and second (added as example):
+      {
+        name: "Ankur Tyagi",
+        soldierId: "AGN0065",
+        energy: 84,
+        desc: "Body aches",
+        date: "2024-01-22",
+        avatar: <User size={20} />,
+      },
+    ],
   },
   {
-    id: "MR-008",
-    soldierName: "Ananya Krishnan",
-    soldierId: "AGN-2024-0202",
-    date: "01 Mar 2025",
-    type: "Pre-Exercise Screening",
-    doctor: "Dr. Sunita Rao",
-    doctorDesignation: "Medical Officer",
-    diagnosis: "Fit for Duty",
-    status: "Normal",
-    followup: "01 Sep 2025",
-    bp: "108/68",
-    hr: "64",
-    weight: "58",
-    notes: "Normal checkup completed. No concerns identified.",
-    admitDate: "18 March 2026",
-    dischargeDate: "19 March 2026",
-    hospitalLocation: "Base Hospital Delhi",
-    treatment: "None",
-    prescriptions: "None",
-    eyeSight: "6/6",
-    height: "165 cm",
-    lasikReport: "N/A",
+    month: "Feb 2024",
+    records: [
+      {
+        name: "Jitendra Dubey",
+        soldierId: "AGN0122",
+        energy: 93,
+        desc: "Mild fever",
+        date: "2024-02-12",
+        avatar: <User size={20} />,
+      },
+      {
+        name: "Sameer Sinha",
+        soldierId: "AGN0091",
+        energy: 89,
+        desc: "Cough",
+        date: "2024-02-21",
+        avatar: <User size={20} />,
+      },
+    ],
   },
-]
+];
+
 
 const EYE_SIGHT_RECORDS = [
-  { soldierId: "AGN-2024-0103", soldierName: "Arjun Mehra", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0101", soldierName: "Rajveer Singh", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0104", soldierName: "Sunil Kumar", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "15 Jan 2025" },
-  { soldierId: "AGN-2024-0203", soldierName: "Rohit Sharma", eyeSight: "6/9", status: "Weak", issue: "Mild myopia detected, monitoring required", lastChecked: "20 Feb 2025" },
-  { soldierId: "AGN-2024-0403", soldierName: "Santosh More", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "10 Feb 2025" },
-  { soldierId: "AGN-2024-0102", soldierName: "Priya Sharma", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0201", soldierName: "Vikram Nair", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "15 Feb 2025" },
-  { soldierId: "AGN-2024-0202", soldierName: "Ananya Krishnan", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
-]
+  {
+    soldierId: "AGN-2024-0103",
+    soldierName: "Arjun Mehra",
+    eyeSight: "6/6",
+    status: "Normal",
+    issue: "None",
+    lastChecked: "01 Mar 2025",
+  },
+  {
+    soldierId: "AGN-2024-0101",
+    soldierName: "Rajveer Singh",
+    eyeSight: "6/6",
+    status: "Normal",
+    issue: "None",
+    lastChecked: "01 Mar 2025",
+  },
+  {
+    soldierId: "AGN-2024-0104",
+    soldierName: "Sunil Kumar",
+    eyeSight: "6/6",
+    status: "Normal",
+    issue: "None",
+    lastChecked: "15 Jan 2025",
+  },
+  {
+    soldierId: "AGN-2024-0203",
+    soldierName: "Rohit Sharma",
+    eyeSight: "6/9",
+    status: "Weak",
+    issue: "Mild myopia detected, monitoring required",
+    lastChecked: "20 Feb 2025",
+  },
+  {
+    soldierId: "AGN-2024-0403",
+    soldierName: "Santosh More",
+    eyeSight: "6/6",
+    status: "Normal",
+    issue: "None",
+    lastChecked: "10 Feb 2025",
+  },
+  {
+    soldierId: "AGN-2024-0102",
+    soldierName: "Priya Sharma",
+    eyeSight: "6/6",
+    status: "Good",
+    issue: "None",
+    lastChecked: "01 Mar 2025",
+  },
+  {
+    soldierId: "AGN-2024-0201",
+    soldierName: "Vikram Nair",
+    eyeSight: "6/6",
+    status: "Good",
+    issue: "None",
+    lastChecked: "15 Feb 2025",
+  },
+  {
+    soldierId: "AGN-2024-0202",
+    soldierName: "Ananya Krishnan",
+    eyeSight: "6/6",
+    status: "Normal",
+    issue: "None",
+    lastChecked: "01 Mar 2025",
+  },
+];
 
 const LASIK_RECORDS = [
   {
@@ -287,7 +360,8 @@ const LASIK_RECORDS = [
     doctorDesignation: "Ophthalmologist",
     presentingComplaint: "Mild blurry vision in left eye during night drills.",
     diagnosis: "Myopia (-1.25 D Left, -0.75 D Right)",
-    treatmentGiven: "Detailed topographic scan done. Recommended for LASIK evaluation.",
+    treatmentGiven:
+      "Detailed topographic scan done. Recommended for LASIK evaluation.",
     restLightDuty: "None required.",
     eyeSightDetails: "L: 6/12, R: 6/9",
     lasikRecommendation: "Recommended for PRK/LASIK",
@@ -331,7 +405,7 @@ const LASIK_RECORDS = [
     status: "Observation",
     notes: "Wait 6 months before re-evaluating for LASIK. Monitor dry eyes.",
   },
-]
+];
 
 const SOLDIERS_LIST = [
   "Rajveer Singh Chauhan (AGN-2024-0101)",
@@ -352,46 +426,59 @@ const SOLDIERS_LIST = [
   "Rohini Jadhav (AGN-2024-0402)",
   "Santosh More (AGN-2024-0403)",
   "Vijay Deshmukh (AGN-2024-0404)",
-]
+];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function statusStyle(s: string) {
-  if (s === "Normal") return "border-emerald-300 bg-emerald-50 text-emerald-700"
-  if (s === "Recovered") return "border-sky-300 bg-sky-50 text-sky-700"
-  if (s === "Under Observation") return "border-amber-300 bg-amber-50 text-amber-700"
-  return "border-rose-300 bg-rose-50 text-rose-600"
+  if (s === "Under Care") return "border-cyan-400 bg-cyan-50 text-cyan-800";
+  if (s === "Discharge") return "border-green-400 bg-green-50 text-green-800";
+  return "border-red-400 bg-red-50 text-red-700";
 }
 
 function typeColor(t: string) {
-  if (t === "Treatment") return "border-amber-300 bg-amber-50 text-amber-700"
-  if (t === "Emergency") return "border-rose-300 bg-rose-50 text-rose-600"
-  return "border-stone-300 bg-stone-50 text-stone-600"
+  if (t === "Treatment") return "border-amber-300 bg-amber-50 text-amber-700";
+  if (t === "Emergency") return "border-rose-300 bg-rose-50 text-rose-600";
+  return "border-stone-300 bg-stone-50 text-stone-600";
 }
 
 function eyeSightStatusStyle(s: string) {
-  if (s === "Good") return "border-emerald-300 bg-emerald-50 text-emerald-700"
-  if (s === "Normal") return "border-sky-300 bg-sky-50 text-sky-700"
-  if (s === "Weak") return "border-amber-300 bg-amber-50 text-amber-700"
-  return "border-rose-300 bg-rose-50 text-rose-600"
+  if (s === "Good") return "border-emerald-300 bg-emerald-50 text-emerald-700";
+  if (s === "Normal") return "border-sky-300 bg-sky-50 text-sky-700";
+  if (s === "Weak") return "border-amber-300 bg-amber-50 text-amber-700";
+  return "border-rose-300 bg-rose-50 text-rose-600";
 }
 
 function doctorDisplayName(fullName: string) {
-  return fullName.replace(/^Dr\.\s*/i, "")
+  return fullName.replace(/^Dr\.\s*/i, "");
 }
 
 function safeVal(val: string | undefined | null, suffix = "") {
-  if (!val || val.trim() === "" || val === "—" || val === "N/A") return "—"
-  return `${val}${suffix}`
+  if (!val || val.trim() === "" || val === "—" || val === "N/A") return "—";
+  return `${val}${suffix}`;
 }
 
 // ── InfoField ─────────────────────────────────────────────────────────────────
-function InfoField({ label, value, mono = false }: { label: string; value: string; mono?: boolean }) {
+function InfoField(
+  { label, value, mono = false }: {
+    label: string;
+    value: string;
+    mono?: boolean;
+  },
+) {
   return (
     <div className="rounded-xl border border-stone-200 bg-white px-4 py-3.5 shadow-sm">
-      <div className="text-[10px] font-black tracking-[0.12em] text-stone-400 uppercase mb-1.5">{label}</div>
-      <div className={`text-sm font-semibold text-stone-800 ${mono ? "font-mono" : ""}`}>{value || "—"}</div>
+      <div className="text-[10px] font-black tracking-[0.12em] text-stone-400 uppercase mb-1.5">
+        {label}
+      </div>
+      <div
+        className={`text-sm font-semibold text-stone-800 ${
+          mono ? "font-mono" : ""
+        }`}
+      >
+        {value || "—"}
+      </div>
     </div>
-  )
+  );
 }
 
 // ── NAV config ────────────────────────────────────────────────────────────────
@@ -400,10 +487,12 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "records", label: "Medical Records", icon: <HeartPulse size={15} /> },
   { id: "add", label: "Add Record", icon: <FilePlus size={15} /> },
   { id: "stats", label: "Health Stats", icon: <BarChart3 size={15} /> },
-]
+];
 
 // ── Sidebar ───────────────────────────────────────────────────────────────────
-function Sidebar({ active, setActive }: { active: Section; setActive: (s: Section) => void }) {
+function Sidebar(
+  { active, setActive }: { active: Section; setActive: (s: Section) => void },
+) {
   return (
     <aside
       className="hidden md:flex w-60 shrink-0 flex-col h-screen sticky top-0 z-20 overflow-y-auto"
@@ -419,12 +508,26 @@ function Sidebar({ active, setActive }: { active: Section; setActive: (s: Sectio
             SR
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-bold text-black">{DOCTOR.name}</div>
-            <div className="font-mono text-[10px] text-orange-500 mt-0.5">{DOCTOR.id}</div>
-            <div className="text-[10px] text-stone-400 mt-0.5">{DOCTOR.role}</div>
+            <div className="truncate text-sm font-bold text-black">
+              {DOCTOR.name}
+            </div>
+            <div className="font-mono text-[10px] text-orange-500 mt-0.5">
+              {DOCTOR.id}
+            </div>
+            <div className="text-[10px] text-stone-400 mt-0.5">
+              {DOCTOR.role}
+            </div>
           </div>
         </div>
-        <div className="mt-2"><span data-slot="badge" data-variant="default" className="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl px-2 py-0.5 font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;&gt;svg]:pointer-events-none [&amp;&gt;svg]:size-3! [a]:hover:bg-primary/80 border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700">Active Session</span></div>
+        <div className="mt-2">
+          <span
+            data-slot="badge"
+            data-variant="default"
+            className="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl px-2 py-0.5 font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;&gt;svg]:pointer-events-none [&amp;&gt;svg]:size-3! [a]:hover:bg-primary/80 border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700"
+          >
+            Active Session
+          </span>
+        </div>
       </div>
 
       {/* Nav */}
@@ -437,21 +540,20 @@ function Sidebar({ active, setActive }: { active: Section; setActive: (s: Sectio
         </p>
 
         {NAV.map((n) => {
-          const isActive = active === n.id
+          const isActive = active === n.id;
 
           return (
             <button
               key={n.id}
               onClick={() => setActive(n.id)}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 w-full text-left cursor-pointer ${isActive
-                ? "text-white shadow-sm"
-                : "text-stone-600 hover:bg-stone-100"
-                }`}
-              style={
+              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 w-full text-left cursor-pointer ${
                 isActive
-                  ? { backgroundColor: ACTIVE_BG }
-                  : { backgroundColor: "transparent" }
-              }
+                  ? "text-white shadow-sm"
+                  : "text-stone-600 hover:bg-stone-100"
+              }`}
+              style={isActive
+                ? { backgroundColor: ACTIVE_BG }
+                : { backgroundColor: "transparent" }}
             >
               <span className={isActive ? "text-white" : "text-stone-500"}>
                 {n.icon}
@@ -459,11 +561,9 @@ function Sidebar({ active, setActive }: { active: Section; setActive: (s: Sectio
 
               <span className="flex-1">{n.label}</span>
 
-              {isActive && (
-                <ChevronRight size={14} className="opacity-70" />
-              )}
+              {isActive && <ChevronRight size={14} className="opacity-70" />}
             </button>
-          )
+          );
         })}
       </nav>
 
@@ -493,10 +593,12 @@ function Sidebar({ active, setActive }: { active: Section; setActive: (s: Sectio
         </div>
       </div>
     </aside>
-  )
+  );
 }
 
-function MobileNav({ active, setActive }: { active: Section; setActive: (s: Section) => void }) {
+function MobileNav(
+  { active, setActive }: { active: Section; setActive: (s: Section) => void },
+) {
   return (
     <div className="flex overflow-x-auto border-b border-stone-200 bg-white md:hidden">
       {NAV.map((n) => (
@@ -504,33 +606,42 @@ function MobileNav({ active, setActive }: { active: Section; setActive: (s: Sect
           key={n.id}
           onClick={() => setActive(n.id)}
           className="flex shrink-0 flex-col items-center gap-1 border-b-2 px-4 py-2.5 text-[10px] font-semibold whitespace-nowrap transition-colors"
-          style={
-            active === n.id
-              ? { borderBottomColor: ACTIVE_BG, color: ACTIVE_BG }
-              : { borderBottomColor: "transparent", color: "#a8a29e" }
-          }
+          style={active === n.id
+            ? { borderBottomColor: ACTIVE_BG, color: ACTIVE_BG }
+            : { borderBottomColor: "transparent", color: "#a8a29e" }}
         >
           {n.icon}
           {n.label}
         </button>
       ))}
     </div>
-  )
+  );
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS; setActive: (s: Section) => void }) {
-  const underObs = records.filter((r) => r.status === "Under Observation")
-  const normal = records.filter((r) => r.status === "Normal").length
-  const recovered = records.filter((r) => r.status === "Recovered").length
-  const fitPct = records.length > 0 ? Math.round((normal / records.length) * 100) : 0
+function DashboardSection(
+  { records, setActive }: {
+    records: typeof INIT_RECORDS;
+    setActive: (s: Section) => void;
+  },
+) {
+  const underObs = records.filter((r) => r.status === "Discharge");
+  const normal = records.filter((r) => r.status === "Normal").length;
+  const recovered = records.filter((r) => r.status === "Recovered").length;
+  const fitPct = records.length > 0
+    ? Math.round((normal / records.length) * 100)
+    : 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-black text-stone-900 tracking-tight">Medical Officer Dashboard</h1>
-          <p className="mt-1 text-xs text-stone-400 font-medium">Agnipath Command · March 2025</p>
+          <h1 className="text-2xl font-black text-stone-900 tracking-tight">
+            Medical Officer Dashboard
+          </h1>
+          <p className="mt-1 text-xs text-stone-400 font-medium">
+            Agnipath Command · March 2025
+          </p>
         </div>
         <Badge className="border border-stone-200 bg-white text-[10px] text-stone-500 font-bold uppercase tracking-widest shadow-sm px-3 py-1.5">
           Confidential
@@ -540,10 +651,26 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
       {/* Stat cards — fixed dot rendering */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {[
-          { label: "Agniveer Under Care", value: SOLDIERS_LIST.length, color: SIDEBAR_BG },
-          { label: "Total Records", value: records.length, color: "#0284c7" },
-          { label: "Follow-ups Pending", value: underObs.length, color: "#f59e0b" },
-          { label: "Under Observation", value: underObs.length, color: ACTIVE_BG },
+          {
+            label: "Total Admited",
+            value: SOLDIERS_LIST.length,
+            color: SIDEBAR_BG,
+          },
+          {
+            label: "Total Under Care",
+            value: "10" || records.length,
+            color: "#0284c7",
+          },
+          {
+            label: "Under Discharge",
+            value: "8" || underObs.length,
+            color: ACTIVE_BG,
+          },
+          {
+            label: "Average BMI",
+            value: "24.9" || underObs.length,
+            color: "green",
+          },
         ].map((c) => (
           <Card
             key={c.label}
@@ -551,53 +678,46 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
             style={{ borderTopWidth: "4px", borderTopColor: c.color }}
           >
             <CardContent className="px-5 py-4">
-              <div className="text-3xl font-black" style={{ color: c.color }}>{c.value}</div>
+              <div className="text-3xl font-black" style={{ color: c.color }}>
+                {c.value}
+              </div>
               <div className="mt-2 flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: c.color }} />
-                <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wide leading-tight">{c.label}</span>
+                <span
+                  className="h-1.5 w-1.5 rounded-full shrink-0"
+                  style={{ backgroundColor: c.color }}
+                />
+                <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wide leading-tight">
+                  {c.label}
+                </span>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Observation alert */}
-      {underObs.length > 0 && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 space-y-3">
-          <div className="flex items-center gap-2 text-sm font-bold text-amber-800">
-            <AlertTriangle size={15} className="text-amber-600" />
-            {underObs.length} Agniveer{underObs.length > 1 ? "s" : ""} Currently Under Observation
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {underObs.map((r) => (
-              <div key={r.id} className="flex items-center justify-between rounded-lg border border-amber-200 bg-white px-4 py-3 shadow-sm">
-                <div>
-                  <div className="text-sm font-bold text-stone-800">{r.soldierName}</div>
-                  <div className="text-xs text-stone-500 mt-0.5">{r.diagnosis}</div>
-                </div>
-                <div className="text-right ml-3 shrink-0">
-                  <div className="text-[10px] font-bold text-stone-400 uppercase tracking-wide">Follow-up</div>
-                  <div className="text-xs font-bold text-amber-700 mt-0.5">{r.followup}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {/* Recent records */}
         <Card className="border-stone-200 bg-white shadow-sm lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-3 px-5 pt-5 border-b border-stone-100">
-            <CardTitle className="text-sm font-bold text-stone-800 uppercase tracking-wide">Recent Records</CardTitle>
-            <Button size="sm" variant="outline" onClick={() => setActive("records")} className="h-7 gap-1 border-stone-200 px-3 text-[11px] text-stone-500 font-semibold">
+            <CardTitle className="text-sm font-bold text-stone-800 uppercase tracking-wide">
+              Recent Records
+            </CardTitle>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setActive("records")}
+              className="h-7 gap-1 border-stone-200 px-3 text-[11px] text-stone-500 font-semibold"
+            >
               View All <ChevronRight size={11} />
             </Button>
           </CardHeader>
           <CardContent className="px-5 pb-4 pt-2">
             <div className="divide-y divide-stone-100">
               {records.slice(0, 6).map((r) => (
-                <div key={r.id} className="flex items-center justify-between py-3">
+                <div
+                  key={r.id}
+                  className="flex items-center justify-between py-3"
+                >
                   <div className="flex items-center gap-3">
                     <div
                       className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-black text-white"
@@ -606,11 +726,19 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
                       {r.soldierName.charAt(0)}
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-stone-800">{r.soldierName}</div>
-                      <div className="text-xs text-stone-400 mt-0.5">{r.type} · {r.date}</div>
+                      <div className="text-sm font-semibold text-stone-800">
+                        {r.soldierName}
+                      </div>
+                      <div className="text-xs text-stone-400 mt-0.5">
+                        {r.date} · {r.description}
+                      </div>
                     </div>
                   </div>
-                  <Badge className={`ml-3 shrink-0 border text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 ${statusStyle(r.status)}`}>
+                  <Badge
+                    className={`ml-3 shrink-0 border text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 ${
+                      statusStyle(r.status)
+                    }`}
+                  >
                     {r.status}
                   </Badge>
                 </div>
@@ -623,13 +751,33 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
           {/* Quick Actions */}
           <Card className="border-stone-200 bg-white shadow-sm">
             <CardHeader className="pb-3 px-5 pt-5 border-b border-stone-100">
-              <CardTitle className="text-sm font-bold text-stone-800 uppercase tracking-wide">Quick Actions</CardTitle>
+              <CardTitle className="text-sm font-bold text-stone-800 uppercase tracking-wide">
+                Quick Actions
+              </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-2 px-5 pb-5 pt-3">
               {[
-                { label: "Add Medical Record", section: "add" as Section, icon: <FilePlus size={14} />, color: ACTIVE_BG, bg: "#fff0eb" },
-                { label: "View All Records", section: "records" as Section, icon: <HeartPulse size={14} />, color: "#0284c7", bg: "#f0f9ff" },
-                { label: "Health Statistics", section: "stats" as Section, icon: <BarChart3 size={14} />, color: "#7c3aed", bg: "#f5f3ff" },
+                {
+                  label: "Add Medical Record",
+                  section: "add" as Section,
+                  icon: <FilePlus size={14} />,
+                  color: ACTIVE_BG,
+                  bg: "#fff0eb",
+                },
+                {
+                  label: "View All Records",
+                  section: "records" as Section,
+                  icon: <HeartPulse size={14} />,
+                  color: "#0284c7",
+                  bg: "#f0f9ff",
+                },
+                {
+                  label: "Health Statistics",
+                  section: "stats" as Section,
+                  icon: <BarChart3 size={14} />,
+                  color: "#7c3aed",
+                  bg: "#f5f3ff",
+                },
               ].map((q) => (
                 <button
                   key={q.label}
@@ -653,15 +801,23 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
           <Card className="border-stone-200 bg-white shadow-sm flex-1">
             <CardHeader className="pb-3 px-5 pt-5 border-b border-stone-100">
               <CardTitle className="flex items-center gap-2 text-sm font-bold text-stone-800 uppercase tracking-wide">
-                <CalendarDays size={14} className="text-sky-500" /> Upcoming Follow-ups
+                <CalendarDays size={14} className="text-sky-500" />{" "}
+                Upcoming Follow-ups
               </CardTitle>
             </CardHeader>
             <CardContent className="px-5 pb-5 pt-3 space-y-2.5">
               {underObs.map((r) => (
-                <div key={r.id} className="flex items-start justify-between gap-3 p-3 rounded-lg bg-stone-50 border border-stone-100">
+                <div
+                  key={r.id}
+                  className="flex items-start justify-between gap-3 p-3 rounded-lg bg-stone-50 border border-stone-100"
+                >
                   <div className="min-w-0">
-                    <div className="text-sm font-bold text-stone-800 truncate">{r.soldierName}</div>
-                    <div className="text-xs text-stone-400 mt-0.5 truncate">{r.diagnosis}</div>
+                    <div className="text-sm font-bold text-stone-800 truncate">
+                      {r.soldierName}
+                    </div>
+                    <div className="text-xs text-stone-400 mt-0.5 truncate">
+                      {r.diagnosis}
+                    </div>
                   </div>
                   <Badge className="border border-amber-200 bg-amber-50 text-[10px] font-bold text-amber-700 whitespace-nowrap shrink-0">
                     {r.followup}
@@ -669,34 +825,53 @@ function DashboardSection({ records, setActive }: { records: typeof INIT_RECORDS
                 </div>
               ))}
               {underObs.length === 0 && (
-                <div className="text-xs text-stone-400 py-2">No pending follow-ups.</div>
+                <div className="text-xs text-stone-400 py-2">
+                  No pending follow-ups.
+                </div>
               )}
             </CardContent>
           </Card>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // ── ADD RECORD ────────────────────────────────────────────────────────────────
-function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => void }) {
+function AddRecordSection(
+  { onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => void },
+) {
   const empty = {
-    soldier: "", date: "", type: "Treatment", diagnosis: "",
-    bp: "", hr: "", weight: "", height: "", eyeSight: "",
-    followup: "", hospitalLocation: "", admitDate: "", dischargeDate: "",
-    treatment: "", prescriptions: "", notes: "", fitnessStatus: "",
-  }
-  const [form, setForm] = useState(empty)
-  const [saved, setSaved] = useState(false)
-  const f = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }))
+    soldier: "",
+    date: "",
+    type: "Treatment",
+    diagnosis: "",
+    bp: "",
+    hr: "",
+    weight: "",
+    height: "",
+    eyeSight: "",
+    followup: "",
+    hospitalLocation: "",
+    admitDate: "",
+    dischargeDate: "",
+    treatment: "",
+    prescriptions: "",
+    notes: "",
+    fitnessStatus: "",
+  };
+  const [form, setForm] = useState(empty);
+  const [saved, setSaved] = useState(false);
+  const f = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }));
 
   const handleSave = () => {
-    if (!form.soldier || !form.date || !form.diagnosis) return
-    const parts = form.soldier.split("(")
-    const name = parts[0].trim()
-    const id = parts[1]?.replace(")", "").trim() ?? ""
-    const combinedNotes = [form.fitnessStatus, form.notes].filter(Boolean).join(". ").trim()
+    if (!form.soldier || !form.date || !form.diagnosis) return;
+    const parts = form.soldier.split("(");
+    const name = parts[0].trim();
+    const id = parts[1]?.replace(")", "").trim() ?? "";
+    const combinedNotes = [form.fitnessStatus, form.notes].filter(Boolean).join(
+      ". ",
+    ).trim();
     onAdd({
       id: `MR-${Date.now()}`,
       soldierName: name,
@@ -720,29 +895,41 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
       eyeSight: form.eyeSight || "—",
       height: form.height ? `${form.height} cm` : "—",
       lasikReport: "N/A",
-    })
-    setForm(empty)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 4000)
-  }
+    });
+    setForm(empty);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 4000);
+  };
 
-  const FL = ({ children, required = false }: { children: React.ReactNode; required?: boolean }) => (
+  const FL = (
+    { children, required = false }: {
+      children: React.ReactNode;
+      required?: boolean;
+    },
+  ) => (
     <Label className="text-[11px] font-black text-stone-500 uppercase tracking-[0.1em]">
-      {children}{required && <span className="text-rose-500 ml-0.5">*</span>}
+      {children}
+      {required && <span className="text-rose-500 ml-0.5">*</span>}
     </Label>
-  )
+  );
 
   const SectionTitle = ({ children }: { children: React.ReactNode }) => (
     <div className="flex items-center gap-2 pb-2 border-b border-stone-100 mb-4">
-      <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em]">{children}</p>
+      <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em]">
+        {children}
+      </p>
     </div>
-  )
+  );
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-black text-stone-900 tracking-tight">Add Medical Record</h1>
-        <p className="mt-1 text-xs text-stone-400 font-medium">Log a new checkup, treatment, or emergency record</p>
+        <h1 className="text-2xl font-black text-stone-900 tracking-tight">
+          Add Medical Record
+        </h1>
+        <p className="mt-1 text-xs text-stone-400 font-medium">
+          Log a new checkup, treatment, or emergency record
+        </p>
       </div>
 
       {saved && (
@@ -755,26 +942,33 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
       <Card className="border-stone-200 bg-white shadow-sm">
         <CardHeader className="pb-4 px-6 pt-6 border-b border-stone-100">
           <CardTitle className="flex items-center gap-2.5 text-sm font-bold text-stone-800 uppercase tracking-wide">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md" style={{ backgroundColor: "#fff0eb" }}>
+            <div
+              className="flex h-7 w-7 items-center justify-center rounded-md"
+              style={{ backgroundColor: "#fff0eb" }}
+            >
               <Stethoscope size={15} style={{ color: ACTIVE_BG }} />
             </div>
             New Medical Record Entry
           </CardTitle>
         </CardHeader>
         <CardContent className="px-6 pb-6 pt-6 space-y-8">
-
           {/* Basic Info */}
           <div>
             <SectionTitle>Basic Information</SectionTitle>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <div className="space-y-1.5 sm:col-span-2 lg:col-span-1">
                 <FL required>Agniveer</FL>
-                <Select value={form.soldier} onValueChange={(v) => f("soldier", v)}>
+                <Select
+                  value={form.soldier}
+                  onValueChange={(v) => f("soldier", v)}
+                >
                   <SelectTrigger className="h-9 text-sm border-stone-200 w-full">
                     <SelectValue placeholder="Select Agniveer..." />
                   </SelectTrigger>
                   <SelectContent>
-                    {SOLDIERS_LIST.map((s) => (<SelectItem key={s} value={s}>{s}</SelectItem>))}
+                    {SOLDIERS_LIST.map((s) => (
+                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -787,22 +981,33 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
                   <SelectContent>
                     <SelectItem value="Treatment">Treatment</SelectItem>
                     <SelectItem value="Emergency">Emergency</SelectItem>
-                    <SelectItem value="Mental Health">Mental Health Review</SelectItem>
-                    <SelectItem value="Pre-Exercise">Pre-Exercise Screening</SelectItem>
+                    <SelectItem value="Mental Health">
+                      Mental Health Review
+                    </SelectItem>
+                    <SelectItem value="Pre-Exercise">
+                      Pre-Exercise Screening
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-1.5">
-                <FL required>Visit Date</FL>
-                <Input type="date" value={form.date} onChange={(e) => f("date", e.target.value)} className="h-9 text-sm border-stone-200" />
-              </div>
+              {/* Visit Date removed */}
               <div className="space-y-1.5">
                 <FL>Follow-up Date</FL>
-                <Input type="date" value={form.followup} onChange={(e) => f("followup", e.target.value)} className="h-9 text-sm border-stone-200" />
+                <Input
+                  type="date"
+                  value={form.followup}
+                  onChange={(e) => f("followup", e.target.value)}
+                  className="h-9 text-sm border-stone-200"
+                />
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <FL>Hospital / Facility</FL>
-                <Input placeholder="e.g. Base Hospital Delhi" value={form.hospitalLocation} onChange={(e) => f("hospitalLocation", e.target.value)} className="h-9 text-sm border-stone-200" />
+                <Input
+                  placeholder="e.g. Base Hospital Delhi"
+                  value={form.hospitalLocation}
+                  onChange={(e) => f("hospitalLocation", e.target.value)}
+                  className="h-9 text-sm border-stone-200"
+                />
               </div>
             </div>
           </div>
@@ -813,11 +1018,21 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
                 <FL>Admit Date</FL>
-                <Input type="date" value={form.admitDate} onChange={(e) => f("admitDate", e.target.value)} className="h-9 text-sm border-stone-200" />
+                <Input
+                  type="date"
+                  value={form.admitDate}
+                  onChange={(e) => f("admitDate", e.target.value)}
+                  className="h-9 text-sm border-stone-200"
+                />
               </div>
               <div className="space-y-1.5">
                 <FL>Discharge Date</FL>
-                <Input type="date" value={form.dischargeDate} onChange={(e) => f("dischargeDate", e.target.value)} className="h-9 text-sm border-stone-200" />
+                <Input
+                  type="date"
+                  value={form.dischargeDate}
+                  onChange={(e) => f("dischargeDate", e.target.value)}
+                  className="h-9 text-sm border-stone-200"
+                />
               </div>
             </div>
           </div>
@@ -828,9 +1043,24 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
               {[
                 { key: "bp", label: "Blood Pressure", ph: "120/78" },
-                { key: "hr", label: "Heart Rate (bpm)", ph: "72", type: "number" },
-                { key: "weight", label: "Weight (kg)", ph: "68", type: "number" },
-                { key: "height", label: "Height (cm)", ph: "175", type: "number" },
+                {
+                  key: "hr",
+                  label: "Heart Rate (bpm)",
+                  ph: "72",
+                  type: "number",
+                },
+                {
+                  key: "weight",
+                  label: "Weight (kg)",
+                  ph: "68",
+                  type: "number",
+                },
+                {
+                  key: "height",
+                  label: "Height (cm)",
+                  ph: "175",
+                  type: "number",
+                },
                 { key: "eyeSight", label: "Eye Sight", ph: "6/6" },
               ].map((v) => (
                 <div key={v.key} className="space-y-1.5">
@@ -853,16 +1083,33 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
             <div className="space-y-4">
               <div className="space-y-1.5">
                 <FL required>Diagnosis / Findings</FL>
-                <Input placeholder="Primary diagnosis or clinical finding…" value={form.diagnosis} onChange={(e) => f("diagnosis", e.target.value)} className="h-9 text-sm border-stone-200" />
+                <Input
+                  placeholder="Primary diagnosis or clinical finding…"
+                  value={form.diagnosis}
+                  onChange={(e) => f("diagnosis", e.target.value)}
+                  className="h-9 text-sm border-stone-200"
+                />
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
                   <FL>Treatment Given</FL>
-                  <Textarea rows={3} placeholder="Describe treatment administered…" value={form.treatment} onChange={(e) => f("treatment", e.target.value)} className="resize-none text-sm border-stone-200" />
+                  <Textarea
+                    rows={3}
+                    placeholder="Describe treatment administered…"
+                    value={form.treatment}
+                    onChange={(e) => f("treatment", e.target.value)}
+                    className="resize-none text-sm border-stone-200"
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <FL>Prescriptions</FL>
-                  <Textarea rows={3} placeholder="List prescribed medications and dosage…" value={form.prescriptions} onChange={(e) => f("prescriptions", e.target.value)} className="resize-none text-sm border-stone-200" />
+                  <Textarea
+                    rows={3}
+                    placeholder="List prescribed medications and dosage…"
+                    value={form.prescriptions}
+                    onChange={(e) => f("prescriptions", e.target.value)}
+                    className="resize-none text-sm border-stone-200"
+                  />
                 </div>
               </div>
             </div>
@@ -872,17 +1119,30 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
           <div>
             <SectionTitle>Fitness Assessment</SectionTitle>
             <div className="flex flex-wrap gap-2 mb-4">
-              {["Fit for Duty", "Light Duty Only", "Restricted Activity", "Temporarily Unfit", "Referred to Specialist"].map((opt) => (
+              {[
+                "Fit for Duty",
+                "Light Duty Only",
+                "Restricted Activity",
+                "Temporarily Unfit",
+                "Referred to Specialist",
+              ].map((opt) => (
                 <button
                   key={opt}
                   type="button"
                   className="rounded-lg border px-3.5 py-2 text-xs font-bold transition-all"
-                  style={
-                    form.fitnessStatus === opt
-                      ? { backgroundColor: SIDEBAR_BG, borderColor: SIDEBAR_BG, color: "#fff" }
-                      : { backgroundColor: "#f9f9f7", borderColor: "#e7e5e4", color: "#57534e" }
-                  }
-                  onClick={() => f("fitnessStatus", form.fitnessStatus === opt ? "" : opt)}
+                  style={form.fitnessStatus === opt
+                    ? {
+                      backgroundColor: SIDEBAR_BG,
+                      borderColor: SIDEBAR_BG,
+                      color: "#fff",
+                    }
+                    : {
+                      backgroundColor: "#f9f9f7",
+                      borderColor: "#e7e5e4",
+                      color: "#57534e",
+                    }}
+                  onClick={() =>
+                    f("fitnessStatus", form.fitnessStatus === opt ? "" : opt)}
                 >
                   {opt}
                 </button>
@@ -890,7 +1150,13 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
             </div>
             <div className="space-y-1.5">
               <FL>Additional Remarks</FL>
-              <Textarea rows={3} placeholder="Additional notes, observations, restrictions…" value={form.notes} onChange={(e) => f("notes", e.target.value)} className="resize-none text-sm border-stone-200" />
+              <Textarea
+                rows={3}
+                placeholder="Additional notes, observations, restrictions…"
+                value={form.notes}
+                onChange={(e) => f("notes", e.target.value)}
+                className="resize-none text-sm border-stone-200"
+              />
             </div>
           </div>
 
@@ -903,23 +1169,27 @@ function AddRecordSection({ onAdd }: { onAdd: (r: (typeof INIT_RECORDS)[0]) => v
             >
               <Plus size={14} /> Save Medical Record
             </Button>
-            <Button variant="outline" onClick={() => setForm(empty)} className="gap-2 text-sm text-stone-500 border-stone-200 font-semibold">
+            <Button
+              variant="outline"
+              onClick={() => setForm(empty)}
+              className="gap-2 text-sm text-stone-500 border-stone-200 font-semibold"
+            >
               <X size={14} /> Clear Form
             </Button>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 // ── MEDICAL REPORT DIALOG ─────────────────────────────────────────────────────
 function MedicalReportDialog({ report, open, onOpenChange }: {
-  report: typeof INIT_RECORDS[0] | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  report: typeof INIT_RECORDS[0] | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
-  if (!report) return null
+  if (!report) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -943,17 +1213,26 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
         <DialogHeader className="px-8 py-5 border-b border-stone-200 bg-stone-50">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl shrink-0" style={{ backgroundColor: "#fff0eb" }}>
+              <div
+                className="flex h-10 w-10 items-center justify-center rounded-xl shrink-0"
+                style={{ backgroundColor: "#fff0eb" }}
+              >
                 <FileText size={20} style={{ color: ACTIVE_BG }} />
               </div>
               <div>
-                <DialogTitle className="text-xl font-black text-stone-900 tracking-tight">Medical Report</DialogTitle>
+                <DialogTitle className="text-xl font-black text-stone-900 tracking-tight">
+                  Medical Report
+                </DialogTitle>
                 <p className="text-[11px] text-stone-400 font-semibold uppercase tracking-wider mt-0.5">
                   {report.id} &nbsp;·&nbsp; {report.date}
                 </p>
               </div>
             </div>
-            <Badge className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${statusStyle(report.status)}`}>
+            <Badge
+              className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${
+                statusStyle(report.status)
+              }`}
+            >
               {report.status}
             </Badge>
           </div>
@@ -962,57 +1241,105 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
         <div className="overflow-y-auto max-h-[80vh] px-8 py-6 space-y-7">
           {/* Patient Info */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Patient Information</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Patient Information
+            </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <InfoField label="Agniveer Name" value={report.soldierName} />
               <InfoField label="Service ID" value={report.soldierId} mono />
               <InfoField label="Height" value={safeVal(report.height)} />
-              <InfoField label="Weight" value={report.weight && report.weight !== "—" ? `${report.weight} kg` : "—"} />
+              <InfoField
+                label="Weight"
+                value={report.weight && report.weight !== "—"
+                  ? `${report.weight} kg`
+                  : "—"}
+              />
             </div>
           </section>
 
           {/* Vitals */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Vitals & Assessment</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Vitals & Assessment
+            </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <InfoField label="Blood Pressure" value={safeVal(report.bp)} mono />
-              <InfoField label="Heart Rate" value={report.hr && report.hr !== "—" ? `${report.hr} bpm` : "—"} mono />
-              <InfoField label="Eye Sight" value={safeVal(report.eyeSight)} mono />
-              <InfoField label="LASIK Status" value={safeVal(report.lasikReport)} />
+              <InfoField
+                label="Blood Pressure"
+                value={safeVal(report.bp)}
+                mono
+              />
+              <InfoField
+                label="Heart Rate"
+                value={report.hr && report.hr !== "—"
+                  ? `${report.hr} bpm`
+                  : "—"}
+                mono
+              />
+              <InfoField
+                label="Eye Sight"
+                value={safeVal(report.eyeSight)}
+                mono
+              />
+              <InfoField
+                label="LASIK Status"
+                value={safeVal(report.lasikReport)}
+              />
             </div>
           </section>
 
           {/* Hospitalization */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Hospitalization & Treatment</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Hospitalization & Treatment
+            </p>
             <div className="border border-stone-200 rounded-xl overflow-hidden">
               <div className="grid grid-cols-3 divide-x divide-stone-200 bg-stone-50 border-b border-stone-200">
                 {[
-                  { label: "Hospital Location", value: safeVal(report.hospitalLocation) },
+                  {
+                    label: "Hospital Location",
+                    value: safeVal(report.hospitalLocation),
+                  },
                   { label: "Admit Date", value: safeVal(report.admitDate) },
-                  { label: "Discharge Date", value: safeVal(report.dischargeDate) },
+                  {
+                    label: "Discharge Date",
+                    value: safeVal(report.dischargeDate),
+                  },
                 ].map((fi) => (
                   <div key={fi.label} className="px-5 py-4">
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1.5">{fi.label}</div>
-                    <div className="text-sm font-semibold text-stone-800">{fi.value}</div>
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1.5">
+                      {fi.label}
+                    </div>
+                    <div className="text-sm font-semibold text-stone-800">
+                      {fi.value}
+                    </div>
                   </div>
                 ))}
               </div>
               <div className="p-6 bg-white space-y-5">
                 <div>
-                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Diagnosis</div>
+                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                    Diagnosis
+                  </div>
                   <div className="text-sm font-semibold text-rose-900 bg-rose-50 border border-rose-100 rounded-lg px-4 py-3">
                     {report.diagnosis}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Treatment Given</div>
-                    <div className="text-sm text-stone-700 leading-relaxed">{safeVal(report.treatment)}</div>
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                      Treatment Given
+                    </div>
+                    <div className="text-sm text-stone-700 leading-relaxed">
+                      {safeVal(report.treatment)}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Prescriptions</div>
-                    <div className="text-sm text-stone-700 leading-relaxed">{safeVal(report.prescriptions)}</div>
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                      Prescriptions
+                    </div>
+                    <div className="text-sm text-stone-700 leading-relaxed">
+                      {safeVal(report.prescriptions)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1021,7 +1348,9 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
 
           {/* Notes */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Clinical Notes</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Clinical Notes
+            </p>
             <div className="bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-sm text-stone-700 leading-relaxed whitespace-pre-wrap min-h-[60px]">
               {report.notes || "No additional notes recorded."}
             </div>
@@ -1030,8 +1359,12 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
           {/* Follow-up + Doctor */}
           <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-stone-100 pt-6">
             <div className="border border-stone-200 rounded-xl px-5 py-4 bg-white">
-              <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Scheduled Follow-up</div>
-              <div className="text-sm font-bold text-stone-800">{safeVal(report.followup)}</div>
+              <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                Scheduled Follow-up
+              </div>
+              <div className="text-sm font-bold text-stone-800">
+                {safeVal(report.followup)}
+              </div>
             </div>
             <div className="border border-stone-200 rounded-xl px-5 py-4 bg-white flex items-center gap-3">
               <div
@@ -1041,48 +1374,68 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
                 <Stethoscope size={16} className="text-white" />
               </div>
               <div>
-                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1">Attending Physician</div>
-                <div className="text-sm font-black text-stone-900">{doctorDisplayName(report.doctor)}</div>
-                <div className="text-[11px] font-semibold text-stone-400">{report.doctorDesignation || "Medical Officer"}</div>
+                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1">
+                  Attending Physician
+                </div>
+                <div className="text-sm font-black text-stone-900">
+                  {doctorDisplayName(report.doctor)}
+                </div>
+                <div className="text-[11px] font-semibold text-stone-400">
+                  {report.doctorDesignation || "Medical Officer"}
+                </div>
               </div>
             </div>
           </section>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 // ── SICK REPORT DIALOG ─────────────────────────────────────────────────────────
 function SickReportDialog({ report, open, onOpenChange }: {
-  report: typeof INIT_RECORDS[0] | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  report: typeof INIT_RECORDS[0] | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
-  if (!report) return null
+  if (!report) return null;
 
   // Mapped data for the sick report view
   const srData = {
-    reportNo: `SR/RR1/2025/${report.id.replace('MR-', '').slice(-4)}`,
+    reportNo: `SR/RR1/2025/${report.id.replace("MR-", "").slice(-4)}`,
     date: report.date,
     doctor: doctorDisplayName(report.doctor),
     followup: report.followup !== "—" ? report.followup : "N/A",
     complaint: report.notes || "Medical issue reported during training.",
     diagnosis: report.diagnosis,
-    treatment: report.treatment && report.treatment !== "—" ? report.treatment : "RICE protocol, pain relief medication.",
-    rest: report.status === "Under Observation" ? "5 days light duty" : "None required",
-    outcome: report.status === "Recovered" || report.status === "Normal" ? "Fully recovered — returned to full duty" : "Under active medical care",
-    status: report.status === "Normal" || report.status === "Recovered" ? "Closed" : "Active"
-  }
+    treatment: report.treatment && report.treatment !== "—"
+      ? report.treatment
+      : "RICE protocol, pain relief medication.",
+    rest: report.status === "Under Observation"
+      ? "5 days light duty"
+      : "None required",
+    outcome: report.status === "Recovered" || report.status === "Normal"
+      ? "Fully recovered — returned to full duty"
+      : "Under active medical care",
+    status: report.status === "Normal" || report.status === "Recovered"
+      ? "Closed"
+      : "Active",
+  };
 
-  const badgeColor = srData.status === "Closed" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-700"
+  const badgeColor = srData.status === "Closed"
+    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+    : "border-amber-200 bg-amber-50 text-amber-700";
 
-  const Field = ({ label, value }: { label: string, value: string }) => (
+  const Field = ({ label, value }: { label: string; value: string }) => (
     <div className="bg-white p-4 rounded-lg shadow-sm border border-stone-100">
-      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1.5">{label}</div>
-      <div className="text-sm font-semibold text-stone-700 leading-relaxed">{value}</div>
+      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1.5">
+        {label}
+      </div>
+      <div className="text-sm font-semibold text-stone-700 leading-relaxed">
+        {value}
+      </div>
     </div>
-  )
+  );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -1090,12 +1443,18 @@ function SickReportDialog({ report, open, onOpenChange }: {
         <DialogHeader className="px-6 py-4 border-b border-stone-100 bg-white flex flex-row items-center justify-between sticky top-0 z-10 m-0">
           <div className="flex items-center gap-3">
             <HeartPulse size={18} className="text-rose-500" />
-            <DialogTitle className="text-lg font-black text-stone-900 tracking-tight">Last Sick Report</DialogTitle>
-            <Badge className={`ml-2 border font-bold uppercase tracking-widest text-[10px] px-2.5 py-0.5 ${badgeColor}`}>
+            <DialogTitle className="text-lg font-black text-stone-900 tracking-tight">
+              Last Sick Report
+            </DialogTitle>
+            <Badge
+              className={`ml-2 border font-bold uppercase tracking-widest text-[10px] px-2.5 py-0.5 ${badgeColor}`}
+            >
               {srData.status}
             </Badge>
           </div>
-          <div className="text-xs font-bold text-stone-400 mt-0">{srData.date}</div>
+          <div className="text-xs font-bold text-stone-400 mt-0">
+            {srData.date}
+          </div>
         </DialogHeader>
 
         <div className="p-6 overflow-y-auto max-h-[80vh] space-y-4">
@@ -1106,7 +1465,10 @@ function SickReportDialog({ report, open, onOpenChange }: {
             <Field label="Report No." value={srData.reportNo} />
             <Field label="Date" value={srData.date} />
 
-            <Field label="Attending Doctor" value={`Dr. ${srData.doctor.replace('Dr. ', '')}`} />
+            <Field
+              label="Attending Doctor"
+              value={`Dr. ${srData.doctor.replace("Dr. ", "")}`}
+            />
             <Field label="Follow-up Date" value={srData.followup} />
 
             <Field label="Presenting Complaint" value={srData.complaint} />
@@ -1121,41 +1483,61 @@ function SickReportDialog({ report, open, onOpenChange }: {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 // ── RECORDS ───────────────────────────────────────────────────────────────────
 function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
-  const [search, setSearch] = useState("")
-  const [statusF, setStatusF] = useState("all")
-  const [typeF, setTypeF] = useState("all")
-  const [selectedReport, setSelectedReport] = useState<typeof INIT_RECORDS[0] | null>(null)
-  const [reportOpen, setReportOpen] = useState(false)
-  const [selectedSickReport, setSelectedSickReport] = useState<typeof INIT_RECORDS[0] | null>(null)
-  const [sickReportOpen, setSickReportOpen] = useState(false)
+  const [search, setSearch] = useState("");
+  const [statusF, setStatusF] = useState("all");
+  const [typeF, setTypeF] = useState("all");
+  const [selectedReport, setSelectedReport] = useState<
+    typeof INIT_RECORDS[0] | null
+  >(null);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [selectedSickReport, setSelectedSickReport] = useState<
+    typeof INIT_RECORDS[0] | null
+  >(null);
+  const [sickReportOpen, setSickReportOpen] = useState(false);
 
   const filtered = records.filter((r) => {
-    const q = search.toLowerCase()
-    const matchQ = !q || r.soldierName.toLowerCase().includes(q) || r.soldierId.toLowerCase().includes(q)
-    const matchS = statusF === "all" || r.status === statusF
-    const matchT = typeF === "all" || r.type === typeF
-    return matchQ && matchS && matchT
-  })
+    const q = search.toLowerCase();
+    const matchQ = !q || r.soldierName.toLowerCase().includes(q) ||
+      r.soldierId.toLowerCase().includes(q);
+    const matchS = statusF === "all" || r.status === statusF;
+    const matchT = typeF === "all" || r.type === typeF;
+    return matchQ && matchS && matchT;
+  });
 
   return (
     <div className="space-y-6">
-      <MedicalReportDialog report={selectedReport} open={reportOpen} onOpenChange={setReportOpen} />
-      <SickReportDialog report={selectedSickReport} open={sickReportOpen} onOpenChange={setSickReportOpen} />
+      <MedicalReportDialog
+        report={selectedReport}
+        open={reportOpen}
+        onOpenChange={setReportOpen}
+      />
+      <SickReportDialog
+        report={selectedSickReport}
+        open={sickReportOpen}
+        onOpenChange={setSickReportOpen}
+      />
 
       <div>
-        <h1 className="text-2xl font-black text-stone-900 tracking-tight">Medical Records</h1>
-        <p className="mt-1 text-xs text-stone-400 font-medium">All Agniveer health records · Confidential</p>
+        <h1 className="text-2xl font-black text-stone-900 tracking-tight">
+          Medical Records
+        </h1>
+        <p className="mt-1 text-xs text-stone-400 font-medium">
+          All Agniveer health records · Confidential
+        </p>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-3 bg-white p-4 rounded-xl border border-stone-200 shadow-sm">
         <div className="relative min-w-[200px] flex-1">
-          <Search size={14} className="absolute top-1/2 left-3 -translate-y-1/2 text-stone-400" />
+          <Search
+            size={14}
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-stone-400"
+          />
           <Input
             placeholder="Search by name or Service ID…"
             value={search}
@@ -1196,102 +1578,179 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-stone-200 bg-stone-50">
-                  {["Record ID", "Agniveer", "Date", "Admit Date", "Discharge Date", "Hospital", "Type", "Doctor", "Diagnosis", "Status", "Action"].map((h) => (
-                    <th key={h} className="px-4 py-3.5 text-left text-[10px] font-black tracking-widest whitespace-nowrap text-stone-500 uppercase">
+                  {[
+                    "Record ID",
+                    "Agniveer",
+                    "Admit Date",
+                    "Discharge Date",
+                    "Hospital",
+                    "Doctor",
+                    "Diagnosis",
+                    "Status",
+                    "Action",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-4 py-3.5 text-left text-[10px] font-black tracking-widest whitespace-nowrap text-stone-500 uppercase"
+                    >
                       {h}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
-                {filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={11} className="py-14 text-center text-sm text-stone-400 font-medium">
-                      No records match the selected filters.
-                    </td>
-                  </tr>
-                ) : (
-                  filtered.map((r) => (
-                    <tr key={r.id} className={`transition-colors hover:bg-stone-50/80 ${r.status === "Under Observation" ? "bg-amber-50/20" : ""}`}>
-                      <td className="px-4 py-3.5 font-mono text-xs text-stone-400 font-medium whitespace-nowrap">{r.id}</td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <div className="flex items-center gap-2.5">
-                          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-black text-white" style={{ backgroundColor: SIDEBAR_BG }}>
-                            {r.soldierName.charAt(0)}
-                          </div>
-                          <div>
-                            <div className="text-sm font-bold text-stone-800">{r.soldierName}</div>
-                            <div className="font-mono text-[10px] font-medium text-stone-400 mt-0.5">{r.soldierId}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3.5 text-xs whitespace-nowrap font-semibold text-stone-600">{r.date}</td>
-                      <td className="px-4 py-3.5 text-xs whitespace-nowrap font-medium">
-                        {r.admitDate && r.admitDate !== "—"
-                          ? <span className="text-stone-800 font-semibold">{r.admitDate}</span>
-                          : <span className="text-stone-300">—</span>}
-                      </td>
-                      <td className="px-4 py-3.5 text-xs whitespace-nowrap font-medium">
-                        {r.dischargeDate && r.dischargeDate !== "—"
-                          ? <span className="text-stone-800 font-semibold">{r.dischargeDate}</span>
-                          : <span className="text-stone-300">—</span>}
-                      </td>
-                      <td className="px-4 py-3.5 text-xs text-stone-600 font-medium">
-                        <span className="block max-w-[120px] truncate">{r.hospitalLocation || "—"}</span>
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <Badge className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${typeColor(r.type)}`}>{r.type}</Badge>
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <div className="text-xs font-bold text-stone-800">{doctorDisplayName(r.doctor)}</div>
-                        <div className="text-[10px] text-stone-400 font-medium mt-0.5">{r.doctorDesignation || "Medical Officer"}</div>
-                      </td>
-                      <td className="px-4 py-3.5 max-w-[160px]">
-                        <span className="line-clamp-2 text-xs font-medium text-stone-700 leading-relaxed">{r.diagnosis}</span>
-                      </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <Badge className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${statusStyle(r.status)}`}>{r.status}</Badge>
-                      </td>
-                      <td className="px-4 py-3.5">
-                        <div className="flex items-center gap-1.5">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-stone-400 rounded-lg transition-colors"
-                                onClick={() => { setSelectedReport(r); setReportOpen(true) }}
-                                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = ACTIVE_BG; (e.currentTarget as HTMLElement).style.color = "#fff" }}
-                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLElement).style.color = "#a8a29e" }}
-                              >
-                                <FileText size={15} />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="top" className="bg-stone-900 text-white text-xs font-semibold">
-                              View Medical Report
-                            </TooltipContent>
-                          </Tooltip>
-
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-stone-400 rounded-lg transition-colors hover:bg-rose-50 hover:text-rose-600"
-                                onClick={() => { setSelectedSickReport(r); setSickReportOpen(true) }}
-                              >
-                                <Clock7 size={15} />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="top" className="bg-stone-900 text-white text-xs font-semibold">
-                              Last Sick Report
-                            </TooltipContent>
-                          </Tooltip>
-                        </div>
+                {filtered.length === 0
+                  ? (
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="py-14 text-center text-sm text-stone-400 font-medium"
+                      >
+                        No records match the selected filters.
                       </td>
                     </tr>
-                  ))
-                )}
+                  )
+                  : (
+                    filtered.map((r) => (
+                      <tr
+                        key={r.id}
+                        className={`transition-colors hover:bg-stone-50/80 ${
+                          r.status === "Under Observation"
+                            ? "bg-amber-50/20"
+                            : ""
+                        }`}
+                      >
+                        <td className="px-4 py-3.5 font-mono text-xs text-stone-400 font-medium whitespace-nowrap">
+                          {r.id}
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <div className="flex items-center gap-2.5">
+                            <div
+                              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-black text-white"
+                              style={{ backgroundColor: SIDEBAR_BG }}
+                            >
+                              {r.soldierName.charAt(0)}
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold text-stone-800">
+                                {r.soldierName}
+                              </div>
+                              <div className="font-mono text-[10px] font-medium text-stone-400 mt-0.5">
+                                {r.soldierId}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Removed Date column */}
+
+                        <td className="px-4 py-3.5 text-xs whitespace-nowrap font-medium">
+                          {r.admitDate && r.admitDate !== "—"
+                            ? (
+                              <span className="text-stone-800 font-semibold">
+                                {r.admitDate}
+                              </span>
+                            )
+                            : <span className="text-stone-300">—</span>}
+                        </td>
+                        <td className="px-4 py-3.5 text-xs whitespace-nowrap font-medium">
+                          {r.dischargeDate && r.dischargeDate !== "—"
+                            ? (
+                              <span className="text-stone-800 font-semibold">
+                                {r.dischargeDate}
+                              </span>
+                            )
+                            : <span className="text-stone-300">—</span>}
+                        </td>
+                        <td className="px-4 py-3.5 text-xs text-stone-600 font-medium">
+                          <span className="block max-w-[120px] truncate">
+                            {r.hospitalLocation || "—"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <div className="text-xs font-bold text-stone-800">
+                            {doctorDisplayName(r.doctor)}
+                          </div>
+                          <div className="text-[10px] text-stone-400 font-medium mt-0.5">
+                            {r.doctorDesignation || "Medical Officer"}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3.5 max-w-[160px]">
+                          <span className="line-clamp-2 text-xs font-medium text-stone-700 leading-relaxed">
+                            {r.diagnosis}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 whitespace-nowrap">
+                          <Badge
+                            className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${
+                              statusStyle(r.status)
+                            }`}
+                          >
+                            {r.status}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3.5">
+                          <div className="flex items-center gap-1.5">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8 text-stone-400 rounded-lg transition-colors"
+                                  onClick={() => {
+                                    setSelectedReport(r);
+                                    setReportOpen(true);
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    (e.currentTarget as HTMLElement).style
+                                      .backgroundColor = ACTIVE_BG;
+                                    (e.currentTarget as HTMLElement).style
+                                      .color = "#fff";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    (e.currentTarget as HTMLElement).style
+                                      .backgroundColor = "transparent";
+                                    (e.currentTarget as HTMLElement).style
+                                      .color = "#a8a29e";
+                                  }}
+                                >
+                                  <FileText size={15} />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="top"
+                                className="bg-stone-900 text-white text-xs font-semibold"
+                              >
+                                View Medical Report
+                              </TooltipContent>
+                            </Tooltip>
+
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8 text-stone-400 rounded-lg transition-colors hover:bg-rose-50 hover:text-rose-600"
+                                  onClick={() => {
+                                    setSelectedSickReport(r);
+                                    setSickReportOpen(true);
+                                  }}
+                                >
+                                  <Clock7 size={15} />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent
+                                side="top"
+                                className="bg-stone-900 text-white text-xs font-semibold"
+                              >
+                                Last Sick Report
+                              </TooltipContent>
+                            </Tooltip>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
               </tbody>
             </table>
           </TooltipProvider>
@@ -1301,20 +1760,21 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
         </div>
       </Card>
     </div>
-  )
+  );
 }
 
 // ── LASIK REPORT DIALOG ───────────────────────────────────────────────────────
 function LasikReportDialog({ report, open, onOpenChange }: {
-  report: typeof LASIK_RECORDS[0] | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  report: typeof LASIK_RECORDS[0] | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }) {
-  if (!report) return null
-  const sc =
-    report.status === "Cleared" ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-      : report.status === "Pending" ? "border-amber-300 bg-amber-50 text-amber-700"
-        : "border-sky-300 bg-sky-50 text-sky-700"
+  if (!report) return null;
+  const sc = report.status === "Cleared"
+    ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+    : report.status === "Pending"
+    ? "border-amber-300 bg-amber-50 text-amber-700"
+    : "border-sky-300 bg-sky-50 text-sky-700";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -1339,20 +1799,28 @@ function LasikReportDialog({ report, open, onOpenChange }: {
                 <Eye size={20} className="text-sky-600" />
               </div>
               <div>
-                <DialogTitle className="text-xl font-black text-stone-900 tracking-tight">Last Seek / Eye Report</DialogTitle>
+                <DialogTitle className="text-xl font-black text-stone-900 tracking-tight">
+                  Last Seek / Eye Report
+                </DialogTitle>
                 <p className="text-[11px] text-stone-400 font-semibold uppercase tracking-wider mt-0.5">
                   {report.id} &nbsp;·&nbsp; {report.reportDate}
                 </p>
               </div>
             </div>
-            <Badge className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${sc}`}>{report.status}</Badge>
+            <Badge
+              className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${sc}`}
+            >
+              {report.status}
+            </Badge>
           </div>
         </DialogHeader>
 
         <div className="overflow-y-auto max-h-[80vh] px-8 py-6 space-y-7">
           {/* Patient */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Patient Information</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Patient Information
+            </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <InfoField label="Agniveer Name" value={report.soldierName} />
               <InfoField label="Service ID" value={report.soldierId} mono />
@@ -1363,28 +1831,44 @@ function LasikReportDialog({ report, open, onOpenChange }: {
 
           {/* Clinical */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">Clinical Details</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              Clinical Details
+            </p>
             <div className="border border-stone-200 rounded-xl overflow-hidden">
               <div className="p-5 bg-white space-y-5">
                 <div>
-                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Presenting Complaint</div>
+                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                    Presenting Complaint
+                  </div>
                   <div className="text-sm text-stone-700 leading-relaxed bg-stone-50 border border-stone-100 rounded-lg px-4 py-3">
                     {report.presentingComplaint}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Diagnosis</div>
-                    <div className="text-sm font-semibold text-stone-800">{report.diagnosis}</div>
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                      Diagnosis
+                    </div>
+                    <div className="text-sm font-semibold text-stone-800">
+                      {report.diagnosis}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Eye Sight Details</div>
-                    <div className="text-sm font-mono font-black text-stone-800">{report.eyeSightDetails}</div>
+                    <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                      Eye Sight Details
+                    </div>
+                    <div className="text-sm font-mono font-black text-stone-800">
+                      {report.eyeSightDetails}
+                    </div>
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Treatment Given</div>
-                  <div className="text-sm text-stone-700 leading-relaxed">{report.treatmentGiven}</div>
+                  <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                    Treatment Given
+                  </div>
+                  <div className="text-sm text-stone-700 leading-relaxed">
+                    {report.treatmentGiven}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1392,15 +1876,25 @@ function LasikReportDialog({ report, open, onOpenChange }: {
 
           {/* LASIK Assessment */}
           <section>
-            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">LASIK Assessment</p>
+            <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-3">
+              LASIK Assessment
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-sky-50 border border-sky-100 rounded-xl px-5 py-4">
-                <div className="text-[10px] font-black text-sky-600 uppercase tracking-wider mb-2">LASIK Recommendation</div>
-                <div className="text-sm font-bold text-stone-900">{report.lasikRecommendation}</div>
+                <div className="text-[10px] font-black text-sky-600 uppercase tracking-wider mb-2">
+                  LASIK Recommendation
+                </div>
+                <div className="text-sm font-bold text-stone-900">
+                  {report.lasikRecommendation}
+                </div>
               </div>
               <div className="bg-stone-50 border border-stone-200 rounded-xl px-5 py-4">
-                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">Rest / Light Duty</div>
-                <div className="text-sm font-semibold text-stone-800">{report.restLightDuty}</div>
+                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-2">
+                  Rest / Light Duty
+                </div>
+                <div className="text-sm font-semibold text-stone-800">
+                  {report.restLightDuty}
+                </div>
               </div>
             </div>
           </section>
@@ -1408,11 +1902,17 @@ function LasikReportDialog({ report, open, onOpenChange }: {
           {/* Outcome + Notes */}
           <section className="space-y-4">
             <div>
-              <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-2">Outcome / Status</p>
-              <div className="text-sm font-semibold text-stone-800">{report.outcome}</div>
+              <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-2">
+                Outcome / Status
+              </p>
+              <div className="text-sm font-semibold text-stone-800">
+                {report.outcome}
+              </div>
             </div>
             <div>
-              <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-2">Clinical Notes</p>
+              <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.15em] mb-2">
+                Clinical Notes
+              </p>
               <div className="bg-stone-50 border border-stone-200 rounded-xl px-5 py-4 text-sm text-stone-600 italic leading-relaxed">
                 "{report.notes}"
               </div>
@@ -1422,55 +1922,81 @@ function LasikReportDialog({ report, open, onOpenChange }: {
           {/* Doctor */}
           <section className="flex justify-end border-t border-stone-100 pt-5">
             <div className="flex items-center gap-3 bg-white border border-stone-200 rounded-xl px-5 py-4 shadow-sm">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: SIDEBAR_BG }}>
+              <div
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+                style={{ backgroundColor: SIDEBAR_BG }}
+              >
                 <Stethoscope size={16} className="text-white" />
               </div>
               <div>
-                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1">Attending Physician</div>
-                <div className="text-sm font-black text-stone-900">{report.doctor}</div>
-                <div className="text-[11px] font-semibold text-stone-400">{report.doctorDesignation}</div>
+                <div className="text-[10px] font-black text-stone-400 uppercase tracking-wider mb-1">
+                  Attending Physician
+                </div>
+                <div className="text-sm font-black text-stone-900">
+                  {report.doctor}
+                </div>
+                <div className="text-[11px] font-semibold text-stone-400">
+                  {report.doctorDesignation}
+                </div>
               </div>
             </div>
           </section>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 // ── HEALTH STATS ──────────────────────────────────────────────────────────────
 function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
-  const normal = records.filter((r) => r.status === "Normal").length
-  const underObs = records.filter((r) => r.status === "Under Observation").length
-  const recovered = records.filter((r) => r.status === "Recovered").length
-  const total = records.length
+  const normal = records.filter((r) => r.status === "Normal").length;
+  const underObs =
+    records.filter((r) => r.status === "Under Observation").length;
+  const recovered = records.filter((r) => r.status === "Recovered").length;
+  const total = records.length;
 
-  const [seekExpanded, setSeekExpanded] = useState(true)
-  const [eyeExpanded, setEyeExpanded] = useState(true)
-  const [selectedLasikReport, setSelectedLasikReport] = useState<typeof LASIK_RECORDS[0] | null>(null)
+  const [seekExpanded, setSeekExpanded] = useState(true);
+  const [eyeExpanded, setEyeExpanded] = useState(true);
+  const [selectedLasikReport, setSelectedLasikReport] = useState<
+    typeof LASIK_RECORDS[0] | null
+  >(null);
 
   // Real computed averages
-  const hrs = records.map((r) => parseFloat(r.hr)).filter((v) => !isNaN(v) && v > 0)
-  const avgHr = hrs.length ? Math.round(hrs.reduce((a, b) => a + b, 0) / hrs.length) : 0
+  const hrs = records.map((r) => parseFloat(r.hr)).filter((v) =>
+    !isNaN(v) && v > 0
+  );
+  const avgHr = hrs.length
+    ? Math.round(hrs.reduce((a, b) => a + b, 0) / hrs.length)
+    : 0;
 
-  const wts = records.map((r) => parseFloat(r.weight)).filter((v) => !isNaN(v) && v > 0)
-  const avgWeight = wts.length ? (wts.reduce((a, b) => a + b, 0) / wts.length).toFixed(1) : "—"
+  const wts = records.map((r) => parseFloat(r.weight)).filter((v) =>
+    !isNaN(v) && v > 0
+  );
+  const avgWeight = wts.length
+    ? (wts.reduce((a, b) => a + b, 0) / wts.length).toFixed(1)
+    : "—";
 
-  const hts = records.map((r) => parseFloat((r.height || "").replace(" cm", ""))).filter((v) => !isNaN(v) && v > 0)
-  const avgHeight = hts.length ? Math.round(hts.reduce((a, b) => a + b, 0) / hts.length) : 0
+  const hts = records.map((r) =>
+    parseFloat((r.height || "").replace(" cm", ""))
+  ).filter((v) => !isNaN(v) && v > 0);
+  const avgHeight = hts.length
+    ? Math.round(hts.reduce((a, b) => a + b, 0) / hts.length)
+    : 0;
 
-  const perfectVision = records.filter((r) => r.eyeSight === "6/6").length
-  const fitPct = total > 0 ? Math.round((normal / total) * 100) : 0
+  const perfectVision = records.filter((r) => r.eyeSight === "6/6").length;
+  const fitPct = total > 0 ? Math.round((normal / total) * 100) : 0;
 
-  const types: Record<string, number> = {}
-  records.forEach((r) => { types[r.type] = (types[r.type] || 0) + 1 })
-  const maxTypeCount = Math.max(...Object.values(types), 1)
+  const types: Record<string, number> = {};
+  records.forEach((r) => {
+    types[r.type] = (types[r.type] || 0) + 1;
+  });
+  const maxTypeCount = Math.max(...Object.values(types), 1);
 
   const eyeSightCounts = {
     good: EYE_SIGHT_RECORDS.filter((r) => r.status === "Good").length,
     normal: EYE_SIGHT_RECORDS.filter((r) => r.status === "Normal").length,
     weak: EYE_SIGHT_RECORDS.filter((r) => r.status === "Weak").length,
-  }
+  };
 
   const CollapsibleHeader = ({
     icon,
@@ -1481,31 +2007,44 @@ function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
     expanded,
     onToggle,
   }: {
-    icon: React.ReactNode
-    iconBg: string
-    title: string
-    subtitle: string
-    pills?: React.ReactNode
-    expanded: boolean
-    onToggle: () => void
+    icon: React.ReactNode;
+    iconBg: string;
+    title: string;
+    subtitle: string;
+    pills?: React.ReactNode;
+    expanded: boolean;
+    onToggle: () => void;
   }) => (
     <button
       onClick={onToggle}
       className="w-full flex items-center justify-between px-5 py-4 hover:bg-stone-50 transition-colors focus:outline-none"
     >
       <div className="flex items-center gap-3">
-        <div className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${iconBg}`}>{icon}</div>
+        <div
+          className={`flex h-8 w-8 items-center justify-center rounded-lg shrink-0 ${iconBg}`}
+        >
+          {icon}
+        </div>
         <div className="text-left">
-          <h3 className="text-sm font-bold text-stone-800 uppercase tracking-wide">{title}</h3>
-          <p className="text-xs text-stone-400 font-medium mt-0.5">{subtitle}</p>
+          <h3 className="text-sm font-bold text-stone-800 uppercase tracking-wide">
+            {title}
+          </h3>
+          <p className="text-xs text-stone-400 font-medium mt-0.5">
+            {subtitle}
+          </p>
         </div>
       </div>
       <div className="flex items-center gap-2.5">
         {pills}
-        {expanded ? <ChevronUp size={16} className="text-stone-400 shrink-0" /> : <ChevronDown size={16} className="text-stone-400 shrink-0" />}
+        {expanded
+          ? <ChevronUp size={16} className="text-stone-400 shrink-0" />
+          : <ChevronDown size={16} className="text-stone-400 shrink-0" />}
       </div>
     </button>
-  )
+  );
+
+  
+const [energyTab, setEnergyTab] = useState(0);
 
   return (
     <div className="space-y-6">
@@ -1516,184 +2055,401 @@ function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
       />
 
       <div>
-        <h1 className="text-2xl font-black text-stone-900 tracking-tight">Health Statistics</h1>
-        <p className="mt-1 text-xs text-stone-400 font-medium">Command-wide fitness and health overview</p>
-      </div>
-
-      {/* Summary cards */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {[
-          { label: "Total Records", value: total, color: SIDEBAR_BG },
-          { label: "Fit for Duty", value: normal, color: "#10b981" },
-          { label: "Under Observation", value: underObs, color: "#f59e0b" },
-          { label: "Recovered", value: recovered, color: "#0ea5e9" },
-        ].map((c) => (
-          <Card
-            key={c.label}
-            className="border border-stone-200 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden"
-            style={{ borderTopWidth: "4px", borderTopColor: c.color }}
-          >
-            <CardContent className="px-5 py-4">
-              <div className="text-3xl font-black" style={{ color: c.color }}>{c.value}</div>
-              <div className="mt-1.5 text-[11px] font-bold text-stone-400 uppercase tracking-wide">{c.label}</div>
-              <div className="mt-1 text-[10px] font-semibold text-stone-300">
-                {total > 0 ? `${Math.round((c.value / total) * 100)}% of total` : "—"}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        {/* Status breakdown */}
-        <Card className="border-stone-200 bg-white shadow-sm">
-          <CardHeader className="pb-3 px-5 pt-5 border-b border-stone-100">
-            <CardTitle className="flex items-center gap-2 text-sm font-bold text-stone-800 uppercase tracking-wide">
-              <Activity size={15} className="text-emerald-500" /> Fitness Status Breakdown
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5 px-5 pb-5 pt-4">
-            {[
-              { label: "Fit for Duty", value: normal, color: "#10b981", textCls: "text-emerald-700" },
-              { label: "Under Observation", value: underObs, color: "#f59e0b", textCls: "text-amber-700" },
-              { label: "Recovered", value: recovered, color: "#0ea5e9", textCls: "text-sky-700" },
-            ].map((item) => {
-              const pct = total > 0 ? Math.round((item.value / total) * 100) : 0
-              return (
-                <div key={item.label} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-stone-600">{item.label}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-semibold text-stone-400">{pct}%</span>
-                      <span className={`text-sm font-black w-5 text-right ${item.textCls}`}>{item.value}</span>
-                    </div>
-                  </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-stone-100">
-                    <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: item.color }} />
-                  </div>
-                </div>
-              )
-            })}
-          </CardContent>
-        </Card>
-
-        {/* Record type distribution — FIXED alignment */}
-        <Card className="border-stone-200 bg-white shadow-sm rounded-2xl">
-          {/* Header */}
-          <CardHeader className="px-5 py-4 border-b border-stone-100">
-            <CardTitle className="flex items-center gap-3 text-sm font-black tracking-[0.12em] uppercase text-stone-800">
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-xl"
-                style={{ backgroundColor: "#fff2ec" }}
-              >
-                <Stethoscope size={16} style={{ color: ACTIVE_BG }} />
-              </div>
-
-              <div>
-                <div>Record Type Distribution</div>
-                <p className="text-[10px] font-semibold tracking-wider text-stone-400 mt-0.5">
-                  MEDICAL REPORT BREAKDOWN
-                </p>
-              </div>
-            </CardTitle>
-          </CardHeader>
-
-          {/* Content */}
-          <CardContent className="px-5 py-5 space-y-4">
-            {Object.entries(types).map(([type, count], index) => {
-              const pct = Math.round((count / maxTypeCount) * 100)
-
-              return (
-                <div key={type} className="space-y-2">
-                  {/* Row */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3 min-w-0">
-                      {/* Dot */}
-                      <div
-                        className="h-2.5 w-2.5 rounded-full shrink-0"
-                        style={{ backgroundColor: ACTIVE_BG }}
-                      />
-
-                      {/* Label */}
-                      <span className="text-sm font-semibold text-stone-700 truncate">
-                        {type}
-                      </span>
-                    </div>
-
-                    {/* Count */}
-                    <div className="text-right">
-                      <div className="text-base font-black text-stone-900 tabular-nums leading-none">
-                        {count}
-                      </div>
-                      <div className="text-[10px] font-semibold text-stone-400 mt-0.5">
-                        {pct}%
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Progress */}
-                  <div className="relative h-2 rounded-full bg-stone-100 overflow-hidden">
-                    <div
-                      className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
-                      style={{
-                        width: `${pct}%`,
-                        backgroundColor:
-                          index % 2 === 0 ? ACTIVE_BG : SIDEBAR_BG,
-                      }}
-                    />
-                  </div>
-                </div>
-              )
-            })}
-          </CardContent>
-        </Card>
-
+        <h1 className="text-2xl font-black text-stone-900 tracking-tight">
+          Health Statistics
+        </h1>
+        <p className="mt-1 text-xs text-stone-400 font-medium">
+          Command-wide fitness and health overview
+        </p>
       </div>
 
       {/* Command Health Overview */}
       <Card className="border-stone-200 bg-white shadow-sm">
         <CardHeader className="pb-3 px-5 pt-5 border-b border-stone-100">
           <CardTitle className="flex items-center gap-2 text-sm font-bold text-stone-800 uppercase tracking-wide">
-            <HeartPulse size={15} style={{ color: ACTIVE_BG }} /> Command Health Overview
+            <HeartPulse size={15} style={{ color: ACTIVE_BG }} />{" "}
+            Command Health Overview
           </CardTitle>
         </CardHeader>
         <CardContent className="px-5 pb-5 pt-4">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             {[
-              { label: "Avg. Heart Rate", value: `${avgHr} bpm`, sub: "Normal: 60–100", color: ACTIVE_BG, bg: "#fff0eb", icon: <HeartPulse size={18} /> },
-              { label: "Avg. Weight", value: `${avgWeight} kg`, sub: "BMI Target: 18.5–25", color: "#0284c7", bg: "#f0f9ff", icon: <User size={18} /> },
-              { label: "Avg. Height", value: `${avgHeight} cm`, sub: "Across command", color: "#7c3aed", bg: "#f5f3ff", icon: <Ruler size={18} /> },
-              { label: "Perfect Vision", value: `${perfectVision}/${total}`, sub: "6/6 eye sight", color: "#0d9488", bg: "#f0fdfa", icon: <ScanEye size={18} /> },
-              { label: "Fit for Duty", value: `${fitPct}%`, sub: `${normal} of ${total} Agniveer`, color: "#10b981", bg: "#f0fdf4", icon: <Shield size={18} /> },
-              { label: "Follow-ups Due", value: `${underObs}`, sub: underObs > 0 ? "Action required" : "All clear", color: "#f59e0b", bg: "#fffbeb", icon: <CalendarDays size={18} /> },
+              {
+                label: "Avg. Heart Rate",
+                value: `${avgHr} bpm`,
+                sub: "Normal: 60–100",
+                color: ACTIVE_BG,
+                bg: "#fff0eb",
+                icon: <HeartPulse size={18} />,
+              },
+              {
+                label: "Avg. Weight",
+                value: `${avgWeight} kg`,
+                sub: "BMI Target: 18.5–25",
+                color: "#0284c7",
+                bg: "#f0f9ff",
+                icon: <User size={18} />,
+              },
+              {
+                label: "Avg. Height",
+                value: `${avgHeight} cm`,
+                sub: "Across command",
+                color: "#7c3aed",
+                bg: "#f5f3ff",
+                icon: <Ruler size={18} />,
+              },
+              {
+                label: "Perfect Vision",
+                value: `${perfectVision}/${total}`,
+                sub: "6/6 eye sight",
+                color: "#0d9488",
+                bg: "#f0fdfa",
+                icon: <ScanEye size={18} />,
+              },
+              {
+                label: "Fit for Duty",
+                value: `${fitPct}%`,
+                sub: `${normal} of ${total} Agniveer`,
+                color: "#10b981",
+                bg: "#f0fdf4",
+                icon: <Shield size={18} />,
+              },
+              {
+                label: "Follow-ups Due",
+                value: `${underObs}`,
+                sub: underObs > 0 ? "Action required" : "All clear",
+                color: "#f59e0b",
+                bg: "#fffbeb",
+                icon: <CalendarDays size={18} />,
+              },
             ].map((v) => (
-              <div key={v.label} className="rounded-xl border border-stone-100 p-4 text-center hover:shadow-sm transition-shadow bg-white">
-                <div className="mb-3 flex justify-center items-center h-10 w-10 rounded-xl mx-auto" style={{ color: v.color, backgroundColor: v.bg }}>
+              <div
+                key={v.label}
+                className="rounded-xl border border-stone-100 p-4 text-center hover:shadow-sm transition-shadow bg-white"
+              >
+                <div
+                  className="mb-3 flex justify-center items-center h-10 w-10 rounded-xl mx-auto"
+                  style={{ color: v.color, backgroundColor: v.bg }}
+                >
                   {v.icon}
                 </div>
-                <div className="text-xl font-black" style={{ color: v.color }}>{v.value}</div>
-                <div className="mt-1 text-[10px] font-black tracking-wide text-stone-500 uppercase leading-tight">{v.label}</div>
-                <div className="mt-1 text-[10px] text-stone-400 font-medium">{v.sub}</div>
+                <div className="text-xl font-black" style={{ color: v.color }}>
+                  {v.value}
+                </div>
+                <div className="mt-1 text-[10px] font-black tracking-wide text-stone-500 uppercase leading-tight">
+                  {v.label}
+                </div>
+                <div className="mt-1 text-[10px] text-stone-400 font-medium">
+                  {v.sub}
+                </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {/* Status breakdown */}
+        <Card className="border-stone-200 bg-white shadow-sm">
+          <CardHeader className="pb-3 px-5 pt-5 border-b border-stone-100">
+            <CardTitle className="flex items-center gap-2 text-sm font-bold text-stone-800 uppercase tracking-wide">
+              <Activity size={15} className="text-emerald-500" />{" "}
+              Most Energys
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-5 px-5 pb-5 pt-4">
+            {[
+              {
+                label: "Severe Headache",
+                value: 18,
+                description: "Severe headache, intense chills, knee pain, and high fever have developed. The soldier appears extremely weak and low on energy.",
+                color: "#cf222e",
+                textCls: "text-red-700",
+              },
+              {
+                label: "Intense Chills",
+                value: 13,
+                description: "Episodes of shivering and feeling cold. Common in feverish illnesses.",
+                color: "#f59e0b",
+                textCls: "text-amber-700",
+              },
+              {
+                label: "Knee Pain",
+                value: 10,
+                description: "Complaints of persistent knee joint pain.",
+                color: "#0ea5e9",
+                textCls: "text-sky-700",
+              },
+              {
+                label: "High Fever",
+                value: 7,
+                description: "High temperature recorded with weakness.",
+                color: "#6d28d9",
+                textCls: "text-indigo-700",
+              },
+              {
+                label: "Extreme Weakness",
+                value: 6,
+                description: "Marked reduction in energy and physical ability.",
+                color: "#f43f5e",
+                textCls: "text-rose-700",
+              }
+              
+            ].map((item) => {
+              // Calculate max for better divisibility if not part of main total
+              const allDesisTotal = 18 + 13 + 10 + 7 + 6 + normal + underObs + recovered;
+              const pct = allDesisTotal > 0
+                ? Math.round((item.value / allDesisTotal) * 100)
+                : 0;
+
+              return (
+                <div key={item.label} className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-xs font-bold text-stone-600">
+                        {item.label}
+                      </span>
+                      {item.description && (
+                        <div className="text-[10px] text-stone-400 font-medium max-w-xs">
+                          {item.description}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-stone-400">
+                        {pct}%
+                      </span>
+                      <span
+                        className={`text-base font-black w-8 text-right ${item.textCls}`}
+                      >
+                        {item.value}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden shadow-inner">
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${pct}%`,
+                        background: `linear-gradient(90deg, ${item.color} 60%, #fff 100%)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+   
+          </CardContent>
+        </Card>
+
+        {/* Agniveer-wise Disease Distribution */}
+        <Card className="border-stone-200 bg-white shadow-sm rounded-2xl">
+          {/* Header */}
+          <CardHeader className="px-5 py-4 border-b border-stone-100">
+            <CardTitle className="flex items-center gap-3 text-sm font-black tracking-[0.12em] uppercase text-stone-800">
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded-xl"
+                style={{ backgroundColor: "#e7e5eb" }}
+              >
+                <Stethoscope size={18} style={{ color: "#7c3aed" }} />
+              </div>
+              <div>
+                <div>Agniveer Disease Cases</div>
+                <p className="text-[10px] font-semibold tracking-wider text-stone-400 mt-0.5">
+                  Top agniveer(s) by disease incidence
+                </p>
+              </div>
+            </CardTitle>
+          </CardHeader>
+
+          {/* Content */}
+          <CardContent className="px-5 py-5 space-y-5">
+            {/* Calculate per-Agniveer disease counts */}
+            {(() => {
+              // Aggregate: AgniveerName -> {count, diseases}
+              const agniveerMap = {};
+              records.forEach(rec => {
+                if (!rec.soldierName || !rec.diagnosis) return;
+                if (!agniveerMap[rec.soldierName]) {
+                  agniveerMap[rec.soldierName] = { count: 0, diseases: {} };
+                }
+                agniveerMap[rec.soldierName].count += 1;
+                agniveerMap[rec.soldierName].diseases[rec.diagnosis] = 
+                  (agniveerMap[rec.soldierName].diseases[rec.diagnosis] || 0) + 1;
+              });
+
+              // Top 5 Agniveers by count
+              const agniveerArray = Object.entries(agniveerMap)
+                .sort(([, a], [, b]) => b.count - a.count)
+                .slice(0, 5);
+
+              const maxCount =
+                agniveerArray.length > 0 ? agniveerArray[0][1].count : 1;
+
+              return agniveerArray.length === 0 ? (
+                <div className="text-xs text-stone-400 py-3 text-center">
+                  No data to display.
+                </div>
+              ) : (
+                agniveerArray.map(([name, data], idx) => (
+                  <div key={name} className="space-y-1">
+                    <div className="flex items-center justify-between gap-4">
+                      {/* Agniveer Name and Disease List */}
+                      <div className="flex-shrink-0 flex items-center gap-2 min-w-0">
+                        {/* Avatar */}
+                        <div
+                          className="h-8 w-8 flex items-center justify-center rounded-full font-black text-white text-base uppercase shrink-0"
+                          style={{
+                            backgroundColor:
+                              ["#7c3aed", "#eab308", "#f43f5e", "#0284c7", "#059669"][idx % 5],
+                          }}
+                        >
+                          {name[0]}
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="font-semibold text-stone-800 text-sm truncate">
+                            {name}
+                          </span>
+                          {/* Disease breakdown */}
+                          <span className="flex flex-wrap gap-1 mt-0.5">
+                            {Object.entries(data.diseases)
+                              .sort(([, a], [, b]) => b - a)
+                              .slice(0, 2) // top 2 desis only, for clarity
+                              .map(([disease, cnt], i) => (
+                                <span
+                                  key={disease}
+                                  className="bg-stone-100 rounded px-1.5 py-[1px] text-[10px] text-stone-600 font-semibold"
+                                  style={{
+                                    backgroundColor: ["#f3e8ff", "#fef9c3"][i % 2],
+                                    color: ["#7c3aed", "#eab308"][i % 2],
+                                  }}
+                                >
+                                  {disease} ({cnt})
+                                </span>
+                              ))}
+                            {Object.keys(data.diseases).length > 2 && (
+                              <span className="text-[10px] text-stone-400">+{Object.keys(data.diseases).length - 2} more</span>
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <span className="font-black text-stone-900 text-lg tabular-nums">
+                          {data.count}
+                        </span>
+                        <span className="text-[10px] text-stone-400 font-semibold mt-0.5">
+                          {(Math.round((data.count / maxCount) * 100))}%
+                        </span>
+                      </div>
+                    </div>
+                    {/* Progress Bar */}
+                    <div className="relative h-2 rounded-full bg-stone-100 overflow-hidden mt-1">
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
+                        style={{
+                          width: `${(data.count / maxCount) * 100}%`,
+                          background: `linear-gradient(90deg, ${["#7c3aed", "#eab308", "#f43f5e", "#0284c7", "#059669"][idx % 5]} 60%, #fff 100%)`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))
+              );
+            })()}
+          </CardContent>
+        </Card>
+      </div>
+
+    
+    <Card className="border-stone-200 bg-white shadow-sm">
+      <CardHeader className="pb-2 pt-5 px-5 border-b border-stone-100">
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-[15px] font-black text-amber-700 uppercase tracking-wide drop-shadow-sm">
+            <Bolt size={18} className="text-amber-400 animate-pulse" /> Agniveer Energy By Month
+          </CardTitle>
+          <div className="flex items-center gap-1.5">
+            {energyByMonth.map((m, idx) => (
+              <button
+                key={m.month}
+                onClick={() => setEnergyTab(idx)}
+                className={`px-3 py-1 text-[13px] font-bold rounded-full border transition
+                  ${energyTab === idx
+                    ? "bg-gradient-to-r from-amber-200/80 via-amber-100 to-amber-50 text-amber-800 border-amber-300 shadow-md scale-105"
+                    : "bg-white text-stone-400 border-stone-100 hover:bg-amber-50"}
+                `}
+                style={{
+                  marginLeft: idx > 0 ? "0.75rem" : 0,
+                  outline: energyTab === idx ? "2.5px solid #facc15" : undefined,
+                }}
+              >
+                {m.month}
+              </button>
+            ))}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="px-5 pb-5 pt-4">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {energyByMonth[energyTab].records.map((rec, i) => (
+            <div
+              key={rec.soldierId}
+              className="rounded-xl border border-stone-200 hover:shadow-lg transition-shadow bg-white p-5 flex flex-col gap-3 relative"
+              style={{
+                background: "linear-gradient(135deg, #e0eaef 65%, #f5f7fa 100%)",
+                minHeight: 170,
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-2xl border border-slate-200 shadow-sm">
+                  <span>{rec.avatar}</span>
+                </div>
+                <div>
+                  <div className="text-base font-extrabold text-stone-900">{rec.name}</div>
+                  <div className="text-xs font-mono text-stone-400">{rec.soldierId}</div>
+                </div>
+                <span className="ml-auto flex flex-col items-end">
+                  <span className="flex items-center text-sky-600 font-extrabold text-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 lucide lucide-zap">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    {rec.energy}
+                  </span>
+                  <span className="text-xs text-slate-500 font-medium">{rec.energyName}</span>
+                </span>
+              </div>
+              <div className="text-sm text-stone-700 leading-snug mt-1 flex-1">
+                {rec.desc}
+              </div>
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-[11px] bg-slate-200 rounded px-2 py-0.5 font-medium text-sky-700 shadow-sm">
+                  {energyByMonth[energyTab].month}
+                </span>
+                <span className="text-[11px] text-stone-400 font-mono">{rec.date}</span>
+              </div>
+            </div>
+          ))}
+     
+          {energyByMonth[energyTab].records.length === 0 && (
+            <div className="text-stone-400 text-sm col-span-full text-center py-6">No energy records for this month.</div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
     </div>
-  )
+  );
 }
 
 // ── ROOT ──────────────────────────────────────────────────────────────────────
 export default function DoctorPage() {
-  const [section, setSection] = useState<Section>("dashboard")
-  const [records, setRecords] = useState(INIT_RECORDS)
+  const [section, setSection] = useState<Section>("dashboard");
+  const [records, setRecords] = useState(INIT_RECORDS);
 
   const titles: Record<Section, string> = {
     dashboard: "Dashboard",
     add: "Add Record",
     records: "Medical Records",
     stats: "Health Stats",
-  }
+  };
 
   return (
     // h-screen + overflow-hidden = sidebar never scrolls, only inner content does
@@ -1706,8 +2462,12 @@ export default function DoctorPage() {
         <header className="sticky top-0 z-10 border-b border-stone-200 bg-white/95 backdrop-blur-sm shadow-sm shrink-0">
           <div className="flex items-center justify-between px-6 py-3.5">
             <div>
-              <h1 className="text-base font-black text-stone-900 tracking-tight">{titles[section]}</h1>
-              <p className="text-[11px] text-stone-400 font-semibold uppercase tracking-wide">Medical Officer · Agnipath Command</p>
+              <h1 className="text-base font-black text-stone-900 tracking-tight">
+                {titles[section]}
+              </h1>
+              <p className="text-[11px] text-stone-400 font-semibold uppercase tracking-wide">
+                Medical Officer · Agnipath Command
+              </p>
             </div>
             <div className="flex items-center gap-2.5">
               <Badge className="border border-stone-200 bg-white text-[10px] font-bold text-stone-500 uppercase tracking-widest shadow-sm px-3 py-1.5 hidden sm:inline-flex">
@@ -1715,7 +2475,11 @@ export default function DoctorPage() {
               </Badge>
               <Badge
                 className="border text-[10px] font-bold uppercase tracking-widest px-3 py-1.5"
-                style={{ borderColor: "#fca5a5", backgroundColor: "#fff1f2", color: ACTIVE_BG }}
+                style={{
+                  borderColor: "#fca5a5",
+                  backgroundColor: "#fff1f2",
+                  color: ACTIVE_BG,
+                }}
               >
                 Medical Officer
               </Badge>
@@ -1727,12 +2491,14 @@ export default function DoctorPage() {
         {/* Page content */}
         <main className="flex-1 px-6 py-7 lg:px-10">
           <div className="mx-auto w-full max-w-[1600px]">
-            {section === "dashboard" && <DashboardSection records={records} setActive={setSection} />}
+            {section === "dashboard" && (
+              <DashboardSection records={records} setActive={setSection} />
+            )}
             {section === "add" && (
               <AddRecordSection
                 onAdd={(r) => {
-                  setRecords((p) => [r, ...p])
-                  setSection("records")
+                  setRecords((p) => [r, ...p]);
+                  setSection("records");
                 }}
               />
             )}
@@ -1742,5 +2508,5 @@ export default function DoctorPage() {
         </main>
       </div>
     </div>
-  )
+  );
 }
