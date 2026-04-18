@@ -495,93 +495,103 @@ function PlatoonsSection({ setActive }: { setActive: (s: Section) => void }) {
           Platoon Overview
         </h2>
 
-        <div className="flex flex-col gap-4">
+        <div className="grid gap-6 md:grid-cols-2">
           {PLATOONS.map((platoon) => (
             <div
               key={platoon.id}
-              className="mb-2 flex flex-col gap-4 rounded-xl border bg-white p-6 shadow transition"
+              className="group flex flex-col rounded-2xl border border-stone-200 bg-gradient-to-br from-white to-stone-50 p-6 shadow-sm transition hover:shadow-lg"
             >
-              <div className="flex items-center gap-4">
-                <div
-                  className="h-12 w-12 flex-shrink-0 rounded-full border-4"
-                  style={{
-                    borderColor: platoon.color,
-                    background: "#f1f7ff",
-                    opacity: 0.6,
-                  }}
-                >
-                  <span
-                    className="flex h-full w-full items-center justify-center text-[1.3rem] font-black"
-                    style={{ color: platoon.color, opacity: 0.6 }}
-                  >
-                    {platoon.name.charAt(0)}
-                  </span>
+              {/* Header Row */}
+              <div className="mb-3 flex items-center gap-6 border-b pb-3">
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 flex items-center gap-2">
+                    <span className="truncate text-xl font-extrabold text-stone-800 md:text-lg">
+                      {platoon.name}
+                    </span>
+                    <span
+                      className="ml-1 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase"
+                      style={{
+                        backgroundColor: `${platoon.color}20`,
+                        color: platoon.color,
+                      }}
+                    >
+                      {platoon.company}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-semibold text-stone-500">
+                      Platoon ID:{" "}
+                      <span className="font-bold text-stone-800">
+                        {platoon.id}
+                      </span>
+                    </span>
+                    <span className="text-xs text-stone-400">
+                      | Agniveers:{" "}
+                      <span className="font-bold text-stone-700">
+                        {platoon.totalSoldiers}
+                      </span>
+                    </span>
+                  </div>
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
-                  <span className="truncate text-lg font-black">
-                    {platoon.name}
-                  </span>
-                  <span className="text-xs font-semibold text-stone-500">
-                    Company: {platoon.company}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="flex items-center gap-2 text-xs font-semibold text-stone-700">
-                    Overall Performance:{" "}
-                    <span className="text-lg font-black text-stone-800">
+                <div className="flex flex-col items-end gap-1">
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-stone-600">
+                    <span className="font-semibold tracking-wide text-stone-400 uppercase">
+                      Performance
+                    </span>
+                    <span className="text-lg font-black text-[#25447C]">
                       {platoon.overall}
                     </span>
                   </span>
-                  <span className="mt-0.5 text-xs text-stone-400">
-                    Total Agniveers:{" "}
-                    <span className="font-bold text-stone-700">
-                      {platoon.totalSoldiers}
-                    </span>
-                  </span>
+                  <Button
+                    size="sm"
+                    onClick={() => setActive("scores")}
+                    className="rounded-full bg-[#25447C] px-4 py-1.5 text-xs font-semibold text-white shadow-md hover:bg-[#1a2d4a]"
+                  >
+                    View Details
+                  </Button>
                 </div>
               </div>
-              <div className="mb-2 grid grid-cols-2 gap-4 border-b pb-3 md:grid-cols-4">
+
+              {/* Stats Row */}
+              <div className="grid grid-cols-2 gap-4 p-1 md:grid-cols-4">
                 <div className="flex flex-col items-center text-xs">
-                  <span className="mb-1 text-stone-500">Physical</span>
-                  <span className="text-lg font-extrabold text-stone-700">
+                  <span className="mb-1 font-medium text-stone-500">
+                    Physical
+                  </span>
+                  <span className="text-lg font-extrabold text-sky-700">
                     {platoon.avgPhysical}
                   </span>
                 </div>
                 <div className="flex flex-col items-center text-xs">
-                  <span className="mb-1 text-stone-500">Weapons</span>
-                  <span className="text-lg font-extrabold text-[#4A5C2F]">
+                  <span className="mb-1 font-medium text-stone-500">
+                    Weapons
+                  </span>
+                  <span
+                    className="text-lg font-extrabold"
+                    style={{ color: "#4A5C2F" }}
+                  >
                     {platoon.avgWeapons}
                   </span>
                 </div>
                 <div className="flex flex-col items-center text-xs">
-                  <span className="mb-1 text-stone-500">Combat</span>
-                  <span className="text-lg font-extrabold text-[#775222]">
+                  <span className="mb-1 font-medium text-stone-500">
+                    Combat
+                  </span>
+                  <span
+                    className="text-lg font-extrabold"
+                    style={{ color: "#775222" }}
+                  >
                     {platoon.avgCombat}
                   </span>
                 </div>
                 <div className="flex flex-col items-center text-xs">
-                  <span className="mb-1 text-stone-500">Tactics</span>
-                  <span className="text-lg font-extrabold text-stone-800">
+                  <span className="mb-1 font-medium text-stone-500">
+                    Tactics
+                  </span>
+                  <span className="text-lg font-extrabold text-amber-900">
                     {platoon.avgTactics}
                   </span>
                 </div>
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-xs text-stone-500">
-                    Platoon ID:{" "}
-                    <span className="font-bold text-stone-800">
-                      {platoon.id}
-                    </span>
-                  </span>
-                </div>
-                <Button
-                  onClick={() => setActive("scores")}
-                  size="sm"
-                  className="bg-opacity-70 rounded-full bg-[#25447C] px-5 py-1.5 text-xs font-semibold text-white shadow hover:bg-[#25447C]/80"
-                >
-                  View Details
-                </Button>
               </div>
             </div>
           ))}
