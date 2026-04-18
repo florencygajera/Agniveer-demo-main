@@ -10,16 +10,23 @@ import {
   CalendarDays,
   TrendingUp,
   LogOut,
-  Plus,
-  CheckCircle2,
-  FileSpreadsheet,
+  User,
   Download,
+  FileSpreadsheet,
+  CheckCircle2,
+  Plus,
+  Sword,
+  Target,
+  Users,
+  UserCheck,
+  Activity,
+  ClipboardList,
 } from "lucide-react"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ScoresSection } from "../comp/ScoresSection"
 import AttendanceReportPage from "../comp/AttendenceReport"
-import { PLATOON_COMMANDERS } from "../data"
+import { PLATOONS } from "../data"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import {
@@ -106,7 +113,7 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "scores", label: "Agniveer Scores", icon: <TrendingUp size={14} /> },
   {
     id: "program",
-    label: "Program",
+    label: "Training Program",
     icon: <CalendarDays size={14} />,
   },
   { id: "upload", label: "Upload Data", icon: <Upload size={14} /> },
@@ -209,87 +216,210 @@ function MobileNav({
   )
 }
 
+const DASHBOARD_CARD_DATA = [
+  {
+    title: "Total Platoons",
+    value: PLATOONS.length,
+    icon: <LayoutDashboard size={18} className="text-[#25447C]" />,
+  },
+  {
+    title: "Avg. Physical Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgPhysical, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <User size={18} className="text-[#2767A0]" />,
+  },
+  {
+    title: "Avg. Weapons Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgWeapons, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <ClipboardList size={18} className="text-[#4A5C2F]" />,
+  },
+  {
+    title: "Avg. Combat Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgCombat, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <Sword size={18} className="text-[#775222]" />,
+  },
+  {
+    title: "Avg. Tactics Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgTactics, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <Target size={18} className="text-[#25447C]" />,
+  },
+]
+
 function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
   return (
     <div className="space-y-8">
-      <section>
-        <h1 className="text-2xl font-bold text-[#1a2d4a]">
-          Platoon Commanders Overview
-        </h1>
-        <p className="mt-1 text-sm text-stone-500">
-          Explore up-to-date profiles, key roles, and quick stats for each
-          platoon or company leader.
-        </p>
-      </section>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {PLATOON_COMMANDERS.map((cmd) => (
-          <Card
-            key={cmd.id}
-            className="group flex h-full cursor-pointer flex-col justify-between rounded-xl border border-[#b3b7bf] bg-white shadow-lg transition-all hover:border-[#25447C] hover:shadow-xl"
-            onClick={() => {
-              setActive("scores")
-              window.localStorage.setItem(
-                "selected_commander",
-                JSON.stringify(cmd)
-              )
-            }}
-          >
-            <CardHeader className="flex flex-col items-center pt-6 pb-0">
-              <img
-                src={cmd.profileImg}
-                className="mb-3 h-20 w-20 rounded-full border-4 border-[#25447C] object-cover shadow-lg"
-                alt={cmd.name}
-                style={{ background: "#cfd9eb" }}
-              />
-              <CardTitle className="mb-1 truncate text-center text-lg font-bold text-[#25447C]">
-                {cmd.name}
-              </CardTitle>
-              <span className="mb-1 text-[13px] text-stone-600">
-                {cmd.designation}
-              </span>
-              <div className="mt-1 flex flex-wrap justify-center gap-2">
-                <Badge className="border border-sky-200 bg-sky-50 px-2 py-0.5 text-xs text-sky-700">
-                  {cmd.soldiers} Agniveers
-                </Badge>
-                <Badge className="border-none bg-[#25447C] px-2 py-0.5 text-xs text-white">
-                  Joined: {cmd.joined}
-                </Badge>
-                {cmd.medals.length > 0 && (
-                  <Badge className="border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
-                    <span className="font-medium">{cmd.medals.join(", ")}</span>
-                  </Badge>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent className="flex flex-1 flex-col justify-between gap-3 px-6 py-4">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center text-sm font-semibold text-stone-800">
-                  <span className="mr-1 text-stone-400">Battalion:</span>
-                  <span className="truncate">{cmd.battalion}</span>
-                </div>
-                <div className="flex flex-wrap justify-center gap-3 text-xs text-stone-600">
-                  <div>
-                    <span className="text-stone-400">ID:</span> {cmd.id}
-                  </div>
-                  <div>
-                    <span className="text-stone-400">Svc No:</span>{" "}
-                    {cmd.serviceNo}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 flex justify-center">
-                <Button
-                  size="sm"
-                  className="w-[85%] rounded-full bg-[#25447C] py-2 text-xs font-semibold text-white shadow transition-colors hover:bg-[#48619a]"
-                >
-                  View Agniveer Scores
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <div className="grid gap-5 md:grid-cols-5">
+        {DASHBOARD_CARD_DATA.map((c, index) => {
+          const colors = ["#25447C", "#FF8C1A", "#4A5C2F", "#FF9800", "#25447C"]
 
+          const color = colors[index]
+
+          return (
+            <Card
+              key={c.title}
+              className="overflow-hidden border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+              style={{
+                borderTopWidth: "4px",
+                borderTopColor: color,
+              }}
+            >
+              <CardContent className="px-5 py-4">
+                {/* icon */}
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="rounded-full p-2"
+                    style={{
+                      backgroundColor: `${color}15`,
+                    }}
+                  >
+                    {c.icon}
+                  </div>
+                </div>
+
+                {/* value */}
+                <div
+                  className="text-3xl font-black"
+                  style={{
+                    color,
+                  }}
+                >
+                  {c.value}
+                </div>
+
+                {/* label */}
+                <div className="mt-2 flex items-center gap-1.5">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{
+                      backgroundColor: color,
+                    }}
+                  />
+
+                  <span className="text-[11px] leading-tight font-semibold tracking-wide text-stone-400 uppercase">
+                    {c.title}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+      <div className="mx-auto w-full">
+        <h2 className="mb-3 text-lg font-bold tracking-tight text-stone-700">
+          Platoon Overview
+        </h2>
+
+        <div className="flex flex-col gap-4">
+          <div className="grid gap-6 md:grid-cols-2">
+            {PLATOONS.map((platoon) => (
+              <div
+                key={platoon.id}
+                className="group flex flex-col rounded-2xl border border-stone-200 bg-gradient-to-br from-white to-stone-50 p-6 shadow-sm transition hover:shadow-lg"
+              >
+                {/* Header Row */}
+                <div className="mb-3 flex items-center gap-6 border-b pb-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className="truncate text-xl font-extrabold text-stone-800 md:text-lg">
+                        {platoon.name}
+                      </span>
+                      <span
+                        className="ml-1 rounded-full px-2 py-0.5 text-[10px] font-medium uppercase"
+                        style={{
+                          backgroundColor: `${platoon.color}20`,
+                          color: platoon.color,
+                        }}
+                      >
+                        {platoon.company}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-semibold text-stone-500">
+                        Platoon ID:{" "}
+                        <span className="font-bold text-stone-800">
+                          {platoon.id}
+                        </span>
+                      </span>
+                      <span className="text-xs text-stone-400">
+                        | Agniveers:{" "}
+                        <span className="font-bold text-stone-700">
+                          {platoon.totalSoldiers}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-stone-600">
+                      <span className="font-semibold tracking-wide text-stone-400 uppercase">
+                        Performance
+                      </span>
+                      <span className="text-lg font-black text-[#25447C]">
+                        {platoon.overall}
+                      </span>
+                    </span>
+                    <Button
+                      size="sm"
+                      onClick={() => setActive("scores")}
+                      className="rounded-full bg-[#25447C] px-4 py-1.5 text-xs font-semibold text-white shadow-md hover:bg-[#1a2d4a]"
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Stats Row */}
+                <div className="grid grid-cols-2 gap-4 p-1 md:grid-cols-4">
+                  <div className="flex flex-col items-center text-xs">
+                    <span className="mb-1 font-medium text-stone-500">
+                      Physical
+                    </span>
+                    <span className="text-lg font-extrabold text-sky-700">
+                      {platoon.avgPhysical}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center text-xs">
+                    <span className="mb-1 font-medium text-stone-500">
+                      Weapons
+                    </span>
+                    <span
+                      className="text-lg font-extrabold"
+                      style={{ color: "#4A5C2F" }}
+                    >
+                      {platoon.avgWeapons}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center text-xs">
+                    <span className="mb-1 font-medium text-stone-500">
+                      Combat
+                    </span>
+                    <span
+                      className="text-lg font-extrabold"
+                      style={{ color: "#775222" }}
+                    >
+                      {platoon.avgCombat}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center text-xs">
+                    <span className="mb-1 font-medium text-stone-500">
+                      Tactics
+                    </span>
+                    <span className="text-lg font-extrabold text-amber-900">
+                      {platoon.avgTactics}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       <footer className="mt-6 text-center text-xs text-stone-500">
         Tap or click on any commander to see
         <span className="mx-1 font-bold text-[#25447C]">
@@ -300,7 +430,6 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
   )
 }
 
-// ── PROGRAM ───────────────────────────────────────────────────────────────────
 function ProgramSection() {
   const [showAdd, setShowAdd] = useState(false)
   const [form, setForm] = useState({
@@ -798,15 +927,12 @@ export default function TrainerPage() {
           <div className="flex items-center justify-between px-4 py-3 sm:px-6">
             <div>
               <h1 className="text-base font-bold text-stone-900">
-                {customTitle}
+                Platoon Commanders Overview
               </h1>
               <p className="text-xs text-stone-400">
                 Platoon Command · Dashboard
               </p>
             </div>
-            <Badge className="shrink-0 border border-sky-200 bg-sky-50 text-xs text-sky-700">
-              Platoon Command · Active
-            </Badge>
           </div>
           <MobileNav active={section} setActive={setSection} />
         </header>

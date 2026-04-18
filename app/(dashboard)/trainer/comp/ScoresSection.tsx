@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { CheckCircle2, Pencil, Search } from "lucide-react"
+import { CheckCircle2, Eye, Pencil, Search } from "lucide-react"
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const TRAINER = {
@@ -219,7 +219,7 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
             <thead>
               <tr className="border-b border-stone-100 bg-gradient-to-r from-stone-50 via-stone-100 to-stone-50">
                 <th className="px-4 py-3 text-left text-xs font-bold tracking-widest whitespace-nowrap text-stone-600 uppercase">
-                  Name / ID
+                  Agniveer
                 </th>
                 {scoreFields.map((field) => (
                   <th
@@ -315,12 +315,12 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
                     <td className="px-3 py-3 text-center">
                       <Button
                         size="sm"
-                        variant="secondary"
+                        variant="outline"
                         className="h-8 rounded-full bg-sky-50 px-4 text-xs font-medium text-sky-900 hover:bg-sky-100"
                         onClick={handleAttendanceClick}
                         type="button"
                       >
-                        View Attendance Report
+                        <Eye /> View
                       </Button>
                     </td>
                   </tr>
