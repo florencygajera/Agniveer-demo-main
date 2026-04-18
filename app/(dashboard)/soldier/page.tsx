@@ -10,47 +10,50 @@ import {
   CalendarDays,
   HeartPulse,
   Package,
-  Landmark,
-  Bot,
-  TrendingUp,
-  FileText,
   ChevronRight,
   Trophy,
   AlertTriangle,
   CheckCircle2,
   Shield,
-  Star,
   Swords,
   Brain,
   Target,
   ShieldCheck,
   Clock,
-  Pill,
   Activity,
-  ArrowRight,
-  Send,
-  RotateCcw,
-  Loader2,
   LogOut,
   User,
+  MapPin,
+  Phone,
+  Mail,
+  Droplets,
+  Calendar,
+  Hash,
+  Users,
+  Building,
+  UserCheck,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  Ruler,
+  Weight,
+  Heart,
   Zap,
+  Shirt,
+  Footprints,
+  HardHat,
+  Crosshair,
+  Scale,
+  BookOpen,
 } from "lucide-react"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type Section =
-  | "dashboard"
-  | "training"
-  | "schedule"
-  | "medical"
-  | "equipment"
-  | "stipend"
-  | "ai"
-  | "insights"
+type Section = "profile" | "training" | "schedule" | "medical" | "equipment"
 
-// ── Soldier Data ──────────────────────────────────────────────────────────────
-const SOLDIER = {
+// ── Agniveer Data ──────────────────────────────────────────────────────────────
+const AGNIVEER = {
   name: "Rajveer Singh Chauhan",
   id: "AGN-2024-0101",
   rank: "Sepoy",
@@ -58,128 +61,34 @@ const SOLDIER = {
   battalionCode: "RR-1",
   state: "Rajasthan",
   city: "Jodhpur",
-  dob: "2003-04-12",
-  joining: "2024-01-15",
+  address: "Village Mandore, Post Mandore, Dist. Jodhpur, Rajasthan – 342304",
+  dob: "12 April 2003",
+  joining: "15 January 2024",
   blood: "B+",
   phone: "9876501001",
   email: "rajveer@army.in",
   status: "active",
   medical: "Fit",
-  scores: {
-    physical: 91,
-    weapons: 88,
-    mental: 78,
-    combat: 89,
-    attendance: 96,
-    discipline: 92,
-  },
-  overall: 89,
-  globalRank: 4,
-  batRank: 1,
-  equipment: [
-    {
-      name: "INSAS Rifle",
-      type: "Weapon",
-      issued: "15 Jan 2024",
-      condition: "Good",
-    },
-    {
-      name: "Combat Uniform",
-      type: "Uniform",
-      issued: "15 Jan 2024",
-      condition: "Good",
-    },
-    {
-      name: "Tactical Backpack",
-      type: "Gear",
-      issued: "15 Jan 2024",
-      condition: "Good",
-    },
-    {
-      name: "Ballistic Helmet",
-      type: "Uniform",
-      issued: "15 Jan 2024",
-      condition: "Worn",
-    },
-  ],
+  caste: "Rajput (General)",
+  eroName: "Col. Arvind Sharma",
+  nextOfKeen: "Shri Balveer Singh Chauhan (Father)",
+  nextOfKeenPhone: "9876500001",
+  platoon: "Platoon 3",
+  company: "Alpha Company",
+  agniveerNo: "AGV/RR1/2024/0101",
   events: [
     "Won 200m Sprint — Batch Rally 2024",
     "Best Shooter Award — March 2025",
   ],
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function sc(v: number) {
-  if (v >= 90) return "text-emerald-600"
-  if (v >= 80) return "text-[#4a5c2f]"
-  if (v >= 70) return "text-amber-600"
-  return "text-rose-500"
-}
-function bc(v: number) {
-  if (v >= 90) return "bg-emerald-500"
-  if (v >= 80) return "bg-[#4a5c2f]"
-  if (v >= 70) return "bg-amber-500"
-  return "bg-rose-500"
-}
-function grade(v: number) {
-  if (v >= 90)
-    return {
-      l: "Outstanding",
-      c: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    }
-  if (v >= 80) return { l: "Good", c: "bg-sky-100 text-sky-700 border-sky-200" }
-  if (v >= 70)
-    return { l: "Average", c: "bg-amber-100 text-amber-700 border-amber-200" }
-  return {
-    l: "Needs Improvement",
-    c: "bg-rose-100 text-rose-600 border-rose-200",
-  }
-}
-
-function ScoreBar({
-  label,
-  value,
-  icon,
-}: {
-  label: string
-  value: number
-  icon: React.ReactNode
-}) {
-  const g = grade(value)
-  return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-stone-500">
-          {icon}
-          {label}
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge className={`border text-[10px] font-semibold ${g.c}`}>
-            {g.l}
-          </Badge>
-          <span className={`text-sm font-black ${sc(value)}`}>{value}</span>
-        </div>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-stone-100">
-        <div
-          className={`h-full rounded-full transition-all duration-700 ${bc(value)}`}
-          style={{ width: `${value}%` }}
-        />
-      </div>
-    </div>
-  )
-}
-
 // ── Navigation ────────────────────────────────────────────────────────────────
 const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
-  { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={14} /> },
+  { id: "profile", label: "Profile", icon: <User size={14} /> },
   { id: "training", label: "Training", icon: <Dumbbell size={14} /> },
   { id: "schedule", label: "Schedule", icon: <CalendarDays size={14} /> },
   { id: "medical", label: "Medical", icon: <HeartPulse size={14} /> },
   { id: "equipment", label: "Equipment", icon: <Package size={14} /> },
-  { id: "stipend", label: "Stipend", icon: <Landmark size={14} /> },
-  { id: "ai", label: "AgniAssist AI", icon: <Bot size={14} /> },
-  { id: "insights", label: "My AI Insights", icon: <TrendingUp size={14} /> },
 ]
 
 function Sidebar({
@@ -190,7 +99,7 @@ function Sidebar({
   setActive: (s: Section) => void
 }) {
   return (
-    <aside className="hidden w-56 shrink-0 flex-col border-r border-stone-200 bg-white md:flex">
+    <aside className="flex h-full w-56 shrink-0 flex-col overflow-y-auto border-r border-stone-200 bg-white">
       <div className="border-b border-stone-100 bg-stone-50 px-4 py-4">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-sm font-bold text-white">
@@ -198,13 +107,13 @@ function Sidebar({
           </div>
           <div className="min-w-0">
             <div className="truncate text-sm font-bold text-stone-800">
-              {SOLDIER.name}
+              {AGNIVEER.name}
             </div>
             <div className="font-mono text-[10px] text-orange-500">
-              {SOLDIER.id}
+              {AGNIVEER.agniveerNo}
             </div>
             <div className="text-[10px] text-stone-400">
-              {SOLDIER.rank} · {SOLDIER.battalionCode}
+              {AGNIVEER.rank} · {AGNIVEER.battalionCode}
             </div>
           </div>
         </div>
@@ -216,7 +125,7 @@ function Sidebar({
       </div>
       <nav className="flex flex-1 flex-col gap-0.5 p-2">
         <p className="px-2 pt-2 pb-1 text-[9px] font-bold tracking-widest text-stone-400 uppercase">
-          Soldier Portal
+          Agniveer Portal
         </p>
         {NAV.map((n) => (
           <button
@@ -275,253 +184,209 @@ function MobileNav({
   )
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
-  const s = SOLDIER
-  const scores = s.scores
+// ── PROFILE ───────────────────────────────────────────────────────────────────
+function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
+  const a = AGNIVEER
 
-  const strengths = Object.entries(scores).filter(([, v]) => v >= 85)
-  const improvements = Object.entries(scores).filter(([, v]) => v < 70)
-
-  const scoreLabels: Record<string, string> = {
-    physical: "Physical",
-    weapons: "Weapons",
-    mental: "Mental",
-    combat: "Combat",
-    attendance: "Attendance",
-    discipline: "Discipline",
-  }
+  const profileFields = [
+    {
+      label: "Agniveer No.",
+      value: a.agniveerNo,
+      icon: <Hash size={14} className="text-orange-500" />,
+    },
+    {
+      label: "Full Name",
+      value: a.name,
+      icon: <User size={14} className="text-[#1a2d4a]" />,
+    },
+    {
+      label: "Date of Birth",
+      value: a.dob,
+      icon: <Calendar size={14} className="text-[#4a5c2f]" />,
+    },
+    {
+      label: "Date of Joining",
+      value: a.joining,
+      icon: <Calendar size={14} className="text-[#4a5c2f]" />,
+    },
+    {
+      label: "Address",
+      value: a.address,
+      icon: <MapPin size={14} className="text-rose-500" />,
+    },
+    {
+      label: "Mobile No.",
+      value: a.phone,
+      icon: <Phone size={14} className="text-emerald-600" />,
+    },
+    {
+      label: "ERO Name",
+      value: a.eroName,
+      icon: <UserCheck size={14} className="text-violet-600" />,
+    },
+    {
+      label: "Next of Kin",
+      value: `${a.nextOfKeen} · ${a.nextOfKeenPhone}`,
+      icon: <Users size={14} className="text-amber-600" />,
+    },
+    {
+      label: "Class / Caste",
+      value: a.caste,
+      icon: <BookOpen size={14} className="text-sky-600" />,
+    },
+    {
+      label: "Platoon No.",
+      value: a.platoon,
+      icon: <Hash size={14} className="text-stone-500" />,
+    },
+    {
+      label: "Company",
+      value: a.company,
+      icon: <Building size={14} className="text-[#1a2d4a]" />,
+    },
+    {
+      label: "Battalion",
+      value: a.battalion,
+      icon: <Shield size={14} className="text-[#1a2d4a]" />,
+    },
+    {
+      label: "Rank",
+      value: a.rank,
+      icon: <ShieldCheck size={14} className="text-[#4a5c2f]" />,
+    },
+    {
+      label: "Blood Group",
+      value: a.blood,
+      icon: <Droplets size={14} className="text-rose-500" />,
+    },
+  ]
 
   return (
     <div className="space-y-5">
-      {/* Welcome */}
       <div>
-        <h1 className="text-xl font-bold text-stone-900">
-          Welcome, {s.name.split(" ")[0]}
-        </h1>
+        <h1 className="text-xl font-bold text-stone-900">Agniveer Profile</h1>
         <p className="mt-0.5 text-xs text-stone-400">
-          Friday, 14 March 2025 · {s.battalion}
+          Personal & Service Information · {a.battalion}
         </p>
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          {
-            label: "Overall Score",
-            value: s.overall,
-            sub: grade(s.overall).l,
-            accent: "text-orange-500",
-            topBorder: "border-t-[#c8601a]",
-          },
-          {
-            label: "Global Rank",
-            value: `#${s.globalRank}`,
-            sub: "All Agniveers",
-            accent: "text-[#1a2d4a]",
-            topBorder: "border-t-[#1a2d4a]",
-          },
-          {
-            label: "Battalion Rank",
-            value: `#${s.batRank}`,
-            sub: s.battalionCode,
-            accent: "text-[#4a5c2f]",
-            topBorder: "border-t-[#4a5c2f]",
-          },
-          {
-            label: "Attendance",
-            value: `${scores.attendance}%`,
-            sub: "This batch",
-            accent: "text-emerald-600",
-            topBorder: "border-t-emerald-500",
-          },
-        ].map((c) => (
-          <Card
-            key={c.label}
-            className={`border border-t-4 border-stone-200 ${c.topBorder} bg-white shadow-sm`}
-          >
-            <CardContent className="px-4 pt-3 pb-3">
-              <div className="text-[10px] font-medium tracking-wide text-stone-400 uppercase">
-                {c.label}
+      {/* Profile header card */}
+      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
+        <div className="h-2 bg-gradient-to-r from-[#1a2d4a] via-[#4a5c2f] to-[#c8601a]" />
+        <CardContent className="px-6 py-5">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-2xl font-black text-white shadow-md">
+              {a.name
+                .split(" ")
+                .map((w) => w[0])
+                .slice(0, 2)
+                .join("")}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-lg font-black text-stone-900">{a.name}</div>
+              <div className="font-mono text-sm font-semibold text-[#c8601a]">
+                {a.agniveerNo}
               </div>
-              <div className={`mt-1 text-2xl font-black ${c.accent}`}>
-                {c.value}
+              <div className="mt-1 flex flex-wrap gap-2">
+                <Badge className="border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700">
+                  Active Duty
+                </Badge>
+                <Badge className="border border-[#c5d9a0] bg-[#eef3e6] text-[10px] text-[#4a5c2f]">
+                  {a.rank}
+                </Badge>
+                <Badge className="border border-sky-200 bg-sky-50 text-[10px] text-sky-700">
+                  {a.company}
+                </Badge>
+                <Badge className="border border-amber-200 bg-amber-50 text-[10px] text-amber-700">
+                  {a.platoon}
+                </Badge>
               </div>
-              <div className="mt-0.5 text-[10px] text-stone-400">{c.sub}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="text-[10px] tracking-wide text-stone-400 uppercase">
+                Medical Status
+              </div>
+              <div className="mt-1 font-bold text-emerald-600">{a.medical}</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* Scores + insights */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {/* Score bars */}
-        <Card className="border-stone-200 bg-white shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold text-stone-800">
-              My Scores — March 2025
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 px-4 pb-4">
-            {[
-              {
-                key: "physical",
-                label: "Physical Fitness",
-                icon: <Dumbbell size={12} />,
-              },
-              {
-                key: "weapons",
-                label: "Weapons Handling",
-                icon: <Target size={12} />,
-              },
-              {
-                key: "mental",
-                label: "Mental Resilience",
-                icon: <Brain size={12} />,
-              },
-              {
-                key: "combat",
-                label: "Combat Drills",
-                icon: <Swords size={12} />,
-              },
-              {
-                key: "attendance",
-                label: "Attendance",
-                icon: <CalendarDays size={12} />,
-              },
-              {
-                key: "discipline",
-                label: "Discipline",
-                icon: <ShieldCheck size={12} />,
-              },
-            ].map((row) => (
-              <ScoreBar
-                key={row.key}
-                label={row.label}
-                value={scores[row.key as keyof typeof scores]}
-                icon={row.icon}
-              />
-            ))}
-          </CardContent>
-        </Card>
-
-        {/* Insights */}
-        <div className="space-y-3">
-          {/* Strengths */}
-          <Card className="border border-emerald-200 bg-emerald-50 shadow-sm">
-            <CardHeader className="pb-1.5">
-              <CardTitle className="text-sm font-semibold text-emerald-800">
-                ✅ Strengths
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 px-4 pb-4">
-              {strengths.length === 0 ? (
-                <p className="text-xs text-emerald-700">
-                  No category above 85 yet. Keep going!
-                </p>
-              ) : (
-                strengths.map(([k, v]) => (
-                  <div key={k} className="flex items-start gap-2">
-                    <Star
-                      size={12}
-                      className="mt-0.5 shrink-0 text-emerald-600"
-                    />
-                    <div>
-                      <span className="text-xs font-semibold text-emerald-800">
-                        {scoreLabels[k]} — {v}
-                      </span>
-                      <p className="mt-0.5 text-[10px] text-emerald-700">
-                        {v >= 95
-                          ? "Exceptional — lead PT sessions to mentor peers."
-                          : "Excellent — maintain this standard."}
-                      </p>
-                    </div>
+      {/* Profile details */}
+      <Card className="border-stone-200 bg-white shadow-sm">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-semibold text-stone-800">
+            Service & Personal Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="px-0 pb-0">
+          <div className="divide-y divide-stone-50">
+            {profileFields.map((field, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 px-5 py-3 transition-colors hover:bg-stone-50"
+              >
+                <div className="mt-0.5 shrink-0">{field.icon}</div>
+                <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:flex-row sm:items-center sm:gap-6">
+                  <div className="w-40 shrink-0 text-[10px] font-bold tracking-wider text-stone-400 uppercase">
+                    {field.label}
                   </div>
-                ))
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Areas to improve */}
-          <Card className="border border-amber-200 bg-amber-50 shadow-sm">
-            <CardHeader className="pb-1.5">
-              <CardTitle className="text-sm font-semibold text-amber-800">
-                🔧 Areas to Improve
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 px-4 pb-4">
-              {improvements.length === 0 ? (
-                <p className="text-xs font-semibold text-emerald-700">
-                  No critical weaknesses. Great work!
-                </p>
-              ) : (
-                improvements.map(([k, v]) => (
-                  <div key={k} className="flex items-start gap-2">
-                    <AlertTriangle
-                      size={12}
-                      className="mt-0.5 shrink-0 text-amber-600"
-                    />
-                    <div>
-                      <span className="text-xs font-semibold text-amber-800">
-                        {scoreLabels[k]} — {v}
-                      </span>
-                      <p className="mt-0.5 text-[10px] text-amber-700">
-                        Needs focused improvement. Target: +10 in 8 weeks.
-                      </p>
-                    </div>
+                  <div className="text-sm font-medium break-all text-stone-800 sm:break-normal">
+                    {field.value}
                   </div>
-                ))
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Events */}
-          <Card className="border-stone-200 bg-white shadow-sm">
-            <CardHeader className="pb-1.5">
-              <CardTitle className="flex items-center gap-1.5 text-sm font-semibold text-stone-800">
-                <Trophy size={14} className="text-amber-500" /> Awards & Events
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2 px-4 pb-4">
-              {s.events.map((ev, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 text-xs text-stone-700"
-                >
-                  <Trophy size={11} className="shrink-0 text-amber-400" />
-                  {ev}
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Awards */}
+      <Card className="border-stone-200 bg-white shadow-sm">
+        <CardHeader className="pb-2">
+          <CardTitle className="flex items-center gap-1.5 text-sm font-semibold text-stone-800">
+            <Trophy size={14} className="text-amber-500" /> Awards &
+            Achievements
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 px-5 pb-4">
+          {a.events.map((ev, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 text-sm text-stone-700"
+            >
+              <Trophy size={12} className="shrink-0 text-amber-400" />
+              {ev}
+            </div>
+          ))}
+        </CardContent>
+      </Card>
 
       {/* Quick links */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           {
-            label: "View Training",
+            label: "Training",
             section: "training" as Section,
             icon: <Dumbbell size={14} />,
             color: "text-[#4a5c2f]",
           },
           {
-            label: "Daily Schedule",
+            label: "Schedule",
             section: "schedule" as Section,
             icon: <CalendarDays size={14} />,
             color: "text-sky-600",
           },
           {
-            label: "Medical Records",
+            label: "Medical",
             section: "medical" as Section,
             icon: <HeartPulse size={14} />,
             color: "text-rose-500",
           },
           {
-            label: "Stipend",
-            section: "stipend" as Section,
-            icon: <Landmark size={14} />,
+            label: "Equipment",
+            section: "equipment" as Section,
+            icon: <Package size={14} />,
             color: "text-amber-600",
           },
         ].map((q) => (
@@ -544,346 +409,916 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
 
 // ── TRAINING ──────────────────────────────────────────────────────────────────
 function TrainingSection() {
+  const [activeTab, setActiveTab] = useState<"history" | "plan" | "goals">(
+    "history"
+  )
+
   const records = [
     {
-      date: "14 Mar",
+      date: "14 Mar 2025",
       type: "Physical",
-      details: "Run: 12:34 min, Pushups: 52, Pullups: 14",
-      score: 91,
+      details: "5km Run: 23:10 min · Pushups: 52 · Pullups: 14 · Situps: 48",
+      instructor: "Sub. Ramesh Kumar",
+      status: "Completed",
     },
     {
-      date: "12 Mar",
+      date: "12 Mar 2025",
       type: "Weapons",
-      details: "Shooting: 88%, Handling: 86",
-      score: 85,
+      details: "INSAS Range: 44/50 · Zeroing: Done · Handling Drill: Passed",
+      instructor: "Nb. Sub. Anil Verma",
+      status: "Completed",
     },
     {
-      date: "10 Mar",
-      type: "Mental",
-      details: "Strategy: 79, Decision making: 82",
-      score: 79,
-    },
-    {
-      date: "07 Mar",
-      type: "Physical",
-      details: "Run: 12:15 min, Pushups: 55, Pullups: 15",
-      score: 93,
-    },
-    {
-      date: "05 Mar",
+      date: "10 Mar 2025",
       type: "Combat",
-      details: "Drill: 90, Obstacle course: 88",
-      score: 89,
+      details:
+        "Obstacle Course: 8:42 min · Field Craft: Satisfactory · Section Attack: Passed",
+      instructor: "Hav. Dinesh Yadav",
+      status: "Completed",
     },
     {
-      date: "02 Mar",
+      date: "07 Mar 2025",
+      type: "Physical",
+      details: "5km Run: 22:45 min · Pushups: 55 · Pullups: 15 · Situps: 50",
+      instructor: "Sub. Ramesh Kumar",
+      status: "Completed",
+    },
+    {
+      date: "05 Mar 2025",
+      type: "Drill",
+      details:
+        "Parade Ground: Good · Arms Drill: Satisfactory · March Past: Good",
+      instructor: "JCO Mahendra Singh",
+      status: "Completed",
+    },
+    {
+      date: "02 Mar 2025",
       type: "Weapons",
-      details: "Long range: 85%, Close range: 91",
-      score: 88,
+      details:
+        "Long Range 300m: 40/50 · Close Range 100m: 46/50 · Bayonet Drill: Passed",
+      instructor: "Nb. Sub. Anil Verma",
+      status: "Completed",
     },
   ]
+
+  const weeklyPlan = [
+    {
+      day: "Monday",
+      sessions: [
+        "05:00 – Morning PT (Run + Calisthenics)",
+        "08:30 – Weapons Training (INSAS)",
+        "14:30 – Combat Drills",
+      ],
+    },
+    {
+      day: "Tuesday",
+      sessions: [
+        "05:00 – Morning PT (Obstacle Course)",
+        "09:00 – Map Reading & Navigation",
+        "15:00 – Bayonet Drill",
+      ],
+    },
+    {
+      day: "Wednesday",
+      sessions: [
+        "05:00 – Swimming / Cross Training",
+        "08:30 – Section Attack Drill",
+        "14:30 – First Aid Training",
+      ],
+    },
+    {
+      day: "Thursday",
+      sessions: [
+        "05:00 – Morning PT (Strength)",
+        "08:30 – Shooting Range",
+        "14:30 – Field Craft",
+      ],
+    },
+    {
+      day: "Friday",
+      sessions: [
+        "05:00 – Morning PT + Formation Run",
+        "08:30 – Weapons Cleaning & Maintenance",
+        "14:30 – Combat Fitness Test",
+      ],
+    },
+    {
+      day: "Saturday",
+      sessions: [
+        "05:00 – Long March (10 km)",
+        "10:00 – Platoon-level Drills",
+        "14:00 – Inspection",
+      ],
+    },
+    {
+      day: "Sunday",
+      sessions: [
+        "Rest / Optional PT",
+        "Church/Temple Parade (0800)",
+        "Personal Time",
+      ],
+    },
+  ]
+
+  const goals = [
+    {
+      goal: "5km Run under 22:00 min",
+      current: "23:10 min",
+      target: "22:00 min",
+      deadline: "Jun 2025",
+      onTrack: true,
+    },
+    {
+      goal: "Pushups ≥ 60 reps",
+      current: "55 reps",
+      target: "60 reps",
+      deadline: "May 2025",
+      onTrack: true,
+    },
+    {
+      goal: "Shooting Accuracy ≥ 90%",
+      current: "88%",
+      target: "90%",
+      deadline: "Jul 2025",
+      onTrack: true,
+    },
+    {
+      goal: "Pullups ≥ 18 reps",
+      current: "15 reps",
+      target: "18 reps",
+      deadline: "Jun 2025",
+      onTrack: false,
+    },
+    {
+      goal: "Obstacle Course under 8:00 min",
+      current: "8:42 min",
+      target: "8:00 min",
+      deadline: "Aug 2025",
+      onTrack: false,
+    },
+  ]
+
+  const typeColor: Record<string, string> = {
+    Physical: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    Weapons: "border-rose-200 bg-rose-50 text-rose-700",
+    Combat: "border-[#1a2d4a]/20 bg-[#1a2d4a]/5 text-[#1a2d4a]",
+    Drill: "border-amber-200 bg-amber-50 text-amber-700",
+  }
 
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-xl font-bold text-stone-900">Training Records</h1>
         <p className="mt-0.5 text-xs text-stone-400">
-          Your performance history · 1st Rajputana Rifles
+          Performance history & weekly plan · 1st Rajputana Rifles
         </p>
       </div>
 
       {/* Personal bests */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Running Best", value: "12:15 min" },
-          { label: "Max Pushups", value: "55" },
-          { label: "Shooting Acc.", value: "91%" },
-          { label: "Overall Score", value: "89" },
+          {
+            label: "Best 5km Run",
+            value: "22:45 min",
+            sub: "07 Mar 2025",
+            icon: <Activity size={14} className="text-emerald-500" />,
+          },
+          {
+            label: "Max Pushups",
+            value: "55 reps",
+            sub: "07 Mar 2025",
+            icon: <Dumbbell size={14} className="text-[#4a5c2f]" />,
+          },
+          {
+            label: "Best Shooting",
+            value: "46 / 50",
+            sub: "02 Mar 2025",
+            icon: <Target size={14} className="text-rose-500" />,
+          },
+          {
+            label: "Max Pullups",
+            value: "15 reps",
+            sub: "07 Mar 2025",
+            icon: <Zap size={14} className="text-amber-500" />,
+          },
         ].map((c) => (
           <Card key={c.label} className="border-stone-200 bg-white shadow-sm">
             <CardContent className="px-4 pt-3 pb-3">
-              <div className="text-[10px] tracking-wide text-stone-400 uppercase">
-                {c.label}
+              <div className="mb-1 flex items-center gap-1.5 text-[10px] tracking-wide text-stone-400 uppercase">
+                {c.icon} {c.label}
               </div>
-              <div className="mt-1 text-xl font-black text-[#1a2d4a]">
-                {c.value}
-              </div>
+              <div className="text-xl font-black text-[#1a2d4a]">{c.value}</div>
+              <div className="mt-0.5 text-[10px] text-stone-400">{c.sub}</div>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Training history table */}
-      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            Training History
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-0 pb-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-stone-100 bg-stone-50">
-                  {["Date", "Type", "Details", "Score", "Grade"].map((h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-2.5 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-stone-500 uppercase"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-50">
-                {records.map((r, i) => (
-                  <tr key={i} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-mono text-xs text-stone-400">
-                      {r.date}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge className="border border-sky-200 bg-sky-50 text-xs text-sky-700">
-                        {r.type}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-stone-500">
-                      {r.details}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`text-sm font-black ${sc(r.score)}`}>
-                        {r.score}
-                      </span>
-                      <span className="text-xs text-stone-400">/100</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge className={`border text-xs ${grade(r.score).c}`}>
-                        {grade(r.score).l}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Tabs */}
+      <div className="flex gap-1 rounded-lg border border-stone-200 bg-stone-50 p-1">
+        {[
+          { key: "history", label: "Training History" },
+          { key: "plan", label: "Weekly Plan" },
+          { key: "goals", label: "Goals" },
+        ].map((t) => (
+          <button
+            key={t.key}
+            onClick={() => setActiveTab(t.key as any)}
+            className={`flex-1 rounded-md px-3 py-2 text-xs font-semibold transition-all ${
+              activeTab === t.key
+                ? "bg-white text-[#1a2d4a] shadow-sm"
+                : "text-stone-500 hover:text-stone-700"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
 
-      {/* Score trend */}
-      <Card className="border-stone-200 bg-white shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            6-Month Score Trend
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2.5 px-4 pb-4">
-          {[
-            { m: "Oct", v: 81 },
-            { m: "Nov", v: 83 },
-            { m: "Dec", v: 85 },
-            { m: "Jan", v: 86 },
-            { m: "Feb", v: 88 },
-            { m: "Mar", v: 89 },
-          ].map((pt, i, arr) => (
-            <div key={pt.m} className="flex items-center gap-3">
-              <span className="w-7 text-xs font-medium text-stone-400">
-                {pt.m}
-              </span>
-              <div className="h-5 flex-1 overflow-hidden rounded-full bg-stone-100">
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${i === arr.length - 1 ? "bg-[#c8601a]" : "bg-[#4a5c2f]"}`}
-                  style={{ width: `${pt.v}%` }}
-                />
-              </div>
-              <span
-                className={`w-8 text-right text-sm font-bold ${i === arr.length - 1 ? "text-[#c8601a]" : "text-[#4a5c2f]"}`}
-              >
-                {pt.v}
-              </span>
+      {/* History tab */}
+      {activeTab === "history" && (
+        <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
+          <CardContent className="px-0 pb-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-stone-100 bg-stone-50">
+                    {["Date", "Type", "Details", "Instructor", "Status"].map(
+                      (h) => (
+                        <th
+                          key={h}
+                          className="px-4 py-2.5 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-stone-500 uppercase"
+                        >
+                          {h}
+                        </th>
+                      )
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-50">
+                  {records.map((r, i) => (
+                    <tr key={i} className="hover:bg-stone-50">
+                      <td className="px-4 py-3 font-mono text-xs whitespace-nowrap text-stone-400">
+                        {r.date}
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge
+                          className={`border text-xs ${typeColor[r.type] || "border-sky-200 bg-sky-50 text-sky-700"}`}
+                        >
+                          {r.type}
+                        </Badge>
+                      </td>
+                      <td className="min-w-[200px] px-4 py-3 text-xs text-stone-600">
+                        {r.details}
+                      </td>
+                      <td className="px-4 py-3 text-xs whitespace-nowrap text-stone-500">
+                        {r.instructor}
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge className="border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
+                          ✓ {r.status}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Weekly plan tab */}
+      {activeTab === "plan" && (
+        <div className="space-y-2">
+          {weeklyPlan.map((day, i) => (
+            <Card
+              key={i}
+              className={`border-stone-200 bg-white shadow-sm ${i === 4 ? "border-l-4 border-l-[#c8601a]" : ""}`}
+            >
+              <CardContent className="px-5 py-3">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+                  <div
+                    className={`w-24 shrink-0 text-xs font-bold tracking-wide uppercase ${i === 4 ? "text-[#c8601a]" : "text-[#1a2d4a]"}`}
+                  >
+                    {day.day}
+                    {i === 4 && (
+                      <span className="ml-1 text-[9px] font-normal text-stone-400">
+                        (Today)
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {day.sessions.map((s, j) => (
+                      <span
+                        key={j}
+                        className="rounded border border-stone-100 bg-stone-50 px-2 py-1 text-xs text-stone-600"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      )}
+
+      {/* Goals tab */}
+      {activeTab === "goals" && (
+        <div className="space-y-3">
+          {goals.map((g, i) => (
+            <Card
+              key={i}
+              className={`border bg-white shadow-sm ${g.onTrack ? "border-emerald-200" : "border-amber-200"}`}
+            >
+              <CardContent className="px-5 py-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      {g.onTrack ? (
+                        <CheckCircle2
+                          size={13}
+                          className="shrink-0 text-emerald-500"
+                        />
+                      ) : (
+                        <AlertTriangle
+                          size={13}
+                          className="shrink-0 text-amber-500"
+                        />
+                      )}
+                      <span className="text-sm font-semibold text-stone-800">
+                        {g.goal}
+                      </span>
+                    </div>
+                    <div className="mt-1.5 flex flex-wrap gap-3 text-xs text-stone-500">
+                      <span>
+                        Current:{" "}
+                        <strong className="text-stone-700">{g.current}</strong>
+                      </span>
+                      <span>
+                        Target:{" "}
+                        <strong className="text-stone-700">{g.target}</strong>
+                      </span>
+                      <span>
+                        Deadline:{" "}
+                        <strong className="text-stone-700">{g.deadline}</strong>
+                      </span>
+                    </div>
+                  </div>
+                  <Badge
+                    className={`shrink-0 border text-xs ${g.onTrack ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-700"}`}
+                  >
+                    {g.onTrack ? "On Track" : "Needs Focus"}
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
 // ── SCHEDULE ──────────────────────────────────────────────────────────────────
 function ScheduleSection() {
-  const [day, setDay] = useState(4) // Friday
+  const [day, setDay] = useState(4)
+  const [view, setView] = useState<"daily" | "monthly">("daily")
 
-  const schedule = [
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+  const weeklySchedules: Record<
+    number,
+    Array<{
+      time: string
+      activity: string
+      location: string
+      category: string
+      done?: boolean
+      active?: boolean
+    }>
+  > = {
+    0: [
+      {
+        time: "05:00",
+        activity: "Morning Physical Training",
+        location: "Parade Ground",
+        category: "PT",
+        done: true,
+      },
+      {
+        time: "07:00",
+        activity: "Breakfast",
+        location: "Mess Hall",
+        category: "Meal",
+        done: true,
+      },
+      {
+        time: "08:30",
+        activity: "Weapons Training (INSAS Drill)",
+        location: "Range Area",
+        category: "Weapons",
+        done: true,
+      },
+      {
+        time: "11:00",
+        activity: "Map Reading & Navigation",
+        location: "Classroom A",
+        category: "Academic",
+      },
+      {
+        time: "13:00",
+        activity: "Lunch Break",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "14:30",
+        activity: "Section Attack Drill",
+        location: "Training Ground",
+        category: "Combat",
+      },
+      {
+        time: "16:30",
+        activity: "Evening Run (5 km)",
+        location: "Track",
+        category: "PT",
+      },
+      {
+        time: "19:00",
+        activity: "Study Hours",
+        location: "Barrack",
+        category: "Academic",
+      },
+      {
+        time: "22:00",
+        activity: "Lights Out",
+        location: "Barrack",
+        category: "Rest",
+      },
+    ],
+    1: [
+      {
+        time: "05:00",
+        activity: "Morning PT (Obstacle Course)",
+        location: "Obstacle Track",
+        category: "PT",
+        done: true,
+      },
+      {
+        time: "07:00",
+        activity: "Breakfast",
+        location: "Mess Hall",
+        category: "Meal",
+        done: true,
+      },
+      {
+        time: "09:00",
+        activity: "Map Reading & Navigation",
+        location: "Classroom B",
+        category: "Academic",
+      },
+      {
+        time: "11:00",
+        activity: "Bayonet Drill",
+        location: "Drill Square",
+        category: "Combat",
+      },
+      {
+        time: "13:00",
+        activity: "Lunch Break",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "14:30",
+        activity: "First Aid & Buddy Aid",
+        location: "Medical Block",
+        category: "Academic",
+      },
+      { time: "16:30", activity: "Free PT", location: "Gym", category: "PT" },
+      {
+        time: "19:00",
+        activity: "Study Hours",
+        location: "Barrack",
+        category: "Academic",
+      },
+      {
+        time: "22:00",
+        activity: "Lights Out",
+        location: "Barrack",
+        category: "Rest",
+      },
+    ],
+    4: [
+      {
+        time: "05:00",
+        activity: "Morning Physical Training",
+        location: "Parade Ground",
+        category: "PT",
+        done: true,
+      },
+      {
+        time: "07:00",
+        activity: "Breakfast",
+        location: "Mess Hall",
+        category: "Meal",
+        done: true,
+      },
+      {
+        time: "08:30",
+        activity: "Weapons Training",
+        location: "Range Area",
+        category: "Weapons",
+        done: true,
+      },
+      {
+        time: "11:00",
+        activity: "Combat Drills",
+        location: "Obstacle Course",
+        category: "Combat",
+        active: true,
+      },
+      {
+        time: "13:00",
+        activity: "Lunch Break",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "14:30",
+        activity: "Mental Resilience Class",
+        location: "Classroom Block A",
+        category: "Academic",
+      },
+      {
+        time: "16:30",
+        activity: "Evening Run (5 km)",
+        location: "Track",
+        category: "PT",
+      },
+      {
+        time: "19:00",
+        activity: "Study Hours",
+        location: "Barrack",
+        category: "Academic",
+      },
+      {
+        time: "22:00",
+        activity: "Lights Out",
+        location: "Barrack",
+        category: "Rest",
+      },
+    ],
+    5: [
+      {
+        time: "05:00",
+        activity: "Long March (10 km)",
+        location: "Training Area",
+        category: "PT",
+        done: true,
+      },
+      {
+        time: "09:00",
+        activity: "Breakfast",
+        location: "Mess Hall",
+        category: "Meal",
+        done: true,
+      },
+      {
+        time: "10:00",
+        activity: "Platoon-level Drills",
+        location: "Parade Ground",
+        category: "Combat",
+      },
+      {
+        time: "13:00",
+        activity: "Lunch Break",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "14:30",
+        activity: "Kit & Barrack Inspection",
+        location: "Barracks",
+        category: "Admin",
+      },
+      {
+        time: "16:30",
+        activity: "Sports Hour",
+        location: "Sports Ground",
+        category: "PT",
+      },
+      {
+        time: "19:00",
+        activity: "Free Time / Personal Admin",
+        location: "Barrack",
+        category: "Rest",
+      },
+      {
+        time: "22:00",
+        activity: "Lights Out",
+        location: "Barrack",
+        category: "Rest",
+      },
+    ],
+    6: [
+      {
+        time: "06:00",
+        activity: "Sunday Parade / Church-Temple",
+        location: "Parade Ground",
+        category: "Admin",
+      },
+      {
+        time: "08:00",
+        activity: "Breakfast",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "09:30",
+        activity: "Optional PT / Games",
+        location: "Sports Ground",
+        category: "PT",
+      },
+      {
+        time: "13:00",
+        activity: "Lunch",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "14:00",
+        activity: "Personal Time / Letter Writing",
+        location: "Barrack",
+        category: "Rest",
+      },
+      {
+        time: "19:00",
+        activity: "Dinner",
+        location: "Mess Hall",
+        category: "Meal",
+      },
+      {
+        time: "22:00",
+        activity: "Lights Out",
+        location: "Barrack",
+        category: "Rest",
+      },
+    ],
+  }
+
+  const defaultSchedule = [
     {
       time: "05:00",
       activity: "Morning Physical Training",
       location: "Parade Ground",
-      color: "#4a5e3a",
-      done: true,
+      category: "PT",
     },
     {
       time: "07:00",
-      activity: "Breakfast & Rest",
+      activity: "Breakfast",
       location: "Mess Hall",
-      color: "#b8941a",
-      done: true,
+      category: "Meal",
     },
     {
       time: "08:30",
-      activity: "Weapons Training",
-      location: "Range Area",
-      color: "#c0392b",
-      done: true,
-    },
-    {
-      time: "11:00",
-      activity: "Combat Drills",
-      location: "Obstacle Course",
-      color: "#1a2d4a",
-      active: true,
+      activity: "Training Session",
+      location: "Training Area",
+      category: "Combat",
     },
     {
       time: "13:00",
       activity: "Lunch Break",
       location: "Mess Hall",
-      color: "#b8941a",
-    },
-    {
-      time: "14:30",
-      activity: "Mental Resilience Class",
-      location: "Classroom Block A",
-      color: "#1565c0",
+      category: "Meal",
     },
     {
       time: "16:30",
-      activity: "Evening Run (5 km)",
+      activity: "Evening Run",
       location: "Track",
-      color: "#4a5e3a",
+      category: "PT",
     },
     {
       time: "19:00",
       activity: "Study Hours",
       location: "Barrack",
-      color: "#777",
+      category: "Academic",
     },
     {
-      time: "21:00",
+      time: "22:00",
       activity: "Lights Out",
       location: "Barrack",
-      color: "#444",
+      category: "Rest",
     },
   ]
 
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  const schedule = weeklySchedules[day] || defaultSchedule
+
+  const catColor: Record<string, string> = {
+    PT: "#4a5c2f",
+    Weapons: "#c0392b",
+    Combat: "#1a2d4a",
+    Academic: "#1565c0",
+    Meal: "#b8941a",
+    Admin: "#6d4c41",
+    Rest: "#757575",
+  }
+
+  const monthlyHighlights = [
+    { date: "01 Mar", event: "Batch Physical Efficiency Test", type: "PT" },
+    { date: "05 Mar", event: "Combat Drill Assessment", type: "Combat" },
+    { date: "12 Mar", event: "Weapons Range Day (Full Day)", type: "Weapons" },
+    { date: "14 Mar", event: "Commanding Officer's Inspection", type: "Admin" },
+    { date: "20 Mar", event: "Medical Check-up", type: "Medical" },
+    { date: "25 Mar", event: "Cross-Country Run (20 km)", type: "PT" },
+    { date: "28 Mar", event: "Night Exercise", type: "Combat" },
+    { date: "31 Mar", event: "End-of-Month Review", type: "Admin" },
+  ]
 
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-xl font-bold text-stone-900">Daily Schedule</h1>
         <p className="mt-0.5 text-xs text-stone-400">
-          14 March 2025 · {SOLDIER.battalion}
+          March 2025 · {AGNIVEER.battalion}
         </p>
       </div>
 
-      {/* Day selector */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
-        {days.map((d, i) => (
+      {/* View toggle */}
+      <div className="flex w-fit gap-1 rounded-lg border border-stone-200 bg-stone-50 p-1">
+        {[
+          { key: "daily", label: "Daily View" },
+          { key: "monthly", label: "Monthly Events" },
+        ].map((v) => (
           <button
-            key={i}
-            onClick={() => setDay(i)}
-            className={`shrink-0 rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
-              i === day
-                ? "border-[#1a2d4a] bg-[#1a2d4a] text-white"
-                : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
-            }`}
+            key={v.key}
+            onClick={() => setView(v.key as any)}
+            className={`rounded-md px-4 py-1.5 text-xs font-semibold transition-all ${view === v.key ? "bg-white text-[#1a2d4a] shadow-sm" : "text-stone-500 hover:text-stone-700"}`}
           >
-            {d}
+            {v.label}
           </button>
         ))}
       </div>
 
-      {/* Timeline */}
-      <Card className="border-stone-200 bg-white shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            {days[day]} Programme
-          </CardTitle>
-          <Badge className="border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
-            On Schedule
-          </Badge>
-        </CardHeader>
-        <CardContent className="px-4 pb-4">
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute top-0 bottom-0 left-[68px] w-px bg-stone-100" />
-
-            {schedule.map((item, i) => (
-              <div
+      {view === "daily" && (
+        <>
+          {/* Day selector */}
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {days.map((d, i) => (
+              <button
                 key={i}
-                className={`mb-1 flex items-start gap-4 rounded-lg px-3 py-3 transition-all ${
-                  (item as any).active
-                    ? "border border-orange-200 bg-orange-50"
-                    : "hover:bg-stone-50"
+                onClick={() => setDay(i)}
+                className={`shrink-0 rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
+                  i === day
+                    ? "border-[#1a2d4a] bg-[#1a2d4a] text-white"
+                    : i === 4
+                      ? "border-[#c8601a] bg-orange-50 text-[#c8601a]"
+                      : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
                 }`}
               >
-                {/* Time */}
-                <span className="mt-0.5 w-12 shrink-0 font-mono text-xs font-medium text-stone-400">
-                  {item.time}
-                </span>
-
-                {/* Dot */}
-                <div className="relative z-10 mt-1 shrink-0">
-                  <div
-                    className={`h-3.5 w-3.5 rounded-full border-2 transition-all`}
-                    style={{
-                      borderColor: item.color,
-                      background:
-                        (item as any).done || (item as any).active
-                          ? item.color
-                          : "#fff",
-                    }}
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className={`text-sm font-semibold ${
-                        (item as any).active
-                          ? "text-[#c8601a]"
-                          : (item as any).done
-                            ? "text-stone-400 line-through"
-                            : "text-stone-800"
-                      }`}
-                    >
-                      {(item as any).active && "▶ "}
-                      {item.activity}
-                    </span>
-                    {(item as any).done && (
-                      <span className="text-[10px] font-bold text-emerald-600">
-                        ✓ Done
-                      </span>
-                    )}
-                    {(item as any).active && (
-                      <Badge className="border border-amber-200 bg-amber-50 text-[10px] text-amber-700">
-                        In Progress
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="mt-0.5 text-xs text-stone-400">
-                    📍 {item.location}
-                  </div>
-                </div>
-              </div>
+                {d}
+                {i === 4 && (
+                  <span className="block text-[9px] font-normal">Today</span>
+                )}
+              </button>
             ))}
           </div>
-        </CardContent>
-      </Card>
+
+          <Card className="border-stone-200 bg-white shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-semibold text-stone-800">
+                {days[day]} Programme
+              </CardTitle>
+              <Badge className="border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
+                On Schedule
+              </Badge>
+            </CardHeader>
+            <CardContent className="px-4 pb-4">
+              <div className="relative">
+                <div className="absolute top-0 bottom-0 left-[68px] w-px bg-stone-100" />
+                {schedule.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`mb-1 flex items-start gap-4 rounded-lg px-3 py-3 transition-all ${
+                      (item as any).active
+                        ? "border border-orange-200 bg-orange-50"
+                        : "hover:bg-stone-50"
+                    }`}
+                  >
+                    <span className="mt-0.5 w-12 shrink-0 font-mono text-xs font-medium text-stone-400">
+                      {item.time}
+                    </span>
+                    <div className="relative z-10 mt-1 shrink-0">
+                      <div
+                        className="h-3.5 w-3.5 rounded-full border-2 transition-all"
+                        style={{
+                          borderColor: catColor[item.category] || "#ccc",
+                          background:
+                            (item as any).done || (item as any).active
+                              ? catColor[item.category] || "#ccc"
+                              : "#fff",
+                        }}
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span
+                          className={`text-sm font-semibold ${(item as any).active ? "text-[#c8601a]" : (item as any).done ? "text-stone-400 line-through" : "text-stone-800"}`}
+                        >
+                          {(item as any).active && "▶ "}
+                          {item.activity}
+                        </span>
+                        {(item as any).done && (
+                          <span className="text-[10px] font-bold text-emerald-600">
+                            ✓ Done
+                          </span>
+                        )}
+                        {(item as any).active && (
+                          <Badge className="border border-amber-200 bg-amber-50 text-[10px] text-amber-700">
+                            In Progress
+                          </Badge>
+                        )}
+                        <Badge className="border border-stone-100 bg-stone-50 text-[10px] text-stone-500">
+                          {item.category}
+                        </Badge>
+                      </div>
+                      <div className="mt-0.5 text-xs text-stone-400">
+                        📍 {item.location}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
+
+      {view === "monthly" && (
+        <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-semibold text-stone-800">
+              March 2025 — Key Events
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="px-0 pb-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-stone-100 bg-stone-50">
+                    {["Date", "Event", "Type"].map((h) => (
+                      <th
+                        key={h}
+                        className="px-4 py-2.5 text-left text-xs font-semibold tracking-wide text-stone-500 uppercase"
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-50">
+                  {monthlyHighlights.map((e, i) => (
+                    <tr key={i} className="hover:bg-stone-50">
+                      <td className="px-4 py-3 font-mono text-xs whitespace-nowrap text-stone-400">
+                        {e.date}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-stone-700">
+                        {e.event}
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge
+                          className={`border text-xs ${typeColor2[e.type] || "border-stone-200 bg-stone-50 text-stone-600"}`}
+                        >
+                          {e.type}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
 
+const typeColor2: Record<string, string> = {
+  PT: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  Weapons: "border-rose-200 bg-rose-50 text-rose-700",
+  Combat: "border-[#1a2d4a]/20 bg-[#1a2d4a]/5 text-[#1a2d4a]",
+  Admin: "border-amber-200 bg-amber-50 text-amber-700",
+  Medical: "border-sky-200 bg-sky-50 text-sky-700",
+}
+
 // ── MEDICAL ───────────────────────────────────────────────────────────────────
 function MedicalSection() {
+  const [sickReportOpen, setSickReportOpen] = useState(false)
+
   const records = [
     {
       date: "01 Mar 2025",
@@ -901,6 +1336,21 @@ function MedicalSection() {
     },
   ]
 
+  const lastSickReport = {
+    date: "15 Jan 2025",
+    reportNo: "SR/RR1/2025/0042",
+    doctor: "Dr. Rajan Mehta",
+    presenting:
+      "Pain and swelling in right ankle after obstacle course training",
+    diagnosis: "Grade I ankle sprain (right lateral ligament)",
+    treatment:
+      "RICE protocol, diclofenac 50mg BD × 5 days, physiotherapy × 3 sessions",
+    restDays: "5 days light duty",
+    followUp: "22 Jan 2025",
+    outcome: "Fully recovered — returned to full duty",
+    status: "Closed",
+  }
+
   return (
     <div className="space-y-5">
       <div>
@@ -913,17 +1363,33 @@ function MedicalSection() {
       {/* Quick stats */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
-          { label: "Blood Group", value: SOLDIER.blood },
-          { label: "BMI", value: "23.4" },
-          { label: "Last Checkup", value: "01 Mar 2025" },
-          { label: "Fitness Status", value: "Fit for Duty" },
+          {
+            label: "Blood Group",
+            value: AGNIVEER.blood,
+            icon: <Droplets size={13} className="text-rose-500" />,
+          },
+          {
+            label: "BMI",
+            value: "23.4",
+            icon: <Weight size={13} className="text-sky-500" />,
+          },
+          {
+            label: "Height",
+            value: "174 cm",
+            icon: <Ruler size={13} className="text-[#4a5c2f]" />,
+          },
+          {
+            label: "Fitness Status",
+            value: "Fit for Duty",
+            icon: <Heart size={13} className="text-emerald-500" />,
+          },
         ].map((c) => (
           <Card key={c.label} className="border-stone-200 bg-white shadow-sm">
             <CardContent className="px-4 pt-3 pb-3">
-              <div className="text-[10px] tracking-wide text-stone-400 uppercase">
-                {c.label}
+              <div className="mb-1 flex items-center gap-1 text-[10px] tracking-wide text-stone-400 uppercase">
+                {c.icon} {c.label}
               </div>
-              <div className="mt-1 text-base font-black text-[#1a2d4a]">
+              <div className="mt-0.5 text-base font-black text-[#1a2d4a]">
                 {c.value}
               </div>
             </CardContent>
@@ -931,7 +1397,7 @@ function MedicalSection() {
         ))}
       </div>
 
-      {/* Medical fitness summary */}
+      {/* Fit for duty banner */}
       <div className="flex items-start gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3">
         <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-emerald-600" />
         <div className="text-sm text-emerald-800">
@@ -948,50 +1414,135 @@ function MedicalSection() {
           </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {[
               {
                 label: "Blood Pressure",
                 value: "118/76 mmHg",
-                status: "Normal",
-                color: "emerald",
+                icon: <Activity size={13} />,
               },
               {
                 label: "Heart Rate",
                 value: "68 bpm",
-                status: "Normal",
-                color: "emerald",
+                icon: <Heart size={13} />,
+              },
+              { label: "Weight", value: "68 kg", icon: <Weight size={13} /> },
+              { label: "Height", value: "174 cm", icon: <Ruler size={13} /> },
+              {
+                label: "Vision — Right Eye",
+                value: "6/6",
+                icon: <Eye size={13} />,
               },
               {
-                label: "Weight",
-                value: "68 kg",
-                status: "Normal",
-                color: "emerald",
+                label: "Vision — Left Eye",
+                value: "6/6",
+                icon: <Eye size={13} />,
               },
               {
-                label: "Vision",
-                value: "6/6 (Both)",
-                status: "Normal",
-                color: "emerald",
+                label: "Colour Vision",
+                value: "Normal",
+                icon: <Eye size={13} />,
+              },
+              {
+                label: "Hearing",
+                value: "Normal (Both)",
+                icon: <Activity size={13} />,
+              },
+              {
+                label: "Chest (Normal)",
+                value: "82 cm",
+                icon: <Ruler size={13} />,
+              },
+              {
+                label: "Chest (Expanded)",
+                value: "87 cm",
+                icon: <Ruler size={13} />,
+              },
+              {
+                label: "Blood Group",
+                value: AGNIVEER.blood,
+                icon: <Droplets size={13} />,
+              },
+              {
+                label: "Dental",
+                value: "Healthy",
+                icon: <ShieldCheck size={13} />,
               },
             ].map((v) => (
               <div
                 key={v.label}
                 className="rounded-lg border border-stone-100 bg-stone-50 p-3"
               >
-                <div className="text-[10px] tracking-wide text-stone-400 uppercase">
-                  {v.label}
+                <div className="mb-1 flex items-center gap-1 text-[10px] tracking-wide text-stone-400 uppercase">
+                  <span className="text-stone-400">{v.icon}</span> {v.label}
                 </div>
-                <div className="mt-1 text-sm font-bold text-stone-800">
+                <div className="text-sm font-bold text-stone-800">
                   {v.value}
                 </div>
                 <Badge className="mt-1 border border-emerald-200 bg-emerald-100 text-[10px] text-emerald-700">
-                  {v.status}
+                  Normal
                 </Badge>
               </div>
             ))}
           </div>
         </CardContent>
+      </Card>
+
+      {/* Last Sick Report — collapsible */}
+      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
+        <button
+          className="flex w-full items-center justify-between px-5 py-4 transition-colors hover:bg-stone-50"
+          onClick={() => setSickReportOpen(!sickReportOpen)}
+        >
+          <div className="flex items-center gap-2">
+            <HeartPulse size={15} className="text-rose-500" />
+            <span className="text-sm font-semibold text-stone-800">
+              Last Sick Report
+            </span>
+            <Badge className="border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700">
+              Closed
+            </Badge>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-stone-400">
+            <span>{lastSickReport.date}</span>
+            {sickReportOpen ? (
+              <ChevronUp size={14} />
+            ) : (
+              <ChevronDown size={14} />
+            )}
+          </div>
+        </button>
+        {sickReportOpen && (
+          <div className="border-t border-stone-100 bg-stone-50 px-5 pt-4 pb-5">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {[
+                { label: "Report No.", value: lastSickReport.reportNo },
+                { label: "Date", value: lastSickReport.date },
+                { label: "Attending Doctor", value: lastSickReport.doctor },
+                { label: "Follow-up Date", value: lastSickReport.followUp },
+                {
+                  label: "Presenting Complaint",
+                  value: lastSickReport.presenting,
+                },
+                { label: "Diagnosis", value: lastSickReport.diagnosis },
+                { label: "Treatment Given", value: lastSickReport.treatment },
+                { label: "Rest / Light Duty", value: lastSickReport.restDays },
+                { label: "Outcome", value: lastSickReport.outcome },
+                { label: "Status", value: lastSickReport.status },
+              ].map((f, i) => (
+                <div
+                  key={i}
+                  className="rounded border border-stone-100 bg-white p-3"
+                >
+                  <div className="text-[10px] font-bold tracking-wider text-stone-400 uppercase">
+                    {f.label}
+                  </div>
+                  <div className="mt-0.5 text-sm text-stone-700">{f.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </Card>
 
       {/* History table */}
@@ -1055,121 +1606,121 @@ function MedicalSection() {
 
 // ── EQUIPMENT ─────────────────────────────────────────────────────────────────
 function EquipmentSection() {
+  const equipment = [
+    {
+      name: "INSAS Rifle",
+      type: "Weapon",
+      serial: "WPN/INSAS/2024/0312",
+      issued: "15 Jan 2024",
+      condition: "Good",
+      remarks: "Maintained and zeroed. Last cleaned 12 Mar 2025.",
+    },
+    {
+      name: "Ballistic Helmet (MK II)",
+      type: "Protective Gear",
+      serial: "EQP/HLM/2024/0712",
+      issued: "15 Jan 2024",
+      condition: "Good",
+      remarks: "No visible damage. Chin strap intact.",
+    },
+    {
+      name: "Wooden Rifle (Drill)",
+      type: "Drill Equipment",
+      serial: "DRILL/WR/2024/0101",
+      issued: "15 Jan 2024",
+      condition: "Good",
+      remarks: "Used for parade and drill practice only.",
+    },
+    {
+      name: "Combat Uniform (Set of 3)",
+      type: "Uniform",
+      serial: "UNF/CMB/2024/0101",
+      issued: "15 Jan 2024",
+      condition: "Worn",
+      remarks: "One set showing wear at elbows. Replacement requested.",
+    },
+    {
+      name: "Combat Shoes (DMS Boots)",
+      type: "Footwear",
+      serial: "FTW/DMS/2024/0202",
+      issued: "15 Jan 2024",
+      condition: "Worn",
+      remarks: "Sole wear observed. Due for replacement.",
+    },
+    {
+      name: "Be Scale (Basic Equipment Scale)",
+      type: "Field Kit",
+      serial: "BESC/RR1/2024/0101",
+      issued: "15 Jan 2024",
+      condition: "Good",
+      remarks:
+        "Complete kit: water bottle, mess tin, haversack, bayonet, entrenching tool, ammo pouches, cape groundsheet.",
+    },
+  ]
+
+  const conditionStyle: Record<string, string> = {
+    Good: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    Worn: "border-amber-200 bg-amber-50 text-amber-700",
+    Damaged: "border-rose-200 bg-rose-50 text-rose-700",
+  }
+
+  const typeIcon: Record<string, React.ReactNode> = {
+    Weapon: <Crosshair size={14} className="text-rose-500" />,
+    "Protective Gear": <HardHat size={14} className="text-[#1a2d4a]" />,
+    "Drill Equipment": <Crosshair size={14} className="text-stone-500" />,
+    Uniform: <Shirt size={14} className="text-[#4a5c2f]" />,
+    Footwear: <Footprints size={14} className="text-amber-600" />,
+    "Field Kit": <Package size={14} className="text-sky-600" />,
+  }
+
+  const good = equipment.filter((e) => e.condition === "Good").length
+  const worn = equipment.filter((e) => e.condition === "Worn").length
+
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-xl font-bold text-stone-900">Equipment & Arms</h1>
         <p className="mt-0.5 text-xs text-stone-400">
-          Issued weapons, uniform, and gear
+          Issued weapons, uniform, and field kit
         </p>
       </div>
 
-      <div className="flex items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
-        <Shield size={14} className="shrink-0" />
+      {/* Warning banner */}
+      <div className="flex items-start gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+        <Shield size={14} className="mt-0.5 shrink-0" />
         <span>
           All equipment is under your personal responsibility. Report any loss
-          or damage to the Quartermaster immediately.
+          or damage to the Quartermaster immediately. Unauthorized transfer of
+          equipment is a punishable offence.
         </span>
       </div>
-
-      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            Issued Items
-          </CardTitle>
-          <Badge className="border border-[#c5d9a0] bg-[#eef3e6] text-xs text-[#4a5c2f]">
-            {SOLDIER.equipment.length} Items
-          </Badge>
-        </CardHeader>
-        <CardContent className="px-0 pb-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-stone-100 bg-stone-50">
-                  {[
-                    "#",
-                    "Item Name",
-                    "Type",
-                    "Issued On",
-                    "Condition",
-                    "Action",
-                  ].map((h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-2.5 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-stone-500 uppercase"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-50">
-                {SOLDIER.equipment.map((eq, i) => (
-                  <tr key={i} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-mono text-xs text-stone-400">
-                      {i + 1}
-                    </td>
-                    <td className="px-4 py-3 font-medium text-stone-800">
-                      📦 {eq.name}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge className="border border-sky-200 bg-sky-50 text-xs text-sky-700">
-                        {eq.type}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-stone-400">
-                      {eq.issued}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge
-                        className={`border text-xs ${
-                          eq.condition === "Worn"
-                            ? "border-amber-200 bg-amber-50 text-amber-700"
-                            : "border-emerald-200 bg-emerald-50 text-emerald-700"
-                        }`}
-                      >
-                        {eq.condition}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="h-6 border-stone-200 px-2 text-[10px] text-stone-500"
-                      >
-                        Report Issue
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Summary stats */}
       <div className="grid grid-cols-3 gap-3">
         {[
           {
             label: "Total Items",
-            value: SOLDIER.equipment.length,
+            value: equipment.length,
             color: "text-stone-700",
+            border: "border-t-stone-400",
           },
           {
             label: "Good Condition",
-            value: SOLDIER.equipment.filter((e) => e.condition === "Good")
-              .length,
+            value: good,
             color: "text-emerald-600",
+            border: "border-t-emerald-500",
           },
           {
             label: "Needs Attention",
-            value: SOLDIER.equipment.filter((e) => e.condition === "Worn")
-              .length,
+            value: worn,
             color: "text-amber-600",
+            border: "border-t-amber-500",
           },
         ].map((s) => (
-          <Card key={s.label} className="border-stone-200 bg-white shadow-sm">
+          <Card
+            key={s.label}
+            className={`border border-t-4 border-stone-200 ${s.border} bg-white shadow-sm`}
+          >
             <CardContent className="px-4 pt-3 pb-3 text-center">
               <div className={`text-2xl font-black ${s.color}`}>{s.value}</div>
               <div className="mt-0.5 text-[10px] text-stone-400">{s.label}</div>
@@ -1177,640 +1728,106 @@ function EquipmentSection() {
           </Card>
         ))}
       </div>
-    </div>
-  )
-}
 
-// ── STIPEND ───────────────────────────────────────────────────────────────────
-function StipendSection() {
-  const paySlips = [
-    {
-      month: "March 2025",
-      base: 30000,
-      allow: 5400,
-      deduct: 2000,
-      net: 33400,
-      txn: "TXN9847261",
-      status: "Paid",
-    },
-    {
-      month: "February 2025",
-      base: 30000,
-      allow: 5400,
-      deduct: 1800,
-      net: 33600,
-      txn: "TXN9841034",
-      status: "Paid",
-    },
-    {
-      month: "January 2025",
-      base: 30000,
-      allow: 5400,
-      deduct: 2200,
-      net: 33200,
-      txn: "TXN9836720",
-      status: "Paid",
-    },
-  ]
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Stipend Records</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Monthly pay & Seva Nidhi Fund
-        </p>
-      </div>
-
-      {/* Summary */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          {
-            label: "March Net Pay",
-            value: "₹33,400",
-            accent: "text-[#1a2d4a]",
-          },
-          { label: "Annual CTC", value: "₹3.96 L", accent: "text-stone-700" },
-          { label: "Seva Nidhi", value: "₹1.02 L", accent: "text-[#4a5c2f]" },
-          {
-            label: "March Status",
-            value: "Paid ✓",
-            accent: "text-emerald-600",
-          },
-        ].map((c) => (
-          <Card key={c.label} className="border-stone-200 bg-white shadow-sm">
-            <CardContent className="px-4 pt-3 pb-3">
-              <div className="text-[10px] tracking-wide text-stone-400 uppercase">
-                {c.label}
-              </div>
-              <div className={`mt-1 text-base font-black ${c.accent}`}>
-                {c.value}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Seva Nidhi progress */}
-      <Card className="border-stone-200 bg-white shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            Seva Nidhi Fund Progress
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-4 pb-4">
-          <div className="mb-2 flex items-end justify-between">
-            <span className="text-xs text-stone-400">Current Corpus</span>
-            <span className="text-lg font-black text-[#4a5c2f]">₹1,02,000</span>
-          </div>
-          <div className="h-3 overflow-hidden rounded-full bg-stone-100">
-            <div
-              className="h-full rounded-full bg-[#4a5c2f] transition-all duration-700"
-              style={{ width: "8.7%" }}
-            />
-          </div>
-          <div className="mt-2 flex justify-between text-[10px] text-stone-400">
-            <span>₹0</span>
-            <span className="font-semibold text-stone-500">
-              8.7% of target ₹11.71 L at completion
-            </span>
-            <span>₹11.71 L</span>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-3 text-xs text-stone-600">
-            <div className="rounded border border-stone-100 bg-stone-50 px-3 py-2">
-              <div className="font-semibold">Your monthly contribution</div>
-              <div className="mt-0.5 text-sm font-black text-[#4a5c2f]">
-                ₹9,000
-              </div>
-            </div>
-            <div className="rounded border border-stone-100 bg-stone-50 px-3 py-2">
-              <div className="font-semibold">Govt. matching contribution</div>
-              <div className="mt-0.5 text-sm font-black text-[#4a5c2f]">
-                ₹9,000
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Pay slip table */}
-      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-stone-800">
-            Pay Slip History
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-0 pb-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-stone-100 bg-stone-50">
-                  {[
-                    "Month",
-                    "Base Pay",
-                    "Allowances",
-                    "Deductions",
-                    "Net Pay",
-                    "Transaction ID",
-                    "Status",
-                  ].map((h) => (
-                    <th
-                      key={h}
-                      className="px-4 py-2.5 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-stone-500 uppercase"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-50">
-                {paySlips.map((r, i) => (
-                  <tr key={i} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-medium whitespace-nowrap text-stone-800">
-                      {r.month}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs text-stone-600">
-                      ₹{r.base.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs font-semibold text-emerald-600">
-                      +₹{r.allow.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs font-semibold text-rose-500">
-                      -₹{r.deduct.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-sm font-black text-stone-800">
-                      ₹{r.net.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs text-stone-400">
-                      {r.txn}
-                    </td>
-                    <td className="px-4 py-3">
-                      <Badge className="border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
-                        ✓ {r.status}
-                      </Badge>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
-
-// ── AGNIASSIST AI ─────────────────────────────────────────────────────────────
-type Msg = { from: "bot" | "user"; text: string }
-
-const CANNED: Record<string, string> = {
-  "physical training":
-    "Physical training standards: Daily 5km run, 50 push-ups, 10 pull-ups, 50 sit-ups. Minimum passing: 1.6km in 7 min, 20 push-ups, 8 pull-ups. All personnel must pass Physical Efficiency Test every quarter.",
-  stipend:
-    "Agniveer stipend: ₹30,000/month in Year 1, rising to ₹40,000 in Year 4. 30% deposited into Seva Nidhi corpus, matched by the Government. At the end of 4 years, total Seva Nidhi payout is approximately ₹11.71 lakh (tax-exempt).",
-  schedule:
-    "Daily schedule: 05:00 Morning PT, 07:00 Breakfast, 08:30 Weapons Training, 11:00 Combat Drills, 13:00 Lunch, 14:30 Mental Resilience, 16:30 Evening Run, 19:00 Study Hours, 22:00 Lights Out.",
-  weapons:
-    "Weapons training includes INSAS Rifle, LMG, grenade throwing, and field tactics. Minimum qualifying score: 35/50 in marksmanship. Weekly training sessions of 4 hours mandatory.",
-  medical:
-    "Medical fitness required for active duty. Checkups every 6 months. BMI: 18.5–25. Vision: 6/6 both eyes. Height minimum: 170 cm. Medical leave requires doctor's certificate.",
-  leave:
-    "Agniveers are entitled to 30 days annual leave, 10 days casual leave, and medical leave as certified. Leave must be approved by the battalion commander.",
-  rank: "Agniveer ranks: Sepoy → Lance Naik → Naik → Havildar. Promotions based on performance scores, attendance, discipline, and tenure. Top 25% may be retained in regular cadre.",
-  sos: "In an SOS situation: (1) All units report to designated stations immediately. (2) Unit commanders acknowledge within 5 minutes. (3) Drill coordinators mark completion in the portal.",
-  documents:
-    "Required documents: Aadhaar card, Class 10/12 marksheets, domicile certificate, caste certificate (if applicable), medical fitness certificate, passport-size photographs.",
-  battalion:
-    "Battalions are operational units with up to 150 Agniveers each. Each battalion has a commander, assigned location, and specific mission. Performance is measured monthly.",
-}
-
-function AgniAssistSection() {
-  const [msgs, setMsgs] = useState<Msg[]>([
-    {
-      from: "bot",
-      text: "Namaste 🫡 I'm AgniAssist, your AI assistant for the Agnipath Portal. Ask me about training standards, stipend, schedule, medical requirements, leave policy, SOS protocols, or anything else.",
-    },
-  ])
-  const [input, setInput] = useState("")
-  const [typing, setTyping] = useState(false)
-  const bottomRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [msgs, typing])
-
-  const getReply = (q: string) => {
-    const lower = q.toLowerCase()
-    for (const [key, ans] of Object.entries(CANNED)) {
-      if (lower.includes(key)) return ans
-    }
-    if (
-      lower.includes("hello") ||
-      lower.includes("hi") ||
-      lower.includes("namaste")
-    )
-      return "Namaste! Ready to assist. Ask me about training, stipend, schedules, medical standards, or any aspect of the Agnipath programme."
-    if (lower.includes("help"))
-      return "I can help with: Physical training, Weapons training, Medical fitness, Stipend & benefits, Daily schedules, SOS alerts, Battalion info, Ranks & promotions, Leave policy, and Required documents."
-    return `I've noted your query. For detailed guidance on this specific topic, please consult your battalion commander or the Agnipath programme handbook.`
-  }
-
-  const send = (text = input) => {
-    const q = text.trim()
-    if (!q || typing) return
-    setMsgs((m) => [...m, { from: "user", text: q }])
-    setInput("")
-    setTyping(true)
-    setTimeout(
-      () => {
-        setMsgs((m) => [...m, { from: "bot", text: getReply(q) }])
-        setTyping(false)
-      },
-      800 + Math.random() * 600
-    )
-  }
-
-  const suggestions = [
-    "Physical training",
-    "Stipend & Seva Nidhi",
-    "Daily schedule",
-    "Leave policy",
-    "Rank & promotion",
-    "Medical requirements",
-  ]
-
-  return (
-    <div className="flex h-[calc(100vh-130px)] flex-col space-y-0">
-      {/* Header */}
-      <div className="mb-3 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-stone-900">
-            AgniAssist — AI Assistant
-          </h1>
-          <p className="mt-0.5 flex items-center gap-1 text-xs text-stone-400">
-            <Zap size={10} className="text-amber-500" /> Powered by RAG ·
-            Offline military knowledge base
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge className="border border-emerald-200 bg-emerald-50 text-xs text-emerald-600">
-            ● Online
-          </Badge>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => {
-              setMsgs([
-                {
-                  from: "bot",
-                  text: "Conversation reset. How can I help you?",
-                },
-              ])
-              setInput("")
-            }}
-            className="h-7 gap-1 text-xs"
-          >
-            <RotateCcw size={11} /> Reset
-          </Button>
-        </div>
-      </div>
-
-      {/* Chat */}
-      <Card className="flex flex-1 flex-col overflow-hidden border-stone-200 bg-white shadow-sm">
-        <div className="flex-1 space-y-4 overflow-y-auto p-4">
-          {msgs.map((m, i) => (
-            <div
-              key={i}
-              className={`flex gap-3 ${m.from === "user" ? "flex-row-reverse" : "flex-row"}`}
-            >
-              <div
-                className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${m.from === "user" ? "bg-stone-700" : "bg-[#4a5c2f]"}`}
-              >
-                {m.from === "user" ? <User size={12} /> : <Bot size={12} />}
-              </div>
-              <div
-                className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm ${
-                  m.from === "user"
-                    ? "rounded-tr-sm bg-[#1a2d4a] text-white"
-                    : "rounded-tl-sm border border-stone-100 bg-stone-50 text-stone-800"
-                }`}
-              >
-                {m.text}
-              </div>
-            </div>
-          ))}
-          {typing && (
-            <div className="flex gap-3">
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4a5c2f]">
-                <Bot size={12} className="text-white" />
-              </div>
-              <div className="rounded-2xl rounded-tl-sm border border-stone-100 bg-stone-50 px-4 py-3">
-                <div className="flex gap-1">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400"
-                      style={{ animationDelay: `${i * 150}ms` }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-          <div ref={bottomRef} />
-        </div>
-
-        {/* Input area */}
-        <div className="space-y-2 border-t border-stone-100 p-3">
-          <div className="flex flex-wrap gap-1.5">
-            {suggestions.map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                disabled={typing}
-                className="rounded-full border border-stone-200 bg-stone-50 px-3 py-1 text-[10px] font-medium text-stone-500 transition-all hover:border-[#4a5c2f] hover:bg-[#4a5c2f] hover:text-white disabled:opacity-40"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <input
-              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-sm placeholder:text-stone-400 focus:border-[#4a5c2f] focus:ring-1 focus:ring-[#4a5c2f] focus:outline-none disabled:opacity-50"
-              placeholder="Ask about training, stipend, schedule, medical..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && send()}
-              disabled={typing}
-            />
-            <Button
-              onClick={() => send()}
-              disabled={!input.trim() || typing}
-              className="h-9 w-9 shrink-0 rounded-lg bg-[#4a5c2f] p-0 text-white hover:bg-[#344228] disabled:opacity-40"
-            >
-              {typing ? (
-                <Loader2 size={14} className="animate-spin" />
-              ) : (
-                <Send size={14} />
-              )}
-            </Button>
-          </div>
-        </div>
-      </Card>
-    </div>
-  )
-}
-
-// ── MY AI INSIGHTS ────────────────────────────────────────────────────────────
-function InsightsSection() {
-  const s = SOLDIER.scores
-  const overall = SOLDIER.overall
-  const predicted = Math.min(100, Math.round(overall + 2.3))
-  const injRisk =
-    s.physical < 75 ? "HIGH" : s.physical < 85 ? "MODERATE" : "LOW"
-
-  const recs = [
-    {
-      area: "Mental Resilience",
-      tip: "Continue resilience workshops. Add 20 min meditation daily. Group problem-solving exercises recommended.",
-      icon: <Brain size={13} />,
-    },
-    {
-      area: "Weapons Accuracy",
-      tip: "Schedule 2 extra range sessions per week. Focus on moving target drills and reload speed.",
-      icon: <Target size={13} />,
-    },
-    {
-      area: "Physical Endurance",
-      tip: "Maintain your excellent physical standards. Add 1 extra interval sprint session per week.",
-      icon: <Dumbbell size={13} />,
-    },
-  ]
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">My AI Insights</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Powered by AgniAssist ML Service · Performance predictions & analysis
-        </p>
-      </div>
-
-      {/* Key metric cards */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {[
-          {
-            label: "Injury Risk",
-            value: injRisk,
-            sub: `Probability: ${injRisk === "LOW" ? "12%" : injRisk === "MODERATE" ? "28%" : "47%"}`,
-            badge: injRisk,
-            color:
-              injRisk === "LOW"
-                ? "emerald"
-                : injRisk === "MODERATE"
-                  ? "amber"
-                  : "rose",
-            border:
-              injRisk === "LOW"
-                ? "border-l-emerald-500"
-                : injRisk === "MODERATE"
-                  ? "border-l-amber-500"
-                  : "border-l-rose-500",
-          },
-          {
-            label: "Predicted Score (30 Days)",
-            value: predicted,
-            sub: `Current: ${overall} · Change: +${(predicted - overall).toFixed(1)}`,
-            badge: "↑ Improving",
-            color: "emerald",
-            border: "border-l-[#4a5c2f]",
-          },
-          {
-            label: "Performance Status",
-            value:
-              overall >= 85
-                ? "Excellent"
-                : overall >= 75
-                  ? "Average"
-                  : "At Risk",
-            sub: `Rank #${SOLDIER.globalRank} of 18 Agniveers`,
-            badge: grade(overall).l,
-            color: overall >= 85 ? "emerald" : overall >= 75 ? "amber" : "rose",
-            border:
-              overall >= 85 ? "border-l-emerald-500" : "border-l-amber-500",
-          },
-        ].map((c) => (
+      {/* Equipment cards */}
+      <div className="space-y-3">
+        {equipment.map((eq, i) => (
           <Card
-            key={c.label}
-            className={`border border-l-4 border-stone-200 ${c.border} bg-white shadow-sm`}
+            key={i}
+            className={`border bg-white shadow-sm ${eq.condition === "Worn" ? "border-amber-200" : "border-stone-200"}`}
           >
-            <CardContent className="space-y-1.5 px-4 pt-4 pb-4">
-              <div className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                {c.label}
+            <CardContent className="px-5 py-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-stone-100 bg-stone-50">
+                  {typeIcon[eq.type] || (
+                    <Package size={14} className="text-stone-400" />
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-bold text-stone-900">
+                      {eq.name}
+                    </span>
+                    <Badge
+                      className={`border text-[10px] ${conditionStyle[eq.condition]}`}
+                    >
+                      {eq.condition}
+                    </Badge>
+                    <Badge className="border border-stone-100 bg-stone-50 text-[10px] text-stone-500">
+                      {eq.type}
+                    </Badge>
+                  </div>
+                  <div className="mt-1 grid grid-cols-1 gap-x-4 gap-y-0.5 text-xs text-stone-400 sm:grid-cols-3">
+                    <span>
+                      Serial:{" "}
+                      <span className="font-mono text-stone-600">
+                        {eq.serial}
+                      </span>
+                    </span>
+                    <span>
+                      Issued:{" "}
+                      <span className="text-stone-600">{eq.issued}</span>
+                    </span>
+                  </div>
+                  <div className="mt-1.5 text-xs text-stone-500 italic">
+                    {eq.remarks}
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-7 border-stone-200 px-3 text-[10px] text-stone-500"
+                  >
+                    Report Issue
+                  </Button>
+                </div>
               </div>
-              <div
-                className={`text-3xl font-black ${c.color === "emerald" ? "text-emerald-600" : c.color === "amber" ? "text-amber-600" : "text-rose-500"}`}
-              >
-                {c.value}
-              </div>
-              <div className="text-xs text-stone-400">{c.sub}</div>
-              <Badge
-                className={`border text-[10px] ${
-                  c.color === "emerald"
-                    ? "border-emerald-200 bg-emerald-100 text-emerald-700"
-                    : c.color === "amber"
-                      ? "border-amber-200 bg-amber-100 text-amber-700"
-                      : "border-rose-200 bg-rose-100 text-rose-600"
-                }`}
-              >
-                {c.badge}
-              </Badge>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {/* Recommendations */}
-        <Card className="border-stone-200 bg-white shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold text-stone-800">
-              <Brain size={14} className="text-violet-500" /> AI Recommendations
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 px-4 pb-4">
-            {recs.map((r, i) => (
-              <div key={i} className="flex gap-2.5">
-                <ArrowRight
-                  size={13}
-                  className="mt-0.5 shrink-0 text-[#4a5c2f]"
-                />
-                <div>
-                  <div className="flex items-center gap-1.5 text-sm font-semibold text-stone-700">
-                    {r.icon}
-                    {r.area}
-                  </div>
-                  <div className="mt-0.5 text-xs text-stone-500">{r.tip}</div>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        {/* 6-month trend */}
-        <Card className="border-stone-200 bg-white shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-sm font-semibold text-stone-800">
-              <Activity size={14} className="text-[#4a5c2f]" /> 6-Month Trend
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2.5 px-4 pb-4">
-            {[
-              { m: "Oct", v: 81 },
-              { m: "Nov", v: 83 },
-              { m: "Dec", v: 85 },
-              { m: "Jan", v: 86 },
-              { m: "Feb", v: 88 },
-              { m: "Mar", v: 89 },
-            ].map((pt, i, arr) => (
-              <div key={pt.m} className="flex items-center gap-3">
-                <span className="w-7 text-xs font-medium text-stone-400">
-                  {pt.m}
-                </span>
-                <div className="h-5 flex-1 overflow-hidden rounded-full bg-stone-100">
-                  <div
-                    className={`h-full rounded-full transition-all duration-700 ${i === arr.length - 1 ? "bg-[#c8601a]" : "bg-[#4a5c2f]"}`}
-                    style={{ width: `${pt.v}%` }}
-                  />
-                </div>
-                <span
-                  className={`w-8 text-right text-sm font-black ${i === arr.length - 1 ? "text-[#c8601a]" : "text-[#4a5c2f]"}`}
-                >
-                  {pt.v}
-                </span>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+      {/* Be Scale note */}
+      <div className="rounded-lg border border-sky-100 bg-sky-50 px-4 py-3">
+        <div className="mb-1 text-xs font-semibold text-sky-800">
+          📋 Note on Be Scale (Basic Equipment Scale)
+        </div>
+        <div className="text-xs text-sky-700">
+          The Be Scale (Basic Equipment Scale) refers to the complete set of
+          personal field equipment issued to every Agniveer. It includes: water
+          bottle, mess tin, large pack haversack, bayonet with scabbard,
+          entrenching tool, ammunition pouches, cape groundsheet, and other
+          field essentials as prescribed by the battalion quartermaster.
+        </div>
       </div>
-
-      {/* Medical risk panel */}
-      <Card className="border-stone-200 bg-white shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-sm font-semibold text-stone-800">
-            <HeartPulse size={14} className="text-rose-400" /> Medical Risk
-            Analysis
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-4 pb-4">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {[
-              { label: "Fatigue Risk", value: "LOW", color: "emerald" },
-              {
-                label: "Overtraining Risk",
-                value: s.physical > 90 ? "MODERATE" : "LOW",
-                color: s.physical > 90 ? "amber" : "emerald",
-              },
-              { label: "Injury Probability", value: "8%", color: "emerald" },
-              { label: "Dehydration Risk", value: "LOW", color: "emerald" },
-              {
-                label: "Mental Health",
-                value: s.mental < 70 ? "MONITOR" : "NORMAL",
-                color: s.mental < 70 ? "amber" : "emerald",
-              },
-              { label: "Follow-up Needed", value: "NO", color: "emerald" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className={`rounded-lg border p-3 ${
-                  item.color === "emerald"
-                    ? "border-emerald-200 bg-emerald-50"
-                    : "border-amber-200 bg-amber-50"
-                }`}
-              >
-                <div
-                  className={`text-[10px] font-semibold tracking-wide uppercase ${item.color === "emerald" ? "text-emerald-600" : "text-amber-600"}`}
-                >
-                  {item.label}
-                </div>
-                <div
-                  className={`mt-1 text-lg font-black ${item.color === "emerald" ? "text-emerald-700" : "text-amber-700"}`}
-                >
-                  {item.value}
-                </div>
-                <Badge
-                  className={`mt-1 border text-[10px] ${item.color === "emerald" ? "border-emerald-200 bg-emerald-100 text-emerald-700" : "border-amber-200 bg-amber-100 text-amber-700"}`}
-                >
-                  {item.color === "emerald" ? "Normal" : "Monitor"}
-                </Badge>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
 
 // ── ROOT PAGE ─────────────────────────────────────────────────────────────────
-export default function SoldierPage() {
-  const [section, setSection] = useState<Section>("dashboard")
+export default function AgniveerPage() {
+  const [section, setSection] = useState<Section>("profile")
 
   const sectionTitle: Record<Section, string> = {
-    dashboard: "Dashboard",
+    profile: "Agniveer Profile",
     training: "Training Records",
     schedule: "Daily Schedule",
     medical: "Medical Records",
     equipment: "Equipment & Arms",
-    stipend: "Stipend",
-    ai: "AgniAssist AI",
-    insights: "My AI Insights",
   }
 
   return (
     <div className="flex min-h-screen bg-[#f4f3ef] font-sans">
-      <Sidebar active={section} setActive={setSection} />
-      <div className="flex min-w-0 flex-1 flex-col">
+      {/* Sidebar — fixed, never scrolls */}
+      <aside className="hidden md:flex">
+        <div className="fixed top-0 left-0 z-20 h-screen w-56">
+          <Sidebar active={section} setActive={setSection} />
+        </div>
+      </aside>
+
+      {/* Main content — offset by sidebar width */}
+      <div className="flex min-w-0 flex-1 flex-col md:ml-56">
         {/* Header */}
         <header className="sticky top-0 z-10 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
           <div className="flex items-center justify-between px-4 py-3 sm:px-6">
@@ -1819,7 +1836,7 @@ export default function SoldierPage() {
                 {sectionTitle[section]}
               </h1>
               <p className="text-xs text-stone-400">
-                {SOLDIER.battalion} · Agnipath Portal
+                {AGNIVEER.battalion} · Agnipath Portal
               </p>
             </div>
             <Badge className="shrink-0 border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
@@ -1829,18 +1846,13 @@ export default function SoldierPage() {
           <MobileNav active={section} setActive={setSection} />
         </header>
 
-        {/* Content */}
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-5 sm:px-6 lg:px-8">
-          {section === "dashboard" && (
-            <DashboardSection setActive={setSection} />
-          )}
+        {/* Content — full width, no artificial max-width centering gap */}
+        <main className="w-full flex-1 px-4 py-5 sm:px-6">
+          {section === "profile" && <ProfileSection setActive={setSection} />}
           {section === "training" && <TrainingSection />}
           {section === "schedule" && <ScheduleSection />}
           {section === "medical" && <MedicalSection />}
           {section === "equipment" && <EquipmentSection />}
-          {section === "stipend" && <StipendSection />}
-          {section === "ai" && <AgniAssistSection />}
-          {section === "insights" && <InsightsSection />}
         </main>
       </div>
     </div>
