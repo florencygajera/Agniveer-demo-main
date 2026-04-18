@@ -29,7 +29,7 @@ import {
 } from "lucide-react"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-interface Soldier {
+interface Agniveer {
   rank: number
   name: string
   battalion: string
@@ -43,7 +43,7 @@ interface Soldier {
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
-const LEADERBOARD: Soldier[] = [
+const LEADERBOARD: Agniveer[] = [
   {
     rank: 1,
     name: "Arjun Mehra",
@@ -350,7 +350,7 @@ function rowBg(rank: number) {
 }
 
 // ── Mobile Card ───────────────────────────────────────────────────────────────
-function MobileRankCard({ s }: { s: Soldier }) {
+function MobileRankCard({ s }: { s: Agniveer }) {
   const [expanded, setExpanded] = useState(false)
   const isMedal = s.rank <= 3
 
@@ -466,7 +466,7 @@ export default function PerformanceRankingsPage() {
             </p>
           </div>
           <Badge className="gap-1 border border-amber-200 bg-amber-50 text-xs font-medium text-amber-700">
-            <Trophy size={10} /> {LEADERBOARD.length} soldiers ranked
+            <Trophy size={10} /> {LEADERBOARD.length} Agniveers ranked
           </Badge>
         </div>
       </div>
@@ -574,7 +574,7 @@ export default function PerformanceRankingsPage() {
               className="absolute top-1/2 left-2.5 -translate-y-1/2 text-stone-400"
             />
             <Input
-              placeholder="Search soldier or battalion..."
+              placeholder="Search Agniveer or battalion..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-8 border-stone-200 bg-white pl-8 text-xs"
@@ -593,7 +593,7 @@ export default function PerformanceRankingsPage() {
             </SelectContent>
           </Select>
           <p className="ml-auto text-xs text-stone-400">
-            {filtered.length} of {LEADERBOARD.length} soldiers
+            {filtered.length} of {LEADERBOARD.length} Agniveers
           </p>
         </div>
 
@@ -605,7 +605,7 @@ export default function PerformanceRankingsPage() {
               Leaderboard
             </h2>
             <span className="text-xs text-stone-400">
-              {LEADERBOARD.length} soldiers ranked
+              {LEADERBOARD.length} Agniveers ranked
             </span>
           </div>
           <div className="overflow-x-auto">
@@ -704,7 +704,7 @@ export default function PerformanceRankingsPage() {
             filtered.map((s) => <MobileRankCard key={s.rank} s={s} />)
           )}
           <p className="pt-1 text-center text-xs text-stone-400">
-            {filtered.length} of {LEADERBOARD.length} soldiers
+            {filtered.length} of {LEADERBOARD.length} Agniveers
           </p>
         </div>
       </div>

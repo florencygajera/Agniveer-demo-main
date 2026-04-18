@@ -102,7 +102,7 @@ function Sidebar({
     <aside className="flex h-full w-56 shrink-0 flex-col overflow-y-auto border-r border-stone-200 bg-white">
       <div className="border-b border-stone-100 bg-stone-50 px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-sm font-bold text-white">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#CA3500] text-sm font-bold text-white">
             R
           </div>
           <div className="min-w-0">
@@ -133,7 +133,7 @@ function Sidebar({
             onClick={() => setActive(n.id)}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
               active === n.id
-                ? "bg-[#1a2d4a] text-white shadow-sm"
+                ? "bg-[#CA3500] text-white shadow-sm"
                 : "text-stone-500 hover:bg-stone-100 hover:text-stone-800"
             }`}
           >
@@ -172,7 +172,7 @@ function MobileNav({
           onClick={() => setActive(n.id)}
           className={`flex shrink-0 flex-col items-center gap-0.5 border-b-2 px-3 py-2.5 text-[10px] font-semibold whitespace-nowrap transition-colors ${
             active === n.id
-              ? "border-[#1a2d4a] text-[#1a2d4a]"
+              ? "border-[#CA3500] text-[#CA3500]"
               : "border-transparent text-stone-400"
           }`}
         >
@@ -197,7 +197,7 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
     {
       label: "Full Name",
       value: a.name,
-      icon: <User size={14} className="text-[#1a2d4a]" />,
+      icon: <User size={14} className="text-[#CA3500]" />,
     },
     {
       label: "Date of Birth",
@@ -242,12 +242,12 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
     {
       label: "Company",
       value: a.company,
-      icon: <Building size={14} className="text-[#1a2d4a]" />,
+      icon: <Building size={14} className="text-[#CA3500]" />,
     },
     {
       label: "Battalion",
       value: a.battalion,
-      icon: <Shield size={14} className="text-[#1a2d4a]" />,
+      icon: <Shield size={14} className="text-[#CA3500]" />,
     },
     {
       label: "Rank",
@@ -272,10 +272,10 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
 
       {/* Profile header card */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
-        <div className="h-2 bg-gradient-to-r from-[#1a2d4a] via-[#4a5c2f] to-[#c8601a]" />
+        <div className="h-2 bg-gradient-to-r from-[#CA3500] via-[#4a5c2f] to-[#c8601a]" />
         <CardContent className="px-6 py-5">
           <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-2xl font-black text-white shadow-md">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#CA3500] text-2xl font-black text-white shadow-md">
               {a.name
                 .split(" ")
                 .map((w) => w[0])
@@ -561,7 +561,7 @@ function TrainingSection() {
   const typeColor: Record<string, string> = {
     Physical: "border-emerald-200 bg-emerald-50 text-emerald-700",
     Weapons: "border-rose-200 bg-rose-50 text-rose-700",
-    Combat: "border-[#1a2d4a]/20 bg-[#1a2d4a]/5 text-[#1a2d4a]",
+    Combat: "border-[#CA3500]/20 bg-[#CA3500]/5 text-[#CA3500]",
     Drill: "border-amber-200 bg-amber-50 text-amber-700",
   }
 
@@ -607,7 +607,7 @@ function TrainingSection() {
               <div className="mb-1 flex items-center gap-1.5 text-[10px] tracking-wide text-stone-400 uppercase">
                 {c.icon} {c.label}
               </div>
-              <div className="text-xl font-black text-[#1a2d4a]">{c.value}</div>
+              <div className="text-xl font-black text-[#CA3500]">{c.value}</div>
               <div className="mt-0.5 text-[10px] text-stone-400">{c.sub}</div>
             </CardContent>
           </Card>
@@ -626,7 +626,7 @@ function TrainingSection() {
             onClick={() => setActiveTab(t.key as any)}
             className={`flex-1 rounded-md px-3 py-2 text-xs font-semibold transition-all ${
               activeTab === t.key
-                ? "bg-white text-[#1a2d4a] shadow-sm"
+                ? "bg-white text-[#CA3500] shadow-sm"
                 : "text-stone-500 hover:text-stone-700"
             }`}
           >
@@ -699,7 +699,7 @@ function TrainingSection() {
               <CardContent className="px-5 py-3">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
                   <div
-                    className={`w-24 shrink-0 text-xs font-bold tracking-wide uppercase ${i === 4 ? "text-[#c8601a]" : "text-[#1a2d4a]"}`}
+                    className={`w-24 shrink-0 text-xs font-bold tracking-wide uppercase ${i === 4 ? "text-[#c8601a]" : "text-[#CA3500]"}`}
                   >
                     {day.day}
                     {i === 4 && (
@@ -1120,7 +1120,7 @@ function ScheduleSection() {
   const catColor: Record<string, string> = {
     PT: "#4a5c2f",
     Weapons: "#c0392b",
-    Combat: "#1a2d4a",
+    Combat: "#CA3500",
     Academic: "#1565c0",
     Meal: "#b8941a",
     Admin: "#6d4c41",
@@ -1156,7 +1156,7 @@ function ScheduleSection() {
           <button
             key={v.key}
             onClick={() => setView(v.key as any)}
-            className={`rounded-md px-4 py-1.5 text-xs font-semibold transition-all ${view === v.key ? "bg-white text-[#1a2d4a] shadow-sm" : "text-stone-500 hover:text-stone-700"}`}
+            className={`rounded-md px-4 py-1.5 text-xs font-semibold transition-all ${view === v.key ? "bg-white text-[#CA3500] shadow-sm" : "text-stone-500 hover:text-stone-700"}`}
           >
             {v.label}
           </button>
@@ -1173,7 +1173,7 @@ function ScheduleSection() {
                 onClick={() => setDay(i)}
                 className={`shrink-0 rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
                   i === day
-                    ? "border-[#1a2d4a] bg-[#1a2d4a] text-white"
+                    ? "border-[#CA3500] bg-[#CA3500] text-white"
                     : i === 4
                       ? "border-[#c8601a] bg-orange-50 text-[#c8601a]"
                       : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
@@ -1310,7 +1310,7 @@ function ScheduleSection() {
 const typeColor2: Record<string, string> = {
   PT: "border-emerald-200 bg-emerald-50 text-emerald-700",
   Weapons: "border-rose-200 bg-rose-50 text-rose-700",
-  Combat: "border-[#1a2d4a]/20 bg-[#1a2d4a]/5 text-[#1a2d4a]",
+  Combat: "border-[#CA3500]/20 bg-[#CA3500]/5 text-[#CA3500]",
   Admin: "border-amber-200 bg-amber-50 text-amber-700",
   Medical: "border-sky-200 bg-sky-50 text-sky-700",
 }
@@ -1389,7 +1389,7 @@ function MedicalSection() {
               <div className="mb-1 flex items-center gap-1 text-[10px] tracking-wide text-stone-400 uppercase">
                 {c.icon} {c.label}
               </div>
-              <div className="mt-0.5 text-base font-black text-[#1a2d4a]">
+              <div className="mt-0.5 text-base font-black text-[#CA3500]">
                 {c.value}
               </div>
             </CardContent>
@@ -1666,7 +1666,7 @@ function EquipmentSection() {
 
   const typeIcon: Record<string, React.ReactNode> = {
     Weapon: <Crosshair size={14} className="text-rose-500" />,
-    "Protective Gear": <HardHat size={14} className="text-[#1a2d4a]" />,
+    "Protective Gear": <HardHat size={14} className="text-[#CA3500]" />,
     "Drill Equipment": <Crosshair size={14} className="text-stone-500" />,
     Uniform: <Shirt size={14} className="text-[#4a5c2f]" />,
     Footwear: <Footprints size={14} className="text-amber-600" />,

@@ -44,7 +44,7 @@ type Grade = "Outstanding" | "Good" | "Average" | "Poor"
 type Status = "Active" | "On Leave" | "Injured"
 type Gender = "Male" | "Female"
 
-interface Soldier {
+interface Agniveer {
   id: string
   name: string
   rank: string
@@ -61,7 +61,7 @@ interface Soldier {
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
-const SOLDIERS: Soldier[] = [
+const AgniveerS: Agniveer[] = [
   {
     id: "AGN-2024-0101",
     name: "Rajveer Singh Chauhan",
@@ -427,22 +427,22 @@ function MiniBar({ value }: { value: number }) {
 
 // ── Edit Dialog ───────────────────────────────────────────────────────────────
 function EditDialog({
-  soldier,
+  Agniveer,
   open,
   onClose,
   onSave,
 }: {
-  soldier: Soldier | null
+  Agniveer: Agniveer | null
   open: boolean
   onClose: () => void
-  onSave: (s: Soldier) => void
+  onSave: (s: Agniveer) => void
 }) {
-  const [form, setForm] = useState<Soldier | null>(soldier)
-  React.useEffect(() => setForm(soldier), [soldier])
+  const [form, setForm] = useState<Agniveer | null>(Agniveer)
+  React.useEffect(() => setForm(Agniveer), [Agniveer])
   if (!form) return null
-  const set = (k: keyof Soldier, v: string | number) =>
+  const set = (k: keyof Agniveer, v: string | number) =>
     setForm((f) => (f ? { ...f, [k]: v } : f))
-  const calcOverall = (f: Soldier) =>
+  const calcOverall = (f: Agniveer) =>
     Math.round(((f.physical + f.weapons + f.mental + f.combat) / 4) * 10) / 10
 
   return (
@@ -516,8 +516,8 @@ function EditDialog({
                 type="number"
                 min={0}
                 max={100}
-                value={form[f.key as keyof Soldier] as number}
-                onChange={(e) => set(f.key as keyof Soldier, +e.target.value)}
+                value={form[f.key as keyof Agniveer] as number}
+                onChange={(e) => set(f.key as keyof Agniveer, +e.target.value)}
                 className="text-sm"
               />
             </div>
@@ -552,7 +552,7 @@ function EditDialog({
 }
 
 // ── Mobile Card ───────────────────────────────────────────────────────────────
-function MobileCard({ s, onEdit }: { s: Soldier; onEdit: () => void }) {
+function MobileCard({ s, onEdit }: { s: Agniveer; onEdit: () => void }) {
   const [expanded, setExpanded] = useState(false)
   return (
     <div
@@ -624,16 +624,16 @@ function MobileCard({ s, onEdit }: { s: Soldier; onEdit: () => void }) {
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-export default function AllSoldiersPage() {
-  const [soldiers, setSoldiers] = useState<Soldier[]>(SOLDIERS)
+export default function AllAgniveersPage() {
+  const [Agniveers, setAgniveers] = useState<Agniveer[]>(AgniveerS)
   const [search, setSearch] = useState("")
   const [battalion, setBattalion] = useState("All Battalions")
   const [grade, setGrade] = useState<Grade | "All Grades">("All Grades")
   const [status, setStatus] = useState<Status | "All">("All")
-  const [editSoldier, setEditSoldier] = useState<Soldier | null>(null)
+  const [editAgniveer, setEditAgniveer] = useState<Agniveer | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  const filtered = soldiers.filter((s) => {
+  const filtered = Agniveers.filter((s) => {
     const q = search.toLowerCase()
     const matchSearch =
       !q ||
@@ -648,13 +648,13 @@ export default function AllSoldiersPage() {
   })
 
   const counts = {
-    total: soldiers.length,
-    active: soldiers.filter((s) => s.status === "Active").length,
-    onLeave: soldiers.filter((s) => s.status === "On Leave").length,
-    outstanding: soldiers.filter((s) => s.grade === "Outstanding").length,
+    total: Agniveers.length,
+    active: Agniveers.filter((s) => s.status === "Active").length,
+    onLeave: Agniveers.filter((s) => s.status === "On Leave").length,
+    outstanding: Agniveers.filter((s) => s.grade === "Outstanding").length,
     avgOverall:
       Math.round(
-        (soldiers.reduce((a, s) => a + s.overall, 0) / soldiers.length) * 10
+        (Agniveers.reduce((a, s) => a + s.overall, 0) / Agniveers.length) * 10
       ) / 10,
   }
 
@@ -666,10 +666,10 @@ export default function AllSoldiersPage() {
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <div>
               <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
-                <Users size={20} className="text-[#4a5c2f]" /> All Soldiers
+                <Users size={20} className="text-[#4a5c2f]" /> All Agniveers
               </h1>
               <p className="mt-0.5 text-xs text-stone-500 sm:text-sm">
-                {soldiers.length} Agniveers · 4 Battalions · Click any row for
+                {Agniveers.length} Agniveers · 4 Battalions · Click any row for
                 full profile
               </p>
             </div>
@@ -743,7 +743,7 @@ export default function AllSoldiersPage() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {[
             {
-              label: "Total Soldiers",
+              label: "Total Agniveers",
               value: counts.total,
               icon: <Users size={14} />,
               color: "text-stone-700",
@@ -794,7 +794,7 @@ export default function AllSoldiersPage() {
               <thead>
                 <tr className="border-b border-stone-100 bg-stone-50">
                   {[
-                    "Soldier ID",
+                    "Agniveer ID",
                     "Name",
                     "Rank",
                     "Gender",
@@ -825,7 +825,7 @@ export default function AllSoldiersPage() {
                       colSpan={14}
                       className="py-12 text-center text-sm text-stone-400"
                     >
-                      No soldiers match your filters.
+                      No Agniveers match your filters.
                     </td>
                   </tr>
                 ) : (
@@ -890,7 +890,7 @@ export default function AllSoldiersPage() {
                             size="sm"
                             className="h-7 gap-1 bg-[#4a5c2f] text-xs text-white hover:bg-[#3a4a22]"
                             onClick={() => {
-                              setEditSoldier(s)
+                              setEditAgniveer(s)
                               setDialogOpen(true)
                             }}
                           >
@@ -906,7 +906,7 @@ export default function AllSoldiersPage() {
           </div>
           <div className="flex items-center justify-between border-t border-stone-100 px-4 py-2.5">
             <p className="text-xs text-stone-400">
-              {filtered.length} of {soldiers.length} soldiers
+              {filtered.length} of {Agniveers.length} Agniveers
             </p>
           </div>
         </Card>
@@ -915,7 +915,7 @@ export default function AllSoldiersPage() {
         <div className="space-y-3 lg:hidden">
           {filtered.length === 0 ? (
             <div className="py-12 text-center text-sm text-stone-400">
-              No soldiers match your filters.
+              No Agniveers match your filters.
             </div>
           ) : (
             filtered.map((s) => (
@@ -923,24 +923,24 @@ export default function AllSoldiersPage() {
                 key={s.id}
                 s={s}
                 onEdit={() => {
-                  setEditSoldier(s)
+                  setEditAgniveer(s)
                   setDialogOpen(true)
                 }}
               />
             ))
           )}
           <p className="text-center text-xs text-stone-400">
-            {filtered.length} of {soldiers.length} soldiers
+            {filtered.length} of {Agniveers.length} Agniveers
           </p>
         </div>
       </div>
 
       <EditDialog
-        soldier={editSoldier}
+        Agniveer={editAgniveer}
         open={dialogOpen}
         onClose={() => setDialogOpen(false)}
         onSave={(updated) =>
-          setSoldiers((prev) =>
+          setAgniveers((prev) =>
             prev.map((s) => (s.id === updated.id ? updated : s))
           )
         }

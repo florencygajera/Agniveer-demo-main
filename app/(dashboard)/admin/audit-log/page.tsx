@@ -67,7 +67,7 @@ const logs: AuditLog[] = [
   {
     id: 3,
     timestamp: "14 Mar 2025 11:45",
-    action: "soldier_profile_updated",
+    action: "Agniveer_profile_updated",
     user: "Maj. Ankit Verma",
     resource: "AGN-2024-0103",
     ip: "192.168.1.10",
@@ -177,7 +177,7 @@ const ACTION_META: Record<string, { color: string; icon: React.ReactNode }> = {
     color: "text-violet-600",
     icon: <FileText size={13} />,
   },
-  soldier_profile_updated: {
+  Agniveer_profile_updated: {
     color: "text-emerald-600",
     icon: <User size={13} />,
   },

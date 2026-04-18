@@ -51,9 +51,9 @@ interface Application {
   aadhaar: string
 }
 
-interface Soldier {
+interface Agniveer {
   id: string
-  soldierId: string
+  AgniveerId: string
   name: string
   rank: string
   battalion: string
@@ -89,23 +89,23 @@ const INIT_APPS: Application[] = [
   { id: "APP-2025-008", name: "Ritu Verma", dob: "2003-03-11", state: "MP", education: "12th Pass", height: "163", weight: "54", trade: "Agniveer Clerk", appliedOn: "04 Mar 2025", verifiedBy: "—", status: "Pending Docs", notes: "Missing domicile certificate.", phone: "9898989898", email: "ritu@email.com", gender: "Female", category: "General", force: "Army", chest: "74", medical: "None", aadhaar: "XXXX-XXXX-8901" },
 ]
 
-const INIT_SOLDIERS: Soldier[] = [
-  { id: "1", soldierId: "AGN-2024-0101", name: "Rajveer Singh Chauhan", rank: "Sepoy", battalion: "RR-1", state: "Rajasthan", city: "Jodhpur", dob: "2003-04-12", joining: "2024-01-15", blood: "B+", phone: "9876501001", email: "rajveer@army.in", status: "active", medical: "Fit", physical: 91, weapons: 88, mental: 78, combat: 89, attendance: 96, discipline: 92, overall: 89 },
-  { id: "2", soldierId: "AGN-2024-0102", name: "Priya Sharma", rank: "Sepoy", battalion: "RR-1", state: "Rajasthan", city: "Jaipur", dob: "2002-08-22", joining: "2024-01-15", blood: "A+", phone: "9876501003", email: "priya.sharma@army.in", status: "active", medical: "Fit", physical: 85, weapons: 72, mental: 94, combat: 80, attendance: 98, discipline: 95, overall: 87.3 },
-  { id: "3", soldierId: "AGN-2024-0103", name: "Arjun Mehra", rank: "Lance Naik", battalion: "RR-1", state: "Punjab", city: "Amritsar", dob: "2001-11-05", joining: "2024-01-15", blood: "O+", phone: "9876501005", email: "arjun.mehra@army.in", status: "active", medical: "Fit", physical: 96, weapons: 94, mental: 88, combat: 95, attendance: 100, discipline: 97, overall: 95 },
-  { id: "4", soldierId: "AGN-2024-0104", name: "Sunil Kumar", rank: "Sepoy", battalion: "RR-1", state: "Haryana", city: "Rohtak", dob: "2003-02-18", joining: "2024-01-15", blood: "AB+", phone: "9876501007", email: "sunil.k@army.in", status: "active", medical: "Fit (Ankle - Recovered)", physical: 68, weapons: 72, mental: 65, combat: 70, attendance: 82, discipline: 75, overall: 72 },
-  { id: "5", soldierId: "AGN-2024-0105", name: "Kavita Rajput", rank: "Sepoy", battalion: "RR-1", state: "UP", city: "Lucknow", dob: "2002-06-30", joining: "2024-01-15", blood: "B-", phone: "9876501009", email: "kavita.r@army.in", status: "on_leave", medical: "Fit", physical: 78, weapons: 74, mental: 82, combat: 76, attendance: 88, discipline: 85, overall: 80.5 },
-  { id: "6", soldierId: "AGN-2024-0201", name: "Vikram Nair", rank: "Sepoy", battalion: "PARA-2", state: "Kerala", city: "Thiruvananthapuram", dob: "2002-03-25", joining: "2024-02-01", blood: "A+", phone: "9876502001", email: "vikram.n@army.in", status: "active", medical: "Fit", physical: 94, weapons: 88, mental: 86, combat: 93, attendance: 97, discipline: 94, overall: 92 },
-  { id: "7", soldierId: "AGN-2024-0202", name: "Ananya Krishnan", rank: "Sepoy", battalion: "PARA-2", state: "Tamil Nadu", city: "Chennai", dob: "2003-07-11", joining: "2024-02-01", blood: "B+", phone: "9876502003", email: "ananya.k@army.in", status: "active", medical: "Fit", physical: 80, weapons: 75, mental: 91, combat: 78, attendance: 95, discipline: 96, overall: 85.8 },
-  { id: "8", soldierId: "AGN-2024-0203", name: "Rohit Sharma", rank: "Sepoy", battalion: "PARA-2", state: "MP", city: "Bhopal", dob: "2002-12-01", joining: "2024-02-01", blood: "O+", phone: "9876502005", email: "rohit.s@army.in", status: "active", medical: "Under Observation (Knee)", physical: 75, weapons: 69, mental: 72, combat: 71, attendance: 79, discipline: 74, overall: 73.3 },
-  { id: "9", soldierId: "AGN-2024-0301", name: "Sourav Das", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Kolkata", dob: "2002-01-14", joining: "2024-02-15", blood: "B+", phone: "9876503001", email: "sourav.d@army.in", status: "active", medical: "Fit", physical: 86, weapons: 80, mental: 83, combat: 85, attendance: 94, discipline: 88, overall: 86 },
-  { id: "10", soldierId: "AGN-2024-0302", name: "Rekha Bose", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Howrah", dob: "2003-04-20", joining: "2024-02-15", blood: "O+", phone: "9876503003", email: "rekha.b@army.in", status: "active", medical: "Fit", physical: 79, weapons: 71, mental: 90, combat: 75, attendance: 96, discipline: 94, overall: 84.2 },
-  { id: "11", soldierId: "AGN-2024-0303", name: "Amit Ghosh", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Durgapur", dob: "2002-09-02", joining: "2024-02-15", blood: "A+", phone: "9876503005", email: "amit.g@army.in", status: "active", medical: "Fit", physical: 72, weapons: 65, mental: 68, combat: 69, attendance: 80, discipline: 72, overall: 71 },
-  { id: "12", soldierId: "AGN-2024-0304", name: "Ranjit Singh", rank: "Lance Naik", battalion: "BEN-3", state: "Punjab", city: "Ludhiana", dob: "2001-07-25", joining: "2024-02-15", blood: "B+", phone: "9876503007", email: "ranjit.s@army.in", status: "active", medical: "Fit", physical: 90, weapons: 92, mental: 84, combat: 91, attendance: 98, discipline: 95, overall: 91.7 },
-  { id: "13", soldierId: "AGN-2024-0401", name: "Suresh Patil", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Pune", dob: "2002-06-18", joining: "2024-03-01", blood: "O+", phone: "9876504001", email: "suresh.p@army.in", status: "active", medical: "Fit", physical: 83, weapons: 79, mental: 76, combat: 81, attendance: 89, discipline: 86, overall: 82.3 },
-  { id: "14", soldierId: "AGN-2024-0402", name: "Rohini Jadhav", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Nashik", dob: "2003-11-09", joining: "2024-03-01", blood: "A+", phone: "9876504003", email: "rohini.j@army.in", status: "active", medical: "Fit", physical: 76, weapons: 68, mental: 86, combat: 72, attendance: 91, discipline: 90, overall: 79.5 },
-  { id: "15", soldierId: "AGN-2024-0403", name: "Santosh More", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Aurangabad", dob: "2002-03-14", joining: "2024-03-01", blood: "B-", phone: "9876504005", email: "santosh.m@army.in", status: "active", medical: "Under Observation (Back)", physical: 70, weapons: 66, mental: 62, combat: 68, attendance: 78, discipline: 70, overall: 69 },
-  { id: "16", soldierId: "AGN-2024-0404", name: "Vijay Deshmukh", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Nagpur", dob: "2001-08-30", joining: "2024-03-01", blood: "A-", phone: "9876504007", email: "vijay.d@army.in", status: "active", medical: "Fit", physical: 88, weapons: 85, mental: 82, combat: 87, attendance: 95, discipline: 92, overall: 88.2 },
+const INIT_Agniveer: Agniveer[] = [
+  { id: "1", AgniveerId: "AGN-2024-0101", name: "Rajveer Singh Chauhan", rank: "Sepoy", battalion: "RR-1", state: "Rajasthan", city: "Jodhpur", dob: "2003-04-12", joining: "2024-01-15", blood: "B+", phone: "9876501001", email: "rajveer@army.in", status: "active", medical: "Fit", physical: 91, weapons: 88, mental: 78, combat: 89, attendance: 96, discipline: 92, overall: 89 },
+  { id: "2", AgniveerId: "AGN-2024-0102", name: "Priya Sharma", rank: "Sepoy", battalion: "RR-1", state: "Rajasthan", city: "Jaipur", dob: "2002-08-22", joining: "2024-01-15", blood: "A+", phone: "9876501003", email: "priya.sharma@army.in", status: "active", medical: "Fit", physical: 85, weapons: 72, mental: 94, combat: 80, attendance: 98, discipline: 95, overall: 87.3 },
+  { id: "3", AgniveerId: "AGN-2024-0103", name: "Arjun Mehra", rank: "Lance Naik", battalion: "RR-1", state: "Punjab", city: "Amritsar", dob: "2001-11-05", joining: "2024-01-15", blood: "O+", phone: "9876501005", email: "arjun.mehra@army.in", status: "active", medical: "Fit", physical: 96, weapons: 94, mental: 88, combat: 95, attendance: 100, discipline: 97, overall: 95 },
+  { id: "4", AgniveerId: "AGN-2024-0104", name: "Sunil Kumar", rank: "Sepoy", battalion: "RR-1", state: "Haryana", city: "Rohtak", dob: "2003-02-18", joining: "2024-01-15", blood: "AB+", phone: "9876501007", email: "sunil.k@army.in", status: "active", medical: "Fit (Ankle - Recovered)", physical: 68, weapons: 72, mental: 65, combat: 70, attendance: 82, discipline: 75, overall: 72 },
+  { id: "5", AgniveerId: "AGN-2024-0105", name: "Kavita Rajput", rank: "Sepoy", battalion: "RR-1", state: "UP", city: "Lucknow", dob: "2002-06-30", joining: "2024-01-15", blood: "B-", phone: "9876501009", email: "kavita.r@army.in", status: "on_leave", medical: "Fit", physical: 78, weapons: 74, mental: 82, combat: 76, attendance: 88, discipline: 85, overall: 80.5 },
+  { id: "6", AgniveerId: "AGN-2024-0201", name: "Vikram Nair", rank: "Sepoy", battalion: "PARA-2", state: "Kerala", city: "Thiruvananthapuram", dob: "2002-03-25", joining: "2024-02-01", blood: "A+", phone: "9876502001", email: "vikram.n@army.in", status: "active", medical: "Fit", physical: 94, weapons: 88, mental: 86, combat: 93, attendance: 97, discipline: 94, overall: 92 },
+  { id: "7", AgniveerId: "AGN-2024-0202", name: "Ananya Krishnan", rank: "Sepoy", battalion: "PARA-2", state: "Tamil Nadu", city: "Chennai", dob: "2003-07-11", joining: "2024-02-01", blood: "B+", phone: "9876502003", email: "ananya.k@army.in", status: "active", medical: "Fit", physical: 80, weapons: 75, mental: 91, combat: 78, attendance: 95, discipline: 96, overall: 85.8 },
+  { id: "8", AgniveerId: "AGN-2024-0203", name: "Rohit Sharma", rank: "Sepoy", battalion: "PARA-2", state: "MP", city: "Bhopal", dob: "2002-12-01", joining: "2024-02-01", blood: "O+", phone: "9876502005", email: "rohit.s@army.in", status: "active", medical: "Under Observation (Knee)", physical: 75, weapons: 69, mental: 72, combat: 71, attendance: 79, discipline: 74, overall: 73.3 },
+  { id: "9", AgniveerId: "AGN-2024-0301", name: "Sourav Das", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Kolkata", dob: "2002-01-14", joining: "2024-02-15", blood: "B+", phone: "9876503001", email: "sourav.d@army.in", status: "active", medical: "Fit", physical: 86, weapons: 80, mental: 83, combat: 85, attendance: 94, discipline: 88, overall: 86 },
+  { id: "10", AgniveerId: "AGN-2024-0302", name: "Rekha Bose", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Howrah", dob: "2003-04-20", joining: "2024-02-15", blood: "O+", phone: "9876503003", email: "rekha.b@army.in", status: "active", medical: "Fit", physical: 79, weapons: 71, mental: 90, combat: 75, attendance: 96, discipline: 94, overall: 84.2 },
+  { id: "11", AgniveerId: "AGN-2024-0303", name: "Amit Ghosh", rank: "Sepoy", battalion: "BEN-3", state: "WB", city: "Durgapur", dob: "2002-09-02", joining: "2024-02-15", blood: "A+", phone: "9876503005", email: "amit.g@army.in", status: "active", medical: "Fit", physical: 72, weapons: 65, mental: 68, combat: 69, attendance: 80, discipline: 72, overall: 71 },
+  { id: "12", AgniveerId: "AGN-2024-0304", name: "Ranjit Singh", rank: "Lance Naik", battalion: "BEN-3", state: "Punjab", city: "Ludhiana", dob: "2001-07-25", joining: "2024-02-15", blood: "B+", phone: "9876503007", email: "ranjit.s@army.in", status: "active", medical: "Fit", physical: 90, weapons: 92, mental: 84, combat: 91, attendance: 98, discipline: 95, overall: 91.7 },
+  { id: "13", AgniveerId: "AGN-2024-0401", name: "Suresh Patil", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Pune", dob: "2002-06-18", joining: "2024-03-01", blood: "O+", phone: "9876504001", email: "suresh.p@army.in", status: "active", medical: "Fit", physical: 83, weapons: 79, mental: 76, combat: 81, attendance: 89, discipline: 86, overall: 82.3 },
+  { id: "14", AgniveerId: "AGN-2024-0402", name: "Rohini Jadhav", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Nashik", dob: "2003-11-09", joining: "2024-03-01", blood: "A+", phone: "9876504003", email: "rohini.j@army.in", status: "active", medical: "Fit", physical: 76, weapons: 68, mental: 86, combat: 72, attendance: 91, discipline: 90, overall: 79.5 },
+  { id: "15", AgniveerId: "AGN-2024-0403", name: "Santosh More", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Aurangabad", dob: "2002-03-14", joining: "2024-03-01", blood: "B-", phone: "9876504005", email: "santosh.m@army.in", status: "active", medical: "Under Observation (Back)", physical: 70, weapons: 66, mental: 62, combat: 68, attendance: 78, discipline: 70, overall: 69 },
+  { id: "16", AgniveerId: "AGN-2024-0404", name: "Vijay Deshmukh", rank: "Sepoy", battalion: "MAR-4", state: "Maharashtra", city: "Nagpur", dob: "2001-08-30", joining: "2024-03-01", blood: "A-", phone: "9876504007", email: "vijay.d@army.in", status: "active", medical: "Fit", physical: 88, weapons: 85, mental: 82, combat: 87, attendance: 95, discipline: 92, overall: 88.2 },
 ]
 
 // ═══════════════════════════════════════════════════════════════
@@ -151,7 +151,7 @@ const BATS = ["RR-1", "PARA-2", "BEN-3", "MAR-4"]
 // ═══════════════════════════════════════════════════════════════
 // SECTION TOGGLE
 // ═══════════════════════════════════════════════════════════════
-type Section = "applications" | "soldiers"
+type Section = "applications" | "Agniveer"
 
 // ═══════════════════════════════════════════════════════════════
 // APPLICATION DETAIL MODAL (Read)
@@ -393,21 +393,21 @@ function DeleteConfirm({ name, id, onConfirm, onClose }: {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SOLDIER FORM MODAL (Create / Edit)
+// Agniveer FORM MODAL (Create / Edit)
 // ═══════════════════════════════════════════════════════════════
-const BLANK_SOLDIER: Omit<Soldier, "id"> = {
-  soldierId: "", name: "", rank: "Sepoy", battalion: "RR-1", state: "", city: "",
+const BLANK_Agniveer: Omit<Agniveer, "id"> = {
+  AgniveerId: "", name: "", rank: "Sepoy", battalion: "RR-1", state: "", city: "",
   dob: "", joining: "", blood: "O+", phone: "", email: "",
   status: "active", medical: "Fit",
   physical: 75, weapons: 75, mental: 75, combat: 75, attendance: 90, discipline: 85, overall: 79.2,
 }
 
-function SoldierFormModal({ initial, mode, onSave, onClose }: {
-  initial?: Soldier; mode: "create" | "edit"
-  onSave: (s: Soldier) => void; onClose: () => void
+function AgniveerFormModal({ initial, mode, onSave, onClose }: {
+  initial?: Agniveer; mode: "create" | "edit"
+  onSave: (s: Agniveer) => void; onClose: () => void
 }) {
-  const [form, setForm] = useState<Omit<Soldier, "id">>(
-    initial ? { ...initial } : { ...BLANK_SOLDIER }
+  const [form, setForm] = useState<Omit<Agniveer, "id">>(
+    initial ? { ...initial } : { ...BLANK_Agniveer }
   )
   const set = (k: keyof typeof form, v: string | number) => setForm(f => ({ ...f, [k]: v }))
   const calcOverall = (f: typeof form) =>
@@ -426,7 +426,7 @@ function SoldierFormModal({ initial, mode, onSave, onClose }: {
         <DialogHeader className="px-5 pt-5 pb-0">
           <DialogTitle className="flex items-center gap-2 text-base text-stone-800">
             {mode === "create" ? <Plus size={15} className="text-[#4a5c2f]" /> : <Pencil size={15} className="text-[#1a2d4a]" />}
-            {mode === "create" ? "Enrol New Soldier" : `Edit Soldier — ${initial?.soldierId}`}
+            {mode === "create" ? "Enrol New Agniveer" : `Edit Agniveer — ${initial?.AgniveerId}`}
           </DialogTitle>
         </DialogHeader>
 
@@ -436,10 +436,10 @@ function SoldierFormModal({ initial, mode, onSave, onClose }: {
             <div className="text-xs font-bold uppercase tracking-wide text-stone-400 mb-3">Identity</div>
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2"><F label="Full Name" req><Input value={form.name} onChange={e => set("name", e.target.value)} className="text-sm h-8" /></F></div>
-              <F label="Soldier ID" req><Input value={form.soldierId} onChange={e => set("soldierId", e.target.value)} placeholder="AGN-2024-XXXX" className="text-sm h-8 font-mono" /></F>
+              <F label="Agniveer ID" req><Input value={form.AgniveerId} onChange={e => set("AgniveerId", e.target.value)} placeholder="AGN-2024-XXXX" className="text-sm h-8 font-mono" /></F>
               <F label="Rank"><Select value={form.rank} onValueChange={v => set("rank", v)}><SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger><SelectContent>{RANKS.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent></Select></F>
               <F label="Battalion"><Select value={form.battalion} onValueChange={v => set("battalion", v)}><SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger><SelectContent>{BATS.map(b => <SelectItem key={b} value={b}>{b}</SelectItem>)}</SelectContent></Select></F>
-              <F label="Status"><Select value={form.status} onValueChange={v => set("status", v as Soldier["status"])}><SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger><SelectContent>{["active", "on_leave", "inactive"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select></F>
+              <F label="Status"><Select value={form.status} onValueChange={v => set("status", v as Agniveer["status"])}><SelectTrigger className="h-8 text-sm"><SelectValue /></SelectTrigger><SelectContent>{["active", "on_leave", "inactive"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select></F>
               <F label="Date of Birth"><Input type="date" value={form.dob} onChange={e => set("dob", e.target.value)} className="text-sm h-8" /></F>
               <F label="Date of Joining"><Input type="date" value={form.joining} onChange={e => set("joining", e.target.value)} className="text-sm h-8" /></F>
               <F label="State"><Input value={form.state} onChange={e => set("state", e.target.value)} className="text-sm h-8" /></F>
@@ -482,7 +482,7 @@ function SoldierFormModal({ initial, mode, onSave, onClose }: {
           <Button variant="outline" onClick={onClose} className="text-sm">Cancel</Button>
           <Button onClick={() => onSave({ id: initial?.id ?? String(Date.now()), ...form })}
             className="gap-1.5 bg-[#4a5c2f] text-white hover:bg-[#344228] text-sm">
-            <Save size={13} />{mode === "create" ? "Enrol Soldier" : "Save Changes"}
+            <Save size={13} />{mode === "create" ? "Enrol Agniveer" : "Save Changes"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -491,10 +491,10 @@ function SoldierFormModal({ initial, mode, onSave, onClose }: {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SOLDIER DETAIL MODAL (Read)
+// Agniveer DETAIL MODAL (Read)
 // ═══════════════════════════════════════════════════════════════
-function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
-  soldier: Soldier; onClose: () => void; onEdit: () => void; onDelete: () => void
+function AgniveerDetailModal({ Agniveer, onClose, onEdit, onDelete }: {
+  Agniveer: Agniveer; onClose: () => void; onEdit: () => void; onDelete: () => void
 }) {
   const scores = [
     { label: "Physical", key: "physical" as const, icon: <Activity size={12} /> },
@@ -504,7 +504,7 @@ function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
     { label: "Attendance", key: "attendance" as const, icon: <CalendarDays size={12} /> },
     { label: "Discipline", key: "discipline" as const, icon: <CheckCircle2 size={12} /> },
   ]
-  const globalRank = [...INIT_SOLDIERS].sort((a, b) => b.overall - a.overall).findIndex(s => s.id === soldier.id) + 1
+  const globalRank = [...INIT_Agniveer].sort((a, b) => b.overall - a.overall).findIndex(s => s.id === Agniveer.id) + 1
 
   return (
     <Dialog open onOpenChange={onClose}>
@@ -513,16 +513,16 @@ function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10 border border-white/20 text-2xl">👤</div>
             <div>
-              <h2 className="text-lg font-bold text-white">{soldier.name}</h2>
+              <h2 className="text-lg font-bold text-white">{Agniveer.name}</h2>
               <div className="flex flex-wrap gap-1.5 mt-1">
-                <span className="font-mono text-[10px] text-orange-300 bg-white/10 px-1.5 py-0.5 rounded">{soldier.soldierId}</span>
-                <span className="text-[10px] text-white/70 bg-white/10 px-1.5 py-0.5 rounded">{soldier.rank}</span>
-                <span className="text-[10px] text-white/70 bg-white/10 px-1.5 py-0.5 rounded">{soldier.battalion}</span>
+                <span className="font-mono text-[10px] text-orange-300 bg-white/10 px-1.5 py-0.5 rounded">{Agniveer.AgniveerId}</span>
+                <span className="text-[10px] text-white/70 bg-white/10 px-1.5 py-0.5 rounded">{Agniveer.rank}</span>
+                <span className="text-[10px] text-white/70 bg-white/10 px-1.5 py-0.5 rounded">{Agniveer.battalion}</span>
               </div>
             </div>
           </div>
           <div className="text-right shrink-0">
-            <div className={`text-3xl font-black ${soldier.overall >= 90 ? "text-emerald-400" : soldier.overall >= 80 ? "text-amber-300" : "text-orange-400"}`}>{soldier.overall}</div>
+            <div className={`text-3xl font-black ${Agniveer.overall >= 90 ? "text-emerald-400" : Agniveer.overall >= 80 ? "text-amber-300" : "text-orange-400"}`}>{Agniveer.overall}</div>
             <div className="text-[10px] text-white/50">Overall · Global #{globalRank}</div>
           </div>
         </div>
@@ -532,9 +532,9 @@ function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
             {scores.map(s => (
               <div key={s.key} className="rounded-lg border border-stone-100 bg-stone-50 p-3">
                 <div className="flex items-center gap-1 text-[10px] text-stone-400 mb-1">{s.icon}{s.label}</div>
-                <div className={`text-xl font-black ${sc(soldier[s.key])}`}>{soldier[s.key]}</div>
+                <div className={`text-xl font-black ${sc(Agniveer[s.key])}`}>{Agniveer[s.key]}</div>
                 <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-stone-200">
-                  <div className={`h-full rounded-full ${bc(soldier[s.key])}`} style={{ width: `${soldier[s.key]}%` }} />
+                  <div className={`h-full rounded-full ${bc(Agniveer[s.key])}`} style={{ width: `${Agniveer[s.key]}%` }} />
                 </div>
               </div>
             ))}
@@ -543,7 +543,7 @@ function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="rounded-lg border border-stone-200 overflow-hidden">
               <div className="bg-stone-50 border-b border-stone-100 px-4 py-2 text-xs font-bold uppercase tracking-wide text-stone-500">Personal</div>
-              {[["DOB", soldier.dob], ["State", soldier.state], ["City", soldier.city], ["Blood", soldier.blood], ["Phone", soldier.phone], ["Email", soldier.email]].map(([k, v]) => (
+              {[["DOB", Agniveer.dob], ["State", Agniveer.state], ["City", Agniveer.city], ["Blood", Agniveer.blood], ["Phone", Agniveer.phone], ["Email", Agniveer.email]].map(([k, v]) => (
                 <div key={k} className="flex justify-between px-4 py-2 border-b border-stone-50 last:border-0">
                   <span className="text-xs text-stone-400">{k}</span>
                   <span className="text-xs font-medium text-stone-700 truncate max-w-[60%]">{v}</span>
@@ -552,7 +552,7 @@ function SoldierDetailModal({ soldier, onClose, onEdit, onDelete }: {
             </div>
             <div className="rounded-lg border border-stone-200 overflow-hidden">
               <div className="bg-stone-50 border-b border-stone-100 px-4 py-2 text-xs font-bold uppercase tracking-wide text-stone-500">Service</div>
-              {[["Rank", soldier.rank], ["Battalion", soldier.battalion], ["Joined", soldier.joining], ["Medical", soldier.medical], ["Status", soldier.status]].map(([k, v]) => (
+              {[["Rank", Agniveer.rank], ["Battalion", Agniveer.battalion], ["Joined", Agniveer.joining], ["Medical", Agniveer.medical], ["Status", Agniveer.status]].map(([k, v]) => (
                 <div key={k} className="flex justify-between px-4 py-2 border-b border-stone-50 last:border-0">
                   <span className="text-xs text-stone-400">{k}</span>
                   <span className="text-xs font-medium text-stone-700">{v}</span>
@@ -601,14 +601,14 @@ export default function RecruitmentPage() {
   const [deleteApp, setDeleteApp] = useState<Application | null>(null)
   const [selectedApps, setSelectedApps] = useState<Set<string>>(new Set())
 
-  // ── Soldiers state ──
-  const [soldiers, setSoldiers] = useState<Soldier[]>(INIT_SOLDIERS)
+  // ── Agniveer state ──
+  const [Agniveer, setAgniveer] = useState<Agniveer[]>(INIT_Agniveer)
   const [solSearch, setSolSearch] = useState("")
   const [solFilter, setSolFilter] = useState("all")
-  const [viewSol, setViewSol] = useState<Soldier | null>(null)
-  const [editSol, setEditSol] = useState<Soldier | null>(null)
+  const [viewSol, setViewSol] = useState<Agniveer | null>(null)
+  const [editSol, setEditSol] = useState<Agniveer | null>(null)
   const [createSol, setCreateSol] = useState(false)
-  const [deleteSol, setDeleteSol] = useState<Soldier | null>(null)
+  const [deleteSol, setDeleteSol] = useState<Agniveer | null>(null)
 
   // ── Section ──
   const [section, setSection] = useState<Section>("applications")
@@ -655,21 +655,21 @@ export default function RecruitmentPage() {
     else setSelectedApps(new Set(ids))
   }
 
-  // ── CRUD: Soldiers ──
-  const saveSoldier = (updated: Soldier) => {
-    const exists = soldiers.find(s => s.id === updated.id)
+  // ── CRUD: Agniveer ──
+  const saveAgniveer = (updated: Agniveer) => {
+    const exists = Agniveer.find(s => s.id === updated.id)
     if (exists) {
-      setSoldiers(prev => prev.map(s => s.id === updated.id ? updated : s))
-      showToast("Soldier record updated.")
+      setAgniveer(prev => prev.map(s => s.id === updated.id ? updated : s))
+      showToast("Agniveer record updated.")
     } else {
-      setSoldiers(prev => [updated, ...prev])
-      showToast("Soldier enrolled successfully.")
+      setAgniveer(prev => [updated, ...prev])
+      showToast("Agniveer enrolled successfully.")
     }
     setEditSol(null); setCreateSol(false); setViewSol(null)
   }
   const confirmDeleteSol = () => {
     if (!deleteSol) return
-    setSoldiers(prev => prev.filter(s => s.id !== deleteSol.id))
+    setAgniveer(prev => prev.filter(s => s.id !== deleteSol.id))
     showToast(`Deleted: ${deleteSol.name}`)
     setDeleteSol(null); setViewSol(null)
   }
@@ -684,9 +684,9 @@ export default function RecruitmentPage() {
     return matchTab && matchQ
   })
 
-  const filteredSols = soldiers.filter(s => {
+  const filteredSols = Agniveer.filter(s => {
     const q = solSearch.toLowerCase()
-    const matchQ = !q || s.name.toLowerCase().includes(q) || s.soldierId.toLowerCase().includes(q) || s.battalion.toLowerCase().includes(q)
+    const matchQ = !q || s.name.toLowerCase().includes(q) || s.AgniveerId.toLowerCase().includes(q) || s.battalion.toLowerCase().includes(q)
     const matchF = solFilter === "all" || (solFilter === "active" && s.status === "active") || (solFilter === "leave" && s.status === "on_leave") || (solFilter === "good" && s.overall >= 85) || (solFilter === "attn" && s.overall < 75)
     return matchQ && matchF
   })
@@ -704,9 +704,9 @@ export default function RecruitmentPage() {
       {(editApp || createApp) && <AppFormModal initial={editApp ?? undefined} mode={editApp ? "edit" : "create"} onSave={saveApp} onClose={() => { setEditApp(null); setCreateApp(false) }} adminName={adminName} />}
       {deleteApp && <DeleteConfirm name={deleteApp.name} id={deleteApp.id} onConfirm={confirmDeleteApp} onClose={() => setDeleteApp(null)} />}
 
-      {viewSol && <SoldierDetailModal soldier={viewSol} onClose={() => setViewSol(null)} onEdit={() => { setEditSol(viewSol); setViewSol(null) }} onDelete={() => setDeleteSol(viewSol)} />}
-      {(editSol || createSol) && <SoldierFormModal initial={editSol ?? undefined} mode={editSol ? "edit" : "create"} onSave={saveSoldier} onClose={() => { setEditSol(null); setCreateSol(false) }} />}
-      {deleteSol && <DeleteConfirm name={deleteSol.name} id={deleteSol.soldierId} onConfirm={confirmDeleteSol} onClose={() => setDeleteSol(null)} />}
+      {viewSol && <AgniveerDetailModal Agniveer={viewSol} onClose={() => setViewSol(null)} onEdit={() => { setEditSol(viewSol); setViewSol(null) }} onDelete={() => setDeleteSol(viewSol)} />}
+      {(editSol || createSol) && <AgniveerFormModal initial={editSol ?? undefined} mode={editSol ? "edit" : "create"} onSave={saveAgniveer} onClose={() => { setEditSol(null); setCreateSol(false) }} />}
+      {deleteSol && <DeleteConfirm name={deleteSol.name} id={deleteSol.AgniveerId} onConfirm={confirmDeleteSol} onClose={() => setDeleteSol(null)} />}
 
       {toast && <Toast msg={toast.msg} type={toast.type} />}
 
@@ -716,9 +716,9 @@ export default function RecruitmentPage() {
           <div>
             <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
               <FileText size={20} className="text-[#4a5c2f]" />
-              Recruitment & Soldiers
+              Recruitment & Agniveer
             </h1>
-            <p className="mt-0.5 text-xs text-stone-500">Full CRUD — Create, Read, Update, Delete applications and soldier records</p>
+            <p className="mt-0.5 text-xs text-stone-500">Full CRUD — Create, Read, Update, Delete applications and Agniveer records</p>
           </div>
           {/* Section toggle */}
           <div className="flex items-center gap-1 rounded-lg bg-stone-100 p-1">
@@ -726,9 +726,9 @@ export default function RecruitmentPage() {
               className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${section === "applications" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500 hover:text-stone-700"}`}>
               <FileText size={12} /> Applications ({apps.length})
             </button>
-            <button onClick={() => setSection("soldiers")}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${section === "soldiers" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500 hover:text-stone-700"}`}>
-              <Users size={12} /> Soldiers ({soldiers.length})
+            <button onClick={() => setSection("Agniveer")}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${section === "Agniveer" ? "bg-white text-stone-800 shadow-sm" : "text-stone-500 hover:text-stone-700"}`}>
+              <Users size={12} /> Agniveer ({Agniveer.length})
             </button>
           </div>
         </div>
@@ -875,16 +875,16 @@ export default function RecruitmentPage() {
           </Card>
         </>)}
 
-        {/* ═══════════ SOLDIERS ═══════════ */}
-        {section === "soldiers" && (<>
+        {/* ═══════════ Agniveer ═══════════ */}
+        {section === "Agniveer" && (<>
 
           {/* Summary */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
-              { label: "Total Soldiers", value: soldiers.length, color: "text-[#1a2d4a]" },
-              { label: "Active", value: soldiers.filter(s => s.status === "active").length, color: "text-emerald-600" },
-              { label: "On Leave", value: soldiers.filter(s => s.status === "on_leave").length, color: "text-amber-600" },
-              { label: "Avg. Score", value: Math.round(soldiers.reduce((a, s) => a + s.overall, 0) / soldiers.length * 10) / 10, color: "text-[#4a5c2f]" },
+              { label: "Total Agniveer", value: Agniveer.length, color: "text-[#1a2d4a]" },
+              { label: "Active", value: Agniveer.filter(s => s.status === "active").length, color: "text-emerald-600" },
+              { label: "On Leave", value: Agniveer.filter(s => s.status === "on_leave").length, color: "text-amber-600" },
+              { label: "Avg. Score", value: Math.round(Agniveer.reduce((a, s) => a + s.overall, 0) / Agniveer.length * 10) / 10, color: "text-[#4a5c2f]" },
             ].map(s => (
               <Card key={s.label} className="border-stone-200 bg-white shadow-sm">
                 <CardContent className="px-4 pt-3.5 pb-3">
@@ -907,29 +907,29 @@ export default function RecruitmentPage() {
                 className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${solFilter === f.v ? "border-[#1a2d4a] bg-[#1a2d4a] text-white" : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
                   }`}>{f.l}</button>
             ))}
-            <span className="text-xs text-stone-400">{filteredSols.length} soldiers</span>
+            <span className="text-xs text-stone-400">{filteredSols.length} Agniveer</span>
             <Button onClick={() => setCreateSol(true)} className="h-8 gap-1.5 bg-[#4a5c2f] text-xs text-white hover:bg-[#344228] ml-auto shrink-0">
-              <Plus size={13} /> Enrol Soldier
+              <Plus size={13} /> Enrol Agniveer
             </Button>
           </div>
 
-          {/* Soldiers table */}
+          {/* Agniveer table */}
           <Card className="border-stone-200 bg-white shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-stone-100 bg-stone-50">
-                    {["Soldier ID", "Name", "Rank", "Battalion", "Physical", "Weapons", "Mental", "Combat", "Attend.", "Discip.", "Overall", "Grade", "Status", "Actions"].map(h => (
+                    {["Agniveer ID", "Name", "Rank", "Battalion", "Physical", "Weapons", "Mental", "Combat", "Attend.", "Discip.", "Overall", "Grade", "Status", "Actions"].map(h => (
                       <th key={h} className="px-3 py-2.5 text-left text-xs font-semibold text-stone-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-50">
                   {filteredSols.length === 0 ? (
-                    <tr><td colSpan={14} className="py-12 text-center text-sm text-stone-400">No soldiers match your filter.</td></tr>
+                    <tr><td colSpan={14} className="py-12 text-center text-sm text-stone-400">No Agniveer match your filter.</td></tr>
                   ) : filteredSols.map(s => (
                     <tr key={s.id} className={`transition-colors hover:bg-[#f0f5e8] ${s.overall >= 90 ? "bg-emerald-50/20" : s.overall < 70 ? "bg-rose-50/20" : ""}`}>
-                      <td className="px-3 py-2.5 font-mono text-xs text-stone-400 whitespace-nowrap">{s.soldierId}</td>
+                      <td className="px-3 py-2.5 font-mono text-xs text-stone-400 whitespace-nowrap">{s.AgniveerId}</td>
                       <td className="px-3 py-2.5 font-semibold text-stone-800 whitespace-nowrap">{s.name}</td>
                       <td className="px-3 py-2.5 text-xs text-stone-500">{s.rank}</td>
                       <td className="px-3 py-2.5">
@@ -974,7 +974,7 @@ export default function RecruitmentPage() {
               </table>
             </div>
             <div className="flex items-center justify-between border-t border-stone-100 px-4 py-2.5 bg-stone-50/50">
-              <p className="text-xs text-stone-400">{filteredSols.length} of {soldiers.length} soldiers</p>
+              <p className="text-xs text-stone-400">{filteredSols.length} of {Agniveer.length} Agniveer</p>
               <p className="text-xs text-stone-400">👁 View · ✏️ Edit · 🗑 Delete</p>
             </div>
           </Card>

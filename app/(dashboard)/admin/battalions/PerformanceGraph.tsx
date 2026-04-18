@@ -27,8 +27,8 @@ type Metric =
   | "overall"
 
 // ✅ Generate Monthly Data
-function generateMonthlyData(soldier: any) {
-  const start = new Date(soldier.joining)
+function generateMonthlyData(Agniveer: any) {
+  const start = new Date(Agniveer.joining)
   const now = new Date()
 
   const months = []
@@ -59,7 +59,7 @@ function generateMonthlyData(soldier: any) {
     }
 
     metrics.forEach((m) => {
-      const finalValue = soldier[m]
+      const finalValue = Agniveer[m]
       const startValue = finalValue * 0.6
 
       const value = startValue + (finalValue - startValue) * progress
@@ -75,12 +75,12 @@ function generateMonthlyData(soldier: any) {
   return months
 }
 
-export function PerformanceGraph({ soldier }: { soldier: any }) {
+export function PerformanceGraph({ Agniveer }: { Agniveer: any }) {
   const [metric, setMetric] = useState<Metric>("physical")
   const [selectedMonth, setSelectedMonth] = useState<string>("all")
 
-  const monthlyData = generateMonthlyData(soldier)
-  const value = soldier[metric]
+  const monthlyData = generateMonthlyData(Agniveer)
+  const value = Agniveer[metric]
 
   const metrics: Metric[] = [
     "physical",

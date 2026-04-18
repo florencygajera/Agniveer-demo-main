@@ -68,9 +68,9 @@ interface Battalion {
   accentBorder: string
 }
 
-interface Soldier {
+interface Agniveer {
   id: string
-  soldierId: string
+  AgniveerId: string
   name: string
   rank: string
   battalion: string // battalion code e.g. "RR-1"
@@ -193,10 +193,10 @@ const BATTALIONS: Battalion[] = [
   },
 ]
 
-const ALL_SOLDIERS: Soldier[] = [
+const ALL_AgniveerS: Agniveer[] = [
   {
     id: "1",
-    soldierId: "AGN-2024-0101",
+    AgniveerId: "AGN-2024-0101",
     name: "Rajveer Singh Chauhan",
     rank: "Sepoy",
     battalion: "RR-1",
@@ -270,7 +270,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "2",
-    soldierId: "AGN-2024-0102",
+    AgniveerId: "AGN-2024-0102",
     name: "Priya Sharma",
     rank: "Sepoy",
     battalion: "RR-1",
@@ -340,7 +340,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "3",
-    soldierId: "AGN-2024-0103",
+    AgniveerId: "AGN-2024-0103",
     name: "Arjun Mehra",
     rank: "Lance Naik",
     battalion: "RR-1",
@@ -416,7 +416,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "4",
-    soldierId: "AGN-2024-0104",
+    AgniveerId: "AGN-2024-0104",
     name: "Sunil Kumar",
     rank: "Sepoy",
     battalion: "RR-1",
@@ -482,7 +482,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "5",
-    soldierId: "AGN-2024-0105",
+    AgniveerId: "AGN-2024-0105",
     name: "Kavita Rajput",
     rank: "Sepoy",
     battalion: "RR-1",
@@ -552,7 +552,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "6",
-    soldierId: "AGN-2024-0106",
+    AgniveerId: "AGN-2024-0106",
     name: "Mahesh Choudhary",
     rank: "Sepoy",
     battalion: "RR-1",
@@ -622,7 +622,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "7",
-    soldierId: "AGN-2024-0201",
+    AgniveerId: "AGN-2024-0201",
     name: "Vikram Nair",
     rank: "Sepoy",
     battalion: "PARA-2",
@@ -693,7 +693,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "8",
-    soldierId: "AGN-2024-0202",
+    AgniveerId: "AGN-2024-0202",
     name: "Ananya Krishnan",
     rank: "Sepoy",
     battalion: "PARA-2",
@@ -763,7 +763,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "9",
-    soldierId: "AGN-2024-0203",
+    AgniveerId: "AGN-2024-0203",
     name: "Rohit Sharma",
     rank: "Sepoy",
     battalion: "PARA-2",
@@ -833,7 +833,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "10",
-    soldierId: "AGN-2024-0204",
+    AgniveerId: "AGN-2024-0204",
     name: "Deepak Yadav",
     rank: "Sepoy",
     battalion: "PARA-2",
@@ -903,7 +903,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "11",
-    soldierId: "AGN-2024-0301",
+    AgniveerId: "AGN-2024-0301",
     name: "Sourav Das",
     rank: "Sepoy",
     battalion: "BEN-3",
@@ -969,7 +969,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "12",
-    soldierId: "AGN-2024-0302",
+    AgniveerId: "AGN-2024-0302",
     name: "Rekha Bose",
     rank: "Sepoy",
     battalion: "BEN-3",
@@ -1035,7 +1035,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "13",
-    soldierId: "AGN-2024-0303",
+    AgniveerId: "AGN-2024-0303",
     name: "Amit Ghosh",
     rank: "Sepoy",
     battalion: "BEN-3",
@@ -1105,7 +1105,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "14",
-    soldierId: "AGN-2024-0304",
+    AgniveerId: "AGN-2024-0304",
     name: "Ranjit Singh",
     rank: "Lance Naik",
     battalion: "BEN-3",
@@ -1175,7 +1175,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "15",
-    soldierId: "AGN-2024-0401",
+    AgniveerId: "AGN-2024-0401",
     name: "Suresh Patil",
     rank: "Sepoy",
     battalion: "MAR-4",
@@ -1245,7 +1245,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "16",
-    soldierId: "AGN-2024-0402",
+    AgniveerId: "AGN-2024-0402",
     name: "Rohini Jadhav",
     rank: "Sepoy",
     battalion: "MAR-4",
@@ -1315,7 +1315,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "17",
-    soldierId: "AGN-2024-0403",
+    AgniveerId: "AGN-2024-0403",
     name: "Santosh More",
     rank: "Sepoy",
     battalion: "MAR-4",
@@ -1385,7 +1385,7 @@ const ALL_SOLDIERS: Soldier[] = [
   },
   {
     id: "18",
-    soldierId: "AGN-2024-0404",
+    AgniveerId: "AGN-2024-0404",
     name: "Vijay Deshmukh",
     rank: "Sepoy",
     battalion: "MAR-4",
@@ -1501,13 +1501,13 @@ function MiniBar({ value }: { value: number }) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// SOLDIER DETAIL MODAL — full tabbed profile
+// Agniveer DETAIL MODAL — full tabbed profile
 // ══════════════════════════════════════════════════════════════
-function SoldierDetailModal({
-  soldier,
+function AgniveerDetailModal({
+  Agniveer,
   onClose,
 }: {
-  soldier: Soldier
+  Agniveer: Agniveer
   onClose: () => void
 }) {
   const [tab, setTab] = useState<
@@ -1519,17 +1519,17 @@ function SoldierDetailModal({
     | "performance-graph"
   >("overview")
 
-  React.useEffect(() => setTab("overview"), [soldier.id])
+  React.useEffect(() => setTab("overview"), [Agniveer.id])
 
-  const allSorted = [...ALL_SOLDIERS].sort((a, b) => b.overall - a.overall)
-  const globalRank = allSorted.findIndex((s) => s.id === soldier.id) + 1
-  const batSoldiers = ALL_SOLDIERS.filter(
-    (s) => s.battalion === soldier.battalion
+  const allSorted = [...ALL_AgniveerS].sort((a, b) => b.overall - a.overall)
+  const globalRank = allSorted.findIndex((s) => s.id === Agniveer.id) + 1
+  const batAgniveers = ALL_AgniveerS.filter(
+    (s) => s.battalion === Agniveer.battalion
   )
   const batRank =
-    [...batSoldiers]
+    [...batAgniveers]
       .sort((a, b) => b.overall - a.overall)
-      .findIndex((s) => s.id === soldier.id) + 1
+      .findIndex((s) => s.id === Agniveer.id) + 1
 
   const SCORES = [
     {
@@ -1583,26 +1583,26 @@ function SoldierDetailModal({
               </div>
               <div>
                 <h2 className="text-xl leading-tight font-bold text-white">
-                  {soldier.name}
+                  {Agniveer.name}
                 </h2>
                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                   <span className="rounded bg-white/10 px-2 py-0.5 font-mono text-[10px] text-orange-300">
-                    {soldier.soldierId}
+                    {Agniveer.AgniveerId}
                   </span>
                   <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] text-white/70">
-                    {soldier.rank}
+                    {Agniveer.rank}
                   </span>
                   <span className="rounded bg-white/10 px-2 py-0.5 text-[10px] text-white/70">
-                    {soldier.battalionName}
+                    {Agniveer.battalionName}
                   </span>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-3 text-xs text-white/60">
                   <span>
-                    📍 {soldier.city}, {soldier.state}
+                    📍 {Agniveer.city}, {Agniveer.state}
                   </span>
-                  <span>🩸 {soldier.blood}</span>
-                  <span>🏥 {soldier.medical}</span>
-                  <span>👤 {soldier.gender}</span>
+                  <span>🩸 {Agniveer.blood}</span>
+                  <span>🏥 {Agniveer.medical}</span>
+                  <span>👤 {Agniveer.gender}</span>
                 </div>
               </div>
             </div>
@@ -1610,14 +1610,14 @@ function SoldierDetailModal({
             <div className="shrink-0 text-center">
               <div
                 className={`text-5xl leading-none font-black ${
-                  soldier.overall >= 90
+                  Agniveer.overall >= 90
                     ? "text-emerald-400"
-                    : soldier.overall >= 80
+                    : Agniveer.overall >= 80
                       ? "text-amber-300"
                       : "text-orange-400"
                 }`}
               >
-                {soldier.overall}
+                {Agniveer.overall}
               </div>
               <div className="mt-1 text-[10px] text-white/50">
                 Overall Score
@@ -1632,14 +1632,14 @@ function SoldierDetailModal({
           {/* status + grade badges */}
           <div className="mt-3 flex flex-wrap gap-2">
             <Badge
-              className={`border text-xs font-medium ${statusMap[soldier.status]}`}
+              className={`border text-xs font-medium ${statusMap[Agniveer.status]}`}
             >
-              {statusLabel[soldier.status]}
+              {statusLabel[Agniveer.status]}
             </Badge>
             <Badge
-              className={`border text-xs font-semibold ${grade(soldier.overall).c}`}
+              className={`border text-xs font-semibold ${grade(Agniveer.overall).c}`}
             >
-              {grade(soldier.overall).l}
+              {grade(Agniveer.overall).l}
             </Badge>
           </div>
         </div>
@@ -1666,7 +1666,7 @@ function SoldierDetailModal({
           {/* OVERVIEW */}
           {tab === "overview" && (
             <SoldierOverview
-              soldier={soldier}
+              soldier={Agniveer}
               SCORES={SCORES}
               sc={sc}
               bc={bc}
@@ -1691,7 +1691,7 @@ function SoldierDetailModal({
                 </thead>
                 <tbody className="divide-y divide-stone-50">
                   {SCORES.map((s) => {
-                    const v = soldier[s.key as keyof Soldier] as number
+                    const v = Agniveer[s.key as keyof Agniveer] as number
                     const g = grade(v)
                     return (
                       <tr key={s.key} className="hover:bg-stone-50">
@@ -1729,16 +1729,16 @@ function SoldierDetailModal({
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-xl font-black ${sc(soldier.overall)}`}
+                        className={`text-xl font-black ${sc(Agniveer.overall)}`}
                       >
-                        {soldier.overall}
+                        {Agniveer.overall}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <Badge
-                        className={`border text-xs ${grade(soldier.overall).c}`}
+                        className={`border text-xs ${grade(Agniveer.overall).c}`}
                       >
-                        {grade(soldier.overall).l}
+                        {grade(Agniveer.overall).l}
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-xs text-stone-400">
@@ -1759,21 +1759,21 @@ function SoldierDetailModal({
                   Personal Information
                 </div>
                 {[
-                  ["Full Name", soldier.name],
+                  ["Full Name", Agniveer.name],
                   [
                     "Date of Birth",
-                    new Date(soldier.dob).toLocaleDateString("en-IN", {
+                    new Date(Agniveer.dob).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
                     }),
                   ],
-                  ["Gender", soldier.gender],
-                  ["Blood Group", soldier.blood],
-                  ["State", soldier.state],
-                  ["City", soldier.city],
-                  ["Phone", soldier.phone],
-                  ["Email", soldier.email],
+                  ["Gender", Agniveer.gender],
+                  ["Blood Group", Agniveer.blood],
+                  ["State", Agniveer.state],
+                  ["City", Agniveer.city],
+                  ["Phone", Agniveer.phone],
+                  ["Email", Agniveer.email],
                 ].map(([k, v]) => (
                   <div
                     key={k}
@@ -1794,19 +1794,19 @@ function SoldierDetailModal({
                     Service Details
                   </div>
                   {[
-                    ["Soldier ID", soldier.soldierId],
-                    ["Rank", soldier.rank],
-                    ["Battalion", soldier.battalionName],
+                    ["Agniveer ID", Agniveer.AgniveerId],
+                    ["Rank", Agniveer.rank],
+                    ["Battalion", Agniveer.battalionName],
                     [
                       "Date of Joining",
-                      new Date(soldier.joining).toLocaleDateString("en-IN", {
+                      new Date(Agniveer.joining).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
                       }),
                     ],
-                    ["Status", statusLabel[soldier.status]],
-                    ["Medical", soldier.medical],
+                    ["Status", statusLabel[Agniveer.status]],
+                    ["Medical", Agniveer.medical],
                   ].map(([k, v]) => (
                     <div
                       key={k}
@@ -1825,9 +1825,9 @@ function SoldierDetailModal({
                     Emergency Contact
                   </div>
                   {[
-                    ["Name", soldier.emergency.name],
-                    ["Phone", soldier.emergency.phone],
-                    ["Relation", soldier.emergency.relation],
+                    ["Name", Agniveer.emergency.name],
+                    ["Phone", Agniveer.emergency.phone],
+                    ["Relation", Agniveer.emergency.relation],
                   ].map(([k, v]) => (
                     <div
                       key={k}
@@ -1861,7 +1861,7 @@ function SoldierDetailModal({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-50">
-                  {soldier.equipment.length === 0 ? (
+                  {Agniveer.equipment.length === 0 ? (
                     <tr>
                       <td
                         colSpan={5}
@@ -1871,7 +1871,7 @@ function SoldierDetailModal({
                       </td>
                     </tr>
                   ) : (
-                    soldier.equipment.map((eq, i) => {
+                    Agniveer.equipment.map((eq, i) => {
                       const type =
                         eq.includes("Rifle") || eq.includes("Goggles")
                           ? "Weapon"
@@ -1913,12 +1913,12 @@ function SoldierDetailModal({
           {/* EVENTS */}
           {tab === "events" && (
             <div className="space-y-3">
-              {soldier.events.length === 0 ? (
+              {Agniveer.events.length === 0 ? (
                 <div className="rounded-xl border border-stone-200 bg-stone-50 p-10 text-center text-sm text-stone-400">
                   No events or awards recorded yet.
                 </div>
               ) : (
-                soldier.events.map((ev, i) => (
+                Agniveer.events.map((ev, i) => (
                   <div
                     key={i}
                     className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3.5"
@@ -1944,7 +1944,7 @@ function SoldierDetailModal({
           {/* Performance Graph */}
           {/* Performance Graph */}
           {tab === "performance-graph" && (
-            <PerformanceGraph soldier={soldier} />
+            <PerformanceGraph Agniveer={Agniveer} />
           )}
         </div>
 
@@ -1960,24 +1960,24 @@ function SoldierDetailModal({
 }
 
 // ══════════════════════════════════════════════════════════════
-// BATTALION SOLDIERS VIEW (inline, replaces battalion grid)
+// BATTALION AgniveerS VIEW (inline, replaces battalion grid)
 // ══════════════════════════════════════════════════════════════
-function BattalionSoldiersView({
+function BattalionAgniveersView({
   battalion,
   onBack,
-  onSoldierClick,
+  onAgniveerClick,
 }: {
   battalion: Battalion
   onBack: () => void
-  onSoldierClick: (s: Soldier) => void
+  onAgniveerClick: (s: Agniveer) => void
 }) {
   const [search, setSearch] = useState("")
-  const soldiers = ALL_SOLDIERS.filter((s) => s.battalion === battalion.code)
-  const filtered = soldiers.filter(
+  const Agniveers = ALL_AgniveerS.filter((s) => s.battalion === battalion.code)
+  const filtered = Agniveers.filter(
     (s) =>
       !search ||
       s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.soldierId.toLowerCase().includes(search.toLowerCase())
+      s.AgniveerId.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -2021,22 +2021,22 @@ function BattalionSoldiersView({
               {[
                 {
                   label: "Total",
-                  value: soldiers.length,
+                  value: Agniveers.length,
                   icon: <Users size={13} className="text-stone-400" />,
                 },
                 {
                   label: "Active",
-                  value: soldiers.filter((s) => s.status === "active").length,
+                  value: Agniveers.filter((s) => s.status === "active").length,
                   icon: <UserCheck size={13} className="text-emerald-500" />,
                 },
                 {
                   label: "On Leave",
-                  value: soldiers.filter((s) => s.status === "on_leave").length,
+                  value: Agniveers.filter((s) => s.status === "on_leave").length,
                   icon: <UserMinus size={13} className="text-amber-500" />,
                 },
                 {
                   label: "Score≥85",
-                  value: soldiers.filter((s) => s.overall >= 85).length,
+                  value: Agniveers.filter((s) => s.overall >= 85).length,
                   icon: <Star size={13} className="text-[#4a5c2f]" />,
                 },
               ].map((stat) => (
@@ -2072,28 +2072,28 @@ function BattalionSoldiersView({
             className="absolute top-1/2 left-2.5 -translate-y-1/2 text-stone-400"
           />
           <Input
-            placeholder="Search name or soldier ID…"
+            placeholder="Search name or Agniveer ID…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-8 border-stone-200 bg-white pl-8 text-xs"
           />
         </div>
         <span className="text-xs text-stone-400">
-          {filtered.length} of {soldiers.length} soldiers
+          {filtered.length} of {Agniveers.length} Agniveers
         </span>
         <span className="ml-auto hidden text-xs text-stone-400 sm:block">
           👆 Click any row to view full profile
         </span>
       </div>
 
-      {/* Soldiers table — clickable rows */}
+      {/* Agniveers table — clickable rows */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-stone-100 bg-stone-50">
                 {[
-                  "Soldier ID",
+                  "Agniveer ID",
                   "Name",
                   "Rank",
                   "Physical",
@@ -2122,14 +2122,14 @@ function BattalionSoldiersView({
                     colSpan={12}
                     className="py-12 text-center text-sm text-stone-400"
                   >
-                    No soldiers match your search.
+                    No Agniveers match your search.
                   </td>
                 </tr>
               ) : (
                 filtered.map((s) => (
                   <tr
                     key={s.id}
-                    onClick={() => onSoldierClick(s)}
+                    onClick={() => onAgniveerClick(s)}
                     className={`cursor-pointer transition-colors hover:bg-[#f0f5e8] active:bg-[#e4eedd] ${
                       s.overall >= 90
                         ? "bg-emerald-50/20"
@@ -2139,7 +2139,7 @@ function BattalionSoldiersView({
                     }`}
                   >
                     <td className="px-3 py-3 font-mono text-xs whitespace-nowrap text-stone-400">
-                      {s.soldierId}
+                      {s.AgniveerId}
                     </td>
                     <td className="px-3 py-3 whitespace-nowrap">
                       <span className="font-semibold text-[#1a2d4a] hover:underline">
@@ -2201,7 +2201,7 @@ function BattalionSoldiersView({
           </table>
         </div>
         <div className="border-t border-stone-100 bg-stone-50/50 px-4 py-2.5 text-xs text-stone-400">
-          {filtered.length} soldier{filtered.length !== 1 ? "s" : ""} · Click
+          {filtered.length} Agniveer{filtered.length !== 1 ? "s" : ""} · Click
           any row to view complete profile
         </div>
       </Card>
@@ -2215,11 +2215,11 @@ function BattalionSoldiersView({
 function BattalionCard({
   bat,
   onEdit,
-  onViewSoldiers,
+  onViewAgniveers,
 }: {
   bat: Battalion
   onEdit: () => void
-  onViewSoldiers: () => void
+  onViewAgniveers: () => void
 }) {
   return (
     <Card
@@ -2255,7 +2255,7 @@ function BattalionCard({
           </div>
         </div>
 
-        {/* Soldier stats */}
+        {/* Agniveer stats */}
         <div className="grid grid-cols-4 gap-2 rounded-xl border border-stone-100 bg-stone-50 px-3 py-2.5">
           {[
             {
@@ -2320,10 +2320,10 @@ function BattalionCard({
         {/* Action buttons */}
         <div className="mt-auto flex gap-2 pt-1">
           <Button
-            onClick={onViewSoldiers}
+            onClick={onViewAgniveers}
             className="h-9 flex-1 gap-1.5 bg-[#1a2d4a] text-xs text-white hover:bg-[#243d61]"
           >
-            <Users size={13} /> View Soldiers <ChevronRight size={12} />
+            <Users size={13} /> View Agniveers <ChevronRight size={12} />
           </Button>
           {/* ddt */}
           <BatalionDetailsDialog bat={bat}>
@@ -2438,7 +2438,7 @@ function EditDialog({
             />
           </div>
           <div className="space-y-1">
-            <Label className="text-xs text-stone-500">Total Soldiers</Label>
+            <Label className="text-xs text-stone-500">Total Agniveers</Label>
             <Input
               type="number"
               value={form.total}
@@ -2473,7 +2473,7 @@ function EditDialog({
 // ══════════════════════════════════════════════════════════════
 // PAGE ROOT
 // ══════════════════════════════════════════════════════════════
-type View = "grid" | "soldiers"
+type View = "grid" | "Agniveers"
 
 export default function BattalionsPage() {
   const [battalions, setBattalions] = useState<Battalion[]>(BATTALIONS)
@@ -2483,8 +2483,8 @@ export default function BattalionsPage() {
 
   const [view, setView] = useState<View>("grid")
   const [activeBattalion, setActiveBattalion] = useState<Battalion | null>(null)
-  const [selectedSoldier, setSelectedSoldier] = useState<Soldier | null>(null)
-  const [soldierModalOpen, setSoldierModalOpen] = useState(false)
+  const [selectedAgniveer, setSelectedAgniveer] = useState<Agniveer | null>(null)
+  const [AgniveerModalOpen, setAgniveerModalOpen] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -2494,7 +2494,7 @@ export default function BattalionsPage() {
         const found = BATTALIONS.find((b) => b.id === batCode)
 
         if (found) {
-          handleViewSoldiers(found)
+          handleViewAgniveers(found)
         }
       }
     }
@@ -2508,20 +2508,20 @@ export default function BattalionsPage() {
       b.location.toLowerCase().includes(search.toLowerCase())
   )
 
-  const totalSoldiers = battalions.reduce((s, b) => s + b.total, 0)
+  const totalAgniveers = battalions.reduce((s, b) => s + b.total, 0)
   const avgScore =
     Math.round(
       (battalions.reduce((s, b) => s + b.score, 0) / battalions.length) * 10
     ) / 10
   const totalActive = battalions.reduce((s, b) => s + b.active, 0)
 
-  const handleViewSoldiers = (bat: Battalion) => {
+  const handleViewAgniveers = (bat: Battalion) => {
     setActiveBattalion(bat)
-    setView("soldiers")
+    setView("Agniveers")
   }
-  const handleSoldierClick = (s: Soldier) => {
-    setSelectedSoldier(s)
-    setSoldierModalOpen(true)
+  const handleAgniveerClick = (s: Agniveer) => {
+    setSelectedAgniveer(s)
+    setAgniveerModalOpen(true)
   }
   const handleBack = () => {
     setView("grid")
@@ -2542,13 +2542,13 @@ export default function BattalionsPage() {
         }
       />
 
-      {/* Soldier detail modal */}
-      {selectedSoldier && (
-        <SoldierDetailModal
-          soldier={selectedSoldier}
+      {/* Agniveer detail modal */}
+      {selectedAgniveer && (
+        <AgniveerDetailModal
+          Agniveer={selectedAgniveer}
           onClose={() => {
-            setSoldierModalOpen(false)
-            setSelectedSoldier(null)
+            setAgniveerModalOpen(false)
+            setSelectedAgniveer(null)
           }}
         />
       )}
@@ -2559,18 +2559,18 @@ export default function BattalionsPage() {
           <div>
             <h1 className="flex items-center gap-2 text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
               <Building2 size={20} className="text-[#4a5c2f]" />
-              {view === "soldiers" && activeBattalion
+              {view === "Agniveers" && activeBattalion
                 ? activeBattalion.name
                 : "All Battalions"}
             </h1>
             <p className="mt-0.5 text-xs text-stone-500">
-              {view === "soldiers" && activeBattalion
-                ? `${ALL_SOLDIERS.filter((s) => s.battalion === activeBattalion.code).length} soldiers · Click any row for full profile`
-                : "Click View Soldiers on any battalion to drill down"}
+              {view === "Agniveers" && activeBattalion
+                ? `${ALL_AgniveerS.filter((s) => s.battalion === activeBattalion.code).length} Agniveers · Click any row for full profile`
+                : "Click View Agniveers on any battalion to drill down"}
             </p>
           </div>
 
-          {view === "soldiers" ? (
+          {view === "Agniveers" ? (
             <Button
               variant="outline"
               size="sm"
@@ -2601,8 +2601,8 @@ export default function BattalionsPage() {
                   color: "text-stone-700",
                 },
                 {
-                  label: "Total Soldiers",
-                  value: totalSoldiers,
+                  label: "Total Agniveers",
+                  value: totalAgniveers,
                   icon: <Users size={15} />,
                   color: "text-sky-600",
                 },
@@ -2670,7 +2670,7 @@ export default function BattalionsPage() {
                       setEditBat(bat)
                       setDialogOpen(true)
                     }}
-                    onViewSoldiers={() => handleViewSoldiers(bat)}
+                    onViewAgniveers={() => handleViewAgniveers(bat)}
                   />
                 ))}
               </div>
@@ -2678,12 +2678,12 @@ export default function BattalionsPage() {
           </>
         )}
 
-        {/* ══════ SOLDIERS VIEW ══════ */}
-        {view === "soldiers" && activeBattalion && (
-          <BattalionSoldiersView
+        {/* ══════ AgniveerS VIEW ══════ */}
+        {view === "Agniveers" && activeBattalion && (
+          <BattalionAgniveersView
             battalion={activeBattalion}
             onBack={handleBack}
-            onSoldierClick={handleSoldierClick}
+            onAgniveerClick={handleAgniveerClick}
           />
         )}
       </div>

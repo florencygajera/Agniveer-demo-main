@@ -36,9 +36,9 @@ import { useRouter } from "next/navigation"
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type Grade = "Outstanding" | "Good" | "Average" | "Needs Improvement"
-type SoldierStatus = "active" | "on_leave" | "inactive"
+type AgniveerStatus = "active" | "on_leave" | "inactive"
 
-interface Soldier {
+interface Agniveer {
   id: string
   name: string
   rank: string
@@ -52,7 +52,7 @@ interface Soldier {
   blood: string
   phone: string
   email: string
-  status: SoldierStatus
+  status: AgniveerStatus
   medical: string
   physical: number
   weapons: number
@@ -153,7 +153,7 @@ const BATTALIONS: Battalion[] = [
   },
 ]
 
-const SOLDIERS: Soldier[] = [
+const AgniveerS: Agniveer[] = [
   {
     id: "AGN-2024-0101",
     name: "Rajveer Singh Chauhan",
@@ -799,7 +799,7 @@ function GradeBadge({ grade }: { grade: Grade }) {
   )
 }
 
-function StatusBadge({ status }: { status: SoldierStatus }) {
+function StatusBadge({ status }: { status: AgniveerStatus }) {
   const map = {
     active: "bg-emerald-50 text-emerald-700 border-emerald-200",
     on_leave: "bg-amber-50 text-amber-700 border-amber-200",
@@ -835,61 +835,61 @@ function MiniBar({ value }: { value: number }) {
   )
 }
 
-// ── Soldier Detail Modal ──────────────────────────────────────────────────────
+// ── Agniveer Detail Modal ──────────────────────────────────────────────────────
 
 // ═══════════════════════════════════════════════════════════════
-// Needs Attention Modal - Shows why soldier needs attention and how to improve
+// Needs Attention Modal - Shows why Agniveer needs attention and how to improve
 // ═══════════════════════════════════════════════════════════════
 
-function getWeakAreas(soldier: Soldier) {
+function getWeakAreas(Agniveer: Agniveer) {
   const areas = []
-  if (soldier.physical < 70)
+  if (Agniveer.physical < 70)
     areas.push({
       key: "physical",
       label: "Physical Fitness",
-      value: soldier.physical,
+      value: Agniveer.physical,
       threshold: 70,
     })
-  if (soldier.weapons < 70)
+  if (Agniveer.weapons < 70)
     areas.push({
       key: "weapons",
       label: "Weapons Handling",
-      value: soldier.weapons,
+      value: Agniveer.weapons,
       threshold: 70,
     })
-  if (soldier.mental < 70)
+  if (Agniveer.mental < 70)
     areas.push({
       key: "mental",
       label: "Mental Resilience",
-      value: soldier.mental,
+      value: Agniveer.mental,
       threshold: 70,
     })
-  if (soldier.combat < 70)
+  if (Agniveer.combat < 70)
     areas.push({
       key: "combat",
       label: "Combat Drills",
-      value: soldier.combat,
+      value: Agniveer.combat,
       threshold: 70,
     })
-  if (soldier.attendance < 85)
+  if (Agniveer.attendance < 85)
     areas.push({
       key: "attendance",
       label: "Attendance",
-      value: soldier.attendance,
+      value: Agniveer.attendance,
       threshold: 85,
     })
-  if (soldier.discipline < 70)
+  if (Agniveer.discipline < 70)
     areas.push({
       key: "discipline",
       label: "Discipline",
-      value: soldier.discipline,
+      value: Agniveer.discipline,
       threshold: 70,
     })
   return areas
 }
 
 function getRecommendations(
-  soldier: Soldier,
+  Agniveer: Agniveer,
   weakAreas: ReturnType<typeof getWeakAreas>
 ) {
   const recs: { area: string; tip: string; icon: React.ReactNode }[] = []
@@ -940,7 +940,7 @@ function getRecommendations(
   })
 
   // Add general recommendations if overall is low
-  if (soldier.overall < 70) {
+  if (Agniveer.overall < 70) {
     recs.push({
       area: "General",
       tip: "Assign senior Lance Naik as buddy trainer. Schedule weekly progress reviews. Consider reduced physical load initially.",
@@ -952,18 +952,18 @@ function getRecommendations(
 }
 
 function NeedsAttentionModal({
-  soldier,
+  Agniveer,
   open,
   onClose,
 }: {
-  soldier: Soldier | null
+  Agniveer: Agniveer | null
   open: boolean
   onClose: () => void
 }) {
-  if (!soldier) return null
+  if (!Agniveer) return null
 
-  const weakAreas = getWeakAreas(soldier)
-  const recommendations = getRecommendations(soldier, weakAreas)
+  const weakAreas = getWeakAreas(Agniveer)
+  const recommendations = getRecommendations(Agniveer, weakAreas)
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -976,12 +976,12 @@ function NeedsAttentionModal({
                 <AlertTriangle size={20} /> Needs Attention
               </h2>
               <p className="mt-1 text-sm text-white/70">
-                {soldier.name} · {soldier.battalionName}
+                {Agniveer.name} · {Agniveer.battalionName}
               </p>
             </div>
             <div className="text-right">
               <div className="text-3xl font-black text-white">
-                {soldier.overall}
+                {Agniveer.overall}
               </div>
               <div className="text-[10px] text-white/60">Overall Score</div>
             </div>
@@ -1089,15 +1089,15 @@ function NeedsAttentionModal({
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Soldier Detail Modal
+// Agniveer Detail Modal
 // ═══════════════════════════════════════════════════════════════
 
-function SoldierDetailModal({
-  soldier,
+function AgniveerDetailModal({
+  Agniveer,
   open,
   onClose,
 }: {
-  soldier: Soldier | null
+  Agniveer: Agniveer | null
   open: boolean
   onClose: () => void
 }) {
@@ -1109,53 +1109,53 @@ function SoldierDetailModal({
     if (open) setTab("overview")
   }, [open])
 
-  if (!soldier) return null
+  if (!Agniveer) return null
 
   const globalRank =
-    [...SOLDIERS]
+    [...AgniveerS]
       .sort((a, b) => b.overall - a.overall)
-      .findIndex((s) => s.id === soldier.id) + 1
-  const batSoldiers = SOLDIERS.filter((s) => s.battalion === soldier.battalion)
+      .findIndex((s) => s.id === Agniveer.id) + 1
+  const batAgniveers = AgniveerS.filter((s) => s.battalion === Agniveer.battalion)
   const batRank =
-    [...batSoldiers]
+    [...batAgniveers]
       .sort((a, b) => b.overall - a.overall)
-      .findIndex((s) => s.id === soldier.id) + 1
+      .findIndex((s) => s.id === Agniveer.id) + 1
 
   const scores = [
     {
       label: "Physical Fitness",
       key: "physical",
-      value: soldier.physical,
+      value: Agniveer.physical,
       icon: <Dumbbell size={12} />,
     },
     {
       label: "Weapons Handling",
       key: "weapons",
-      value: soldier.weapons,
+      value: Agniveer.weapons,
       icon: <Target size={12} />,
     },
     {
       label: "Mental Resilience",
       key: "mental",
-      value: soldier.mental,
+      value: Agniveer.mental,
       icon: <Brain size={12} />,
     },
     {
       label: "Combat Drills",
       key: "combat",
-      value: soldier.combat,
+      value: Agniveer.combat,
       icon: <Swords size={12} />,
     },
     {
       label: "Attendance",
       key: "attendance",
-      value: soldier.attendance,
+      value: Agniveer.attendance,
       icon: <CalendarDays size={12} />,
     },
     {
       label: "Discipline",
       key: "discipline",
-      value: soldier.discipline,
+      value: Agniveer.discipline,
       icon: <ShieldCheck size={12} />,
     },
   ]
@@ -1180,33 +1180,33 @@ function SoldierDetailModal({
               </div>
               <div>
                 <h2 className="text-lg leading-tight font-bold">
-                  {soldier.name}
+                  {Agniveer.name}
                 </h2>
                 <div className="mt-1 flex flex-wrap gap-1.5">
                   <span className="rounded bg-white/10 px-2 py-0.5 font-mono text-[10px]">
-                    {soldier.id}
+                    {Agniveer.id}
                   </span>
                   <span className="rounded bg-white/10 px-2 py-0.5 text-[10px]">
-                    {soldier.rank}
+                    {Agniveer.rank}
                   </span>
                   <span className="rounded bg-white/10 px-2 py-0.5 text-[10px]">
-                    {soldier.battalionName}
+                    {Agniveer.battalionName}
                   </span>
                 </div>
                 <div className="mt-1.5 flex flex-wrap gap-3 text-[11px] text-white/60">
                   <span>
-                    📍 {soldier.city}, {soldier.state}
+                    📍 {Agniveer.city}, {Agniveer.state}
                   </span>
-                  <span>🩸 {soldier.blood}</span>
-                  <span>🏥 {soldier.medical}</span>
+                  <span>🩸 {Agniveer.blood}</span>
+                  <span>🏥 {Agniveer.medical}</span>
                 </div>
               </div>
             </div>
             <div className="shrink-0 text-right">
               <div
-                className={`text-4xl font-black ${soldier.overall >= 90 ? "text-emerald-400" : soldier.overall >= 80 ? "text-amber-300" : "text-orange-400"}`}
+                className={`text-4xl font-black ${Agniveer.overall >= 90 ? "text-emerald-400" : Agniveer.overall >= 80 ? "text-amber-300" : "text-orange-400"}`}
               >
-                {soldier.overall}
+                {Agniveer.overall}
               </div>
               <div className="mt-0.5 text-[10px] text-white/50">
                 Overall Score
@@ -1217,8 +1217,8 @@ function SoldierDetailModal({
             </div>
           </div>
           <div className="mt-2.5 flex gap-2">
-            <StatusBadge status={soldier.status} />
-            <GradeBadge grade={soldier.grade} />
+            <StatusBadge status={Agniveer.status} />
+            <GradeBadge grade={Agniveer.grade} />
           </div>
         </div>
 
@@ -1387,13 +1387,13 @@ function SoldierDetailModal({
                     </td>
                     <td className="px-4 py-3">
                       <span
-                        className={`text-xl font-black ${scoreColor(soldier.overall)}`}
+                        className={`text-xl font-black ${scoreColor(Agniveer.overall)}`}
                       >
-                        {soldier.overall}
+                        {Agniveer.overall}
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <GradeBadge grade={soldier.grade} />
+                      <GradeBadge grade={Agniveer.grade} />
                     </td>
                     <td className="px-4 py-3 text-xs text-stone-400">
                       Global #{globalRank} · Bat #{batRank}
@@ -1412,21 +1412,21 @@ function SoldierDetailModal({
                   Personal Information
                 </div>
                 {[
-                  ["Full Name", soldier.name],
+                  ["Full Name", Agniveer.name],
                   [
                     "Date of Birth",
-                    new Date(soldier.dob).toLocaleDateString("en-IN", {
+                    new Date(Agniveer.dob).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
                     }),
                   ],
-                  ["Gender", soldier.gender],
-                  ["Blood Group", soldier.blood],
-                  ["State", soldier.state],
-                  ["City", soldier.city],
-                  ["Phone", soldier.phone],
-                  ["Email", soldier.email],
+                  ["Gender", Agniveer.gender],
+                  ["Blood Group", Agniveer.blood],
+                  ["State", Agniveer.state],
+                  ["City", Agniveer.city],
+                  ["Phone", Agniveer.phone],
+                  ["Email", Agniveer.email],
                 ].map(([k, v]) => (
                   <div
                     key={k}
@@ -1445,12 +1445,12 @@ function SoldierDetailModal({
                     Service Details
                   </div>
                   {[
-                    ["Soldier ID", soldier.id],
-                    ["Rank", soldier.rank],
-                    ["Battalion", soldier.battalionName],
+                    ["Agniveer ID", Agniveer.id],
+                    ["Rank", Agniveer.rank],
+                    ["Battalion", Agniveer.battalionName],
                     [
                       "Date of Joining",
-                      new Date(soldier.joining).toLocaleDateString("en-IN", {
+                      new Date(Agniveer.joining).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
@@ -1458,13 +1458,13 @@ function SoldierDetailModal({
                     ],
                     [
                       "Status",
-                      soldier.status === "active"
+                      Agniveer.status === "active"
                         ? "Active"
-                        : soldier.status === "on_leave"
+                        : Agniveer.status === "on_leave"
                           ? "On Leave"
                           : "Inactive",
                     ],
-                    ["Medical Fitness", soldier.medical],
+                    ["Medical Fitness", Agniveer.medical],
                   ].map(([k, v]) => (
                     <div
                       key={k}
@@ -1482,9 +1482,9 @@ function SoldierDetailModal({
                     Emergency Contact
                   </div>
                   {[
-                    ["Name", soldier.emergency.name],
-                    ["Phone", soldier.emergency.phone],
-                    ["Relation", soldier.emergency.relation],
+                    ["Name", Agniveer.emergency.name],
+                    ["Phone", Agniveer.emergency.phone],
+                    ["Relation", Agniveer.emergency.relation],
                   ].map(([k, v]) => (
                     <div
                       key={k}
@@ -1518,7 +1518,7 @@ function SoldierDetailModal({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-50">
-                  {soldier.equipment.map((eq, i) => {
+                  {Agniveer.equipment.map((eq, i) => {
                     const type =
                       eq.includes("Rifle") || eq.includes("Goggles")
                         ? "Weapon"
@@ -1559,12 +1559,12 @@ function SoldierDetailModal({
           {/* EVENTS */}
           {tab === "events" && (
             <div className="space-y-3">
-              {soldier.events.length === 0 ? (
+              {Agniveer.events.length === 0 ? (
                 <div className="rounded-lg border border-stone-200 bg-stone-50 p-8 text-center text-sm text-stone-400">
                   No events or awards recorded yet.
                 </div>
               ) : (
-                soldier.events.map((ev, i) => (
+                Agniveer.events.map((ev, i) => (
                   <div
                     key={i}
                     className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4"
@@ -1592,21 +1592,21 @@ function SoldierDetailModal({
   )
 }
 
-// ── Battalion Soldiers View ────────────────────────────────────────────────────
+// ── Battalion Agniveers View ────────────────────────────────────────────────────
 
-function BattalionSoldiersView({
+function BattalionAgniveersView({
   battalion,
-  soldiers,
+  Agniveers,
   onBack,
-  onSoldierClick,
+  onAgniveerClick,
 }: {
   battalion: Battalion
-  soldiers: Soldier[]
+  Agniveers: Agniveer[]
   onBack: () => void
-  onSoldierClick: (s: Soldier) => void
+  onAgniveerClick: (s: Agniveer) => void
 }) {
   const [search, setSearch] = useState("")
-  const filtered = soldiers.filter(
+  const filtered = Agniveers.filter(
     (s) =>
       !search ||
       s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -1654,22 +1654,22 @@ function BattalionSoldiersView({
               {[
                 {
                   label: "Total",
-                  value: soldiers.length,
+                  value: Agniveers.length,
                   icon: <Users size={13} className="text-stone-400" />,
                 },
                 {
                   label: "Active",
-                  value: soldiers.filter((s) => s.status === "active").length,
+                  value: Agniveers.filter((s) => s.status === "active").length,
                   icon: <UserCheck size={13} className="text-emerald-500" />,
                 },
                 {
                   label: "On Leave",
-                  value: soldiers.filter((s) => s.status === "on_leave").length,
+                  value: Agniveers.filter((s) => s.status === "on_leave").length,
                   icon: <UserMinus size={13} className="text-amber-500" />,
                 },
                 {
                   label: "Score≥85",
-                  value: soldiers.filter((s) => s.overall >= 85).length,
+                  value: Agniveers.filter((s) => s.overall >= 85).length,
                   icon: <Star size={13} className="text-[#4a5c2f]" />,
                 },
               ].map((stat) => (
@@ -1714,21 +1714,21 @@ function BattalionSoldiersView({
           />
         </div>
         <span className="text-xs text-stone-400">
-          {filtered.length} of {soldiers.length} soldiers
+          {filtered.length} of {Agniveers.length} Agniveers
         </span>
         <span className="ml-auto text-xs text-stone-400">
           👆 Click a row to view full profile
         </span>
       </div>
 
-      {/* Soldiers table */}
+      {/* Agniveers table */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-stone-100 bg-stone-50">
                 {[
-                  "Soldier ID",
+                  "Agniveer ID",
                   "Name",
                   "Rank",
                   "Physical",
@@ -1757,14 +1757,14 @@ function BattalionSoldiersView({
                     colSpan={12}
                     className="py-12 text-center text-sm text-stone-400"
                   >
-                    No soldiers found.
+                    No Agniveers found.
                   </td>
                 </tr>
               ) : (
                 filtered.map((s) => (
                   <tr
                     key={s.id}
-                    onClick={() => onSoldierClick(s)}
+                    onClick={() => onAgniveerClick(s)}
                     className="cursor-pointer transition-colors hover:bg-[#f0f5e8] active:bg-[#e4eedd]"
                   >
                     <td className="px-3 py-2.5 font-mono text-xs whitespace-nowrap text-stone-400">
@@ -1814,7 +1814,7 @@ function BattalionSoldiersView({
           </table>
         </div>
         <div className="border-t border-stone-100 bg-stone-50/50 px-4 py-2 text-xs text-stone-400">
-          {filtered.length} soldier{filtered.length !== 1 ? "s" : ""} · Click
+          {filtered.length} Agniveer{filtered.length !== 1 ? "s" : ""} · Click
           any row to view complete profile
         </div>
       </Card>
@@ -1829,20 +1829,20 @@ function DashboardView({
 }: {
   onBattalionClick: (b: Battalion) => void
 }) {
-  const [needsAttnSoldier, setNeedsAttnSoldier] = useState<Soldier | null>(null)
+  const [needsAttnAgniveer, setNeedsAttnAgniveer] = useState<Agniveer | null>(null)
   const [needsAttnModalOpen, setNeedsAttnModalOpen] = useState(false)
 
-  const handleNeedsAttnClick = (s: Soldier) => {
-    setNeedsAttnSoldier(s)
+  const handleNeedsAttnClick = (s: Agniveer) => {
+    setNeedsAttnAgniveer(s)
     setNeedsAttnModalOpen(true)
   }
 
   const router = useRouter()
 
-  const topPerformers = [...SOLDIERS]
+  const topPerformers = [...AgniveerS]
     .sort((a, b) => b.overall - a.overall)
     .slice(0, 5)
-  const needsAttention = SOLDIERS.filter((s) => s.overall < 75).sort(
+  const needsAttention = AgniveerS.filter((s) => s.overall < 75).sort(
     (a, b) => a.overall - b.overall
   )
 
@@ -1877,7 +1877,7 @@ function DashboardView({
               Battalion Performance
             </h2>
             <p className="mt-0.5 text-xs text-stone-400">
-              Click any battalion card to view its soldiers ↓
+              Click any battalion card to view its Agniveers ↓
             </p>
           </div>
         </div>
@@ -1916,7 +1916,7 @@ function DashboardView({
                 </div>
               </div>
 
-              {/* Soldier counts */}
+              {/* Agniveer counts */}
               <div className="mb-3 grid grid-cols-4 gap-1 rounded-lg border border-stone-100 bg-stone-50 px-2 py-2">
                 {[
                   { label: "Total", value: bat.total },
@@ -1963,7 +1963,7 @@ function DashboardView({
 
               {/* Footer CTA */}
               <div className="mt-3 flex items-center gap-1 text-xs font-medium text-stone-400 transition-colors group-hover:text-[#4a5c2f]">
-                <Users size={11} /> View {bat.total} soldiers{" "}
+                <Users size={11} /> View {bat.total} Agniveers{" "}
                 <ChevronRight
                   size={11}
                   className="ml-auto transition-transform group-hover:translate-x-0.5"
@@ -2031,7 +2031,7 @@ function DashboardView({
           <CardContent className="px-4 pb-4">
             {needsAttention.length === 0 ? (
               <div className="py-6 text-center text-sm text-stone-400">
-                All soldiers performing well! 🎉
+                All Agniveers performing well! 🎉
               </div>
             ) : (
               <div className="divide-y divide-stone-50">
@@ -2070,7 +2070,7 @@ function DashboardView({
 
       {/* Needs Attention Modal */}
       <NeedsAttentionModal
-        soldier={needsAttnSoldier}
+        Agniveer={needsAttnAgniveer}
         open={needsAttnModalOpen}
         onClose={() => setNeedsAttnModalOpen(false)}
       />
@@ -2085,21 +2085,21 @@ export default function CommandOverviewPage() {
   const [selectedBattalion, setSelectedBattalion] = useState<Battalion | null>(
     null
   )
-  const [selectedSoldier, setSelectedSoldier] = useState<Soldier | null>(null)
-  const [soldierModalOpen, setSoldierModalOpen] = useState(false)
+  const [selectedAgniveer, setSelectedAgniveer] = useState<Agniveer | null>(null)
+  const [AgniveerModalOpen, setAgniveerModalOpen] = useState(false)
 
   const handleBattalionClick = (bat: Battalion) => {
     setSelectedBattalion(bat)
     setView("battalion")
   }
 
-  const handleSoldierClick = (s: Soldier) => {
-    setSelectedSoldier(s)
-    setSoldierModalOpen(true)
+  const handleAgniveerClick = (s: Agniveer) => {
+    setSelectedAgniveer(s)
+    setAgniveerModalOpen(true)
   }
 
-  const battalionSoldiers = selectedBattalion
-    ? SOLDIERS.filter((s) => s.battalion === selectedBattalion.id)
+  const battalionAgniveers = selectedBattalion
+    ? AgniveerS.filter((s) => s.battalion === selectedBattalion.id)
     : []
 
   return (
@@ -2116,7 +2116,7 @@ export default function CommandOverviewPage() {
             <p className="mt-0.5 flex items-center gap-1.5 text-sm text-stone-500">
               <Activity size={12} className="text-emerald-500" />
               {view === "battalion" && selectedBattalion
-                ? `${battalionSoldiers.length} soldiers · click any row for full profile`
+                ? `${battalionAgniveers.length} Agniveers · click any row for full profile`
                 : "Agnipath Scheme · Real-time Dashboard"}
             </p>
           </div>
@@ -2147,20 +2147,20 @@ export default function CommandOverviewPage() {
           <DashboardView onBattalionClick={handleBattalionClick} />
         )}
         {view === "battalion" && selectedBattalion && (
-          <BattalionSoldiersView
+          <BattalionAgniveersView
             battalion={selectedBattalion}
-            soldiers={battalionSoldiers}
+            Agniveers={battalionAgniveers}
             onBack={() => setView("dashboard")}
-            onSoldierClick={handleSoldierClick}
+            onAgniveerClick={handleAgniveerClick}
           />
         )}
       </div>
 
-      {/* Soldier detail modal */}
-      <SoldierDetailModal
-        soldier={selectedSoldier}
-        open={soldierModalOpen}
-        onClose={() => setSoldierModalOpen(false)}
+      {/* Agniveer detail modal */}
+      <AgniveerDetailModal
+        Agniveer={selectedAgniveer}
+        open={AgniveerModalOpen}
+        onClose={() => setAgniveerModalOpen(false)}
       />
     </div>
   )
