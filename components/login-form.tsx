@@ -7,13 +7,25 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { ChevronDown } from "lucide-react"
 
 const LOGIN_TABS = [
-  { id: "candidate", label: "Candidate" },
-  { id: "soldier", label: "Soldier" },
+  { id: "soldier", label: "Agniveer" },
   { id: "admin", label: "Admin" },
   { id: "trainer", label: "Trainer" },
   { id: "doctor", label: "Doctor" },
+]
+
+const TRAINER_ROLES = [
+  { id: "commanding-officer", label: "Commanding Officer" },
+  { id: "company-commander", label: "Company Commander" },
+  { id: "platoon-commander", label: "Platoon Commander" },
 ]
 
 export function LoginForm({
@@ -23,6 +35,15 @@ export function LoginForm({
   const route = useRouter()
 
   const [selectedTab, setSelectedTab] = useState(LOGIN_TABS[2].id)
+  const [trainerRole, setTrainerRole] = useState(TRAINER_ROLES[0].id)
+
+  const getDisplayLabel = () => {
+    if (selectedTab === "trainer") {
+      const role = TRAINER_ROLES.find((r) => r.id === trainerRole)
+      return role ? `${role.label}` : "Trainer"
+    }
+    return LOGIN_TABS.find((tab) => tab.id === selectedTab)?.label
+  }
 
   return (
     <form className={cn("flex flex-col gap-6", className)} {...props}>
@@ -30,27 +51,58 @@ export function LoginForm({
         <div className="flex flex-col items-center gap-3 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
           <p className="text-sm text-balance text-muted-foreground">
-            Enter your email below to login as a{" "}
-            {LOGIN_TABS.find((tab) => tab.id === selectedTab)?.label}
+            Enter your email below to login as a {getDisplayLabel()}
           </p>
-          <div className="mt-2 mb-1 flex justify-center gap-2">
-            {LOGIN_TABS.map((tab) => (
-              <Button
-                key={tab.id}
-                type="button"
-                variant={selectedTab === tab.id ? "default" : "outline"}
-                size="sm"
-                className={cn(
-                  "rounded px-3 py-1 text-xs",
-                  selectedTab === tab.id ? "" : "bg-background"
-                )}
-                onClick={() => setSelectedTab(tab.id)}
-              >
-                {tab.label}
-              </Button>
-            ))}
+          <div className="mt-2 mb-1 flex items-center justify-center gap-2">
+            {LOGIN_TABS.map((tab) => {
+              if (tab.id === "trainer" && selectedTab === "trainer") {
+                return (
+                  <DropdownMenu key={tab.id}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="default"
+                        size="sm"
+                        className="flex items-center gap-1 rounded px-3 py-1 text-xs"
+                      >
+                        {TRAINER_ROLES.find((r) => r.id === trainerRole)
+                          ?.label || "Trainer"}
+                        <ChevronDown className="h-3 w-3" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center">
+                      {TRAINER_ROLES.map((role) => (
+                        <DropdownMenuItem
+                          key={role.id}
+                          onClick={() => setTrainerRole(role.id)}
+                          className="cursor-pointer"
+                        >
+                          {role.label}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )
+              }
+              return (
+                <Button
+                  key={tab.id}
+                  type="button"
+                  variant={selectedTab === tab.id ? "default" : "outline"}
+                  size="sm"
+                  className={cn(
+                    "rounded px-3 py-1 text-xs",
+                    selectedTab === tab.id ? "" : "bg-background"
+                  )}
+                  onClick={() => setSelectedTab(tab.id)}
+                >
+                  {tab.label}
+                </Button>
+              )
+            })}
           </div>
         </div>
+
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
@@ -81,7 +133,16 @@ export function LoginForm({
           </a>
         </Field>
         <Field>
-          <Button onClick={() => route.replace(selectedTab)} type="button">
+          <Button
+            onClick={() => {
+              if (selectedTab === "trainer") {
+                route.replace(`${selectedTab}/${trainerRole}`)
+              } else {
+                route.replace(selectedTab)
+              }
+            }}
+            type="button"
+          >
             Login
           </Button>
         </Field>
