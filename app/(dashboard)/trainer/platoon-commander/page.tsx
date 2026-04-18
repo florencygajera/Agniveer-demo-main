@@ -151,64 +151,68 @@ const SOLDIERS = [
   },
 ]
 
-// Army-style training program data, replacing SESSIONS
 const PROGRAM = [
   {
     date: "14 Mar 2025",
-    module: "Physical Endurance",
+    module: "Physical",
     soldiers: 6,
     avg: 88,
-    remarks: "Morning PT: 5km timed run, platoon achieved new speed record.",
+    remarks:
+      "Physical Training: 5km timed run. Platoon achieved a new speed record and improvement in overall endurance.",
     status: "Completed",
   },
   {
     date: "13 Mar 2025",
-    module: "Weapons Proficiency",
+    module: "Weapons",
     soldiers: 6,
     avg: 84,
     remarks:
-      "Live range: INSAS & SLR marksmanship, all passed. Focused on accuracy.",
+      "Weapon Training: Live range session focused on INSAS & SLR marksmanship. All Agniveers qualified, notable improvement in grouping accuracy.",
     status: "Completed",
   },
   {
     date: "12 Mar 2025",
-    module: "Tactical Drills",
+    module: "Tactics",
     soldiers: 6,
     avg: 81,
-    remarks: "Team obstacle navigation, section attack practice.",
+    remarks:
+      "Tactics Exercise: Platoon executed team obstacle navigation and section attack drills. Improved coordination and response under pressure.",
     status: "Completed",
   },
   {
     date: "11 Mar 2025",
-    module: "Battlefield First Aid",
+    module: "Combat",
     soldiers: 6,
     avg: 90,
     remarks:
-      "Basic field medical training, rapid-response simulation. All soldiers attended.",
+      "Combat Training: Simulated field medical response and battle drill practice. Excellent participation; all Agniveers demonstrated rapid evaluation skills.",
     status: "Completed",
   },
   {
     date: "10 Mar 2025",
-    module: "Night Navigation",
+    module: "Map-Reading",
     soldiers: 5,
     avg: 76,
-    remarks: "Night compass navigation. Kavita on leave.",
+    remarks:
+      "Map Reading: Night compass navigation and orienteering. One Agniveer (Kavita) on leave, rest completed night nav exercise successfully.",
     status: "Completed",
   },
   {
     date: "16 Mar 2025",
-    module: "Weapons Proficiency",
+    module: "Weapons",
     soldiers: 6,
     avg: 0,
-    remarks: "Scheduled: INSAS night firing.",
+    remarks:
+      "Upcoming: INSAS night firing practice scheduled for weapons proficiency enhancement.",
     status: "Scheduled",
   },
   {
     date: "17 Mar 2025",
-    module: "Combat Fitness Assessment",
+    module: "Physical",
     soldiers: 6,
     avg: 0,
-    remarks: "Planned: CFT route march (10km, load carry with rifle).",
+    remarks:
+      "Planned: Combat Fitness Test (CFT) route march (10km), load carry with rifle. Endurance and stamina assessment.",
     status: "Scheduled",
   },
 ]
@@ -237,7 +241,7 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "scores", label: "Agniveer Scores", icon: <TrendingUp size={14} /> },
   {
     id: "program",
-    label: "Program",
+    label: "Training Program",
     icon: <CalendarDays size={14} />,
   },
   { id: "upload", label: "Upload Data", icon: <Upload size={14} /> },
@@ -263,7 +267,7 @@ function Sidebar({
                 Platoon commander
               </div>
               <div className="font-mono text-[10px] text-orange-500">Portl</div>
-              <div className="text-[10px] text-stone-400">Dashboard</div>
+              <div className="text-[10px] text-stone-400"> Dashboard</div>
             </div>
           </div>
           <div className="mt-2">
@@ -335,7 +339,6 @@ function MobileNav({
   )
 }
 
-// --- ScoresSectionWithAttendanceButton ---
 function ScoresSectionWithAttendanceButton({
   onViewAttendance,
 }: {
@@ -363,14 +366,6 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Trainer Dashboard</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          {TRAINER.battalion} · 14 March 2025
-        </p>
-      </div>
-
-      {/* Stat cards */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           {
@@ -585,7 +580,6 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
   )
 }
 
-// ── PROGRAM ───────────────────────────────────────────────────────────────────
 function ProgramSection() {
   const [showAdd, setShowAdd] = useState(false)
   const [form, setForm] = useState({
@@ -622,13 +616,12 @@ function ProgramSection() {
   }
 
   const typeColor: Record<string, string> = {
-    "Physical Endurance": "border-sky-200 bg-sky-50 text-sky-700",
-    "Weapons Proficiency": "border-rose-200 bg-rose-50 text-rose-700",
-    "Tactical Drills": "border-amber-200 bg-amber-50 text-amber-700",
-    "Battlefield First Aid": "border-violet-200 bg-violet-50 text-violet-700",
-    "Night Navigation": "border-stone-200 bg-stone-50 text-stone-600",
-    "Combat Fitness Assessment":
-      "border-emerald-200 bg-emerald-50 text-emerald-700",
+    Physical: "border-sky-200 bg-sky-50 text-sky-700",
+    Weapons: "border-rose-200 bg-rose-50 text-rose-700",
+    Tactics: "border-amber-200 bg-amber-50 text-amber-700",
+    Combat: "border-violet-200 bg-violet-50 text-violet-700",
+    "Map-Reading": "border-stone-200 bg-stone-50 text-stone-600",
+    Sport: "border-emerald-200 bg-emerald-50 text-emerald-700",
   }
 
   return (
@@ -831,7 +824,6 @@ function ProgramSection() {
   )
 }
 
-// ── UPLOAD ────────────────────────────────────────────────────────────────────
 function UploadSection() {
   const [dragging, setDragging] = useState(false)
   const [uploaded, setUploaded] = useState(false)
@@ -1044,7 +1036,6 @@ function UploadSection() {
   )
 }
 
-// ── ROOT ──────────────────────────────────────────────────────────────────────
 export default function TrainerPage() {
   const [section, setSection] = useState<Section>("dashboard")
 
@@ -1064,10 +1055,11 @@ export default function TrainerPage() {
           <div className="flex items-center justify-between px-4 py-3 sm:px-6">
             <div>
               <h1 className="text-base font-bold text-stone-900">
-                {titles[section]}
+                Platoon Commander Dashboard
               </h1>
               <p className="text-xs text-stone-400">
-                {TRAINER.battalion} · Trainer Portal
+                View, manage, and track your Agniveer platoon's performance and
+                progress.
               </p>
             </div>
             <Badge className="shrink-0 border border-sky-200 bg-sky-50 text-xs text-sky-700">

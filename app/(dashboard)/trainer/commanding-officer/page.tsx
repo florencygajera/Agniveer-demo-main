@@ -16,12 +16,17 @@ import {
   FileSpreadsheet,
   CheckCircle2,
   Plus,
+  Sword,
+  Target,
+  Users,
+  UserCheck,
+  Activity,
 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ScoresSection } from "../comp/ScoresSection"
-import { PLATOON_COMMANDERS } from "../data"
+import { PLATOONS } from "../data"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -33,93 +38,246 @@ import {
 } from "@/components/ui/select"
 import AttendanceReportPage from "../comp/AttendenceReport"
 
-// Static data for Company Officers
-const COMPANY_OFFICERS = [
+const COMPANIES = [
   {
-    id: "CO-001",
-    name: "Col. Aarav Sharma",
-    designation: "Company Officer",
-    profileImg:
-      "https://media.istockphoto.com/id/1215339100/photo/indian-military-man-stock-images.jpg?s=1024x1024&w=is&k=20&c=LTRWp56rxhKTjYO0KVolWiU_e-ySgMxf3-jQJYIpJiI=",
-    serviceNo: "IC-210056A",
-    company: "Alpha Company",
-    commandSince: "2022-03-01",
-    reports: 6,
-    medals: ["VSM", "Sena Medal"],
-    email: "aarav.sharma@army.co.in",
-    phone: "+91 98765 43210",
+    id: "C-001",
+    name: "Sikh Regiment",
+    avgPhysical: 84.2,
+    avgWeapons: 79.5,
+    avgCombat: 81.4,
+    avgTactics: 77.8,
+    overall: 80.7,
+    totalPlatoons: 6,
+    color: "#25447C",
   },
   {
-    id: "CO-002",
-    name: "Lt. Col. Rajat Singh",
-    designation: "Company Officer",
-    profileImg:
-      "https://i.pinimg.com/736x/d3/6e/5d/d36e5d1e5bed79014c0609c04d72e8b8.jpg",
-    serviceNo: "IC-220123B",
-    company: "Bravo Company",
-    commandSince: "2021-11-15",
-    reports: 4,
-    medals: ["VSM"],
-    email: "rajat.singh@army.co.in",
-    phone: "+91 98765 43212",
+    id: "C-002",
+    name: "Punjab Regiment",
+    avgPhysical: 79.8,
+    avgWeapons: 76.3,
+    avgCombat: 78.4,
+    avgTactics: 80.2,
+    overall: 78.7,
+    totalPlatoons: 4,
+    color: "#4A5C2F",
   },
   {
-    id: "CO-003",
-    name: "Maj. Vikram Yadav",
-    designation: "Company Officer",
-    profileImg:
-      "https://i.pinimg.com/736x/12/d4/14/12d4141533884aa35c6ade513dbea2e8.jpg",
-    serviceNo: "IC-230345C",
-    company: "Charlie Company",
-    commandSince: "2020-07-24",
-    reports: 5,
-    medals: ["Sena Medal"],
-    email: "vikram.yadav@army.co.in",
-    phone: "+91 98765 43213",
+    id: "C-003",
+    name: "Grenadiers",
+    avgPhysical: 87.1,
+    avgWeapons: 83.7,
+    avgCombat: 86.1,
+    avgTactics: 81.5,
+    overall: 84.6,
+    totalPlatoons: 5,
+    color: "#2767A0",
   },
   {
-    id: "CO-004",
-    name: "Capt. Ankit Verma",
-    designation: "Company Officer",
-    profileImg:
-      "https://i.pinimg.com/736x/d3/cf/e1/d3cfe116b49304520c6b292e74b24814.jpg",
-    serviceNo: "IC-240789D",
-    company: "Delta Company",
-    commandSince: "2023-01-10",
-    reports: 7,
-    medals: [],
-    email: "ankit.verma@army.co.in",
-    phone: "+91 98765 43214",
-  },
-  {
-    id: "CO-005",
-    name: "Lt. Col. Sandeep Joshi",
-    designation: "Company Officer",
-    profileImg:
-      "https://media.istockphoto.com/id/90833602/photo/profile-of-an-asian-man.jpg?s=2048x2048&w=is&k=20&c=j2VMoUuALKNkwAIVDeHArexIoJ0RBc1EPFJpzwDRu2k=",
-    serviceNo: "IC-250321E",
-    company: "Echo Company",
-    commandSince: "2020-09-30",
-    reports: 3,
-    medals: ["VSM", "COAS Commendation"],
-    email: "sandeep.joshi@army.co.in",
-    phone: "+91 98765 43215",
-  },
-  {
-    id: "CO-006",
-    name: "Maj. Akash Mehra",
-    designation: "Company Officer",
-    profileImg:
-      "https://i.pinimg.com/736x/db/2f/77/db2f7713aad075be54219fa89427fcc7.jpg",
-    serviceNo: "IC-263456F",
-    company: "Foxtrot Company",
-    commandSince: "2022-05-20",
-    reports: 4,
-    medals: [],
-    email: "akash.mehra@army.co.in",
-    phone: "+91 98765 43216",
+    id: "C-004",
+    name: "Jat Regiment",
+    avgPhysical: 73.5,
+    avgWeapons: 77.8,
+    avgCombat: 74.0,
+    avgTactics: 73.6,
+    overall: 74.7,
+    totalPlatoons: 7,
+    color: "#775222",
   },
 ]
+
+const DASHBOARD_CARD_DATA = [
+  {
+    title: "Total Companies",
+    value: COMPANIES.length,
+    icon: <LayoutDashboard size={18} className="text-[#25447C]" />, // lucide
+  },
+  {
+    title: "Avg. Physical Score",
+    value: (
+      COMPANIES.reduce((sum, c) => sum + c.avgPhysical, 0) / COMPANIES.length
+    ).toFixed(1),
+    icon: <User size={18} className="text-[#2767A0]" />, // lucide (can also use Lucide "Activity" or "Users" if needed)
+  },
+  {
+    title: "Avg. Weapons Score",
+    value: (
+      COMPANIES.reduce((sum, c) => sum + c.avgWeapons, 0) / COMPANIES.length
+    ).toFixed(1),
+    icon: <ClipboardList size={18} className="text-[#4A5C2F]" />, // lucide (no gun icon: ClipboardList for stats or list)
+  },
+  {
+    title: "Avg. Combat Score",
+    value: (
+      COMPANIES.reduce((sum, c) => sum + c.avgCombat, 0) / COMPANIES.length
+    ).toFixed(1),
+    icon: <Sword size={18} className="text-[#775222]" />, // lucide (Sword for combat)
+  },
+  {
+    title: "Avg. Tactics Score",
+    value: (
+      COMPANIES.reduce((sum, c) => sum + c.avgTactics, 0) / COMPANIES.length
+    ).toFixed(1),
+    icon: <Target size={18} className="text-[#25447C]" />, // lucide (Target for tactics)
+  },
+]
+
+function DashboardSection({ gotoPlatoons }: { gotoPlatoons: () => void }) {
+  return (
+    <div className="space-y-8">
+      <div className="grid gap-5 md:grid-cols-5">
+        {DASHBOARD_CARD_DATA.map((c, index) => {
+          const colors = ["#25447C", "#FF8C1A", "#4A5C2F", "#FF9800", "#25447C"]
+
+          const color = colors[index]
+
+          return (
+            <Card
+              key={c.title}
+              className="overflow-hidden border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+              style={{
+                borderTopWidth: "4px",
+                borderTopColor: color,
+              }}
+            >
+              <CardContent className="px-5 py-4">
+                {/* icon */}
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="rounded-full p-2"
+                    style={{
+                      backgroundColor: `${color}15`,
+                    }}
+                  >
+                    {c.icon}
+                  </div>
+                </div>
+
+                {/* value */}
+                <div
+                  className="text-3xl font-black"
+                  style={{
+                    color,
+                  }}
+                >
+                  {c.value}
+                </div>
+
+                {/* label */}
+                <div className="mt-2 flex items-center gap-1.5">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{
+                      backgroundColor: color,
+                    }}
+                  />
+
+                  <span className="text-[11px] leading-tight font-semibold tracking-wide text-stone-400 uppercase">
+                    {c.title}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
+      <div className="mx-auto w-full">
+        <h2 className="mb-3 text-lg font-bold tracking-tight text-stone-700">
+          Company Overview
+        </h2>
+
+        <div className="flex flex-col gap-4">
+          {COMPANIES.map((company) => (
+            <div
+              key={company.id}
+              className="mb-2 flex flex-col gap-4 rounded-xl border bg-white p-6 shadow transition"
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className="h-12 w-12 flex-shrink-0 rounded-full border-4"
+                  style={{
+                    borderColor: company.color,
+                    background: "#f1f7ff",
+                    opacity: 0.6,
+                  }}
+                >
+                  <span
+                    className="flex h-full w-full items-center justify-center text-[1.3rem] font-black"
+                    style={{ color: company.color, opacity: 0.6 }}
+                  >
+                    {company.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <span className="truncate text-lg font-black">
+                    {company.name}
+                  </span>
+                  <span className="text-xs font-semibold text-stone-500">
+                    Platoons: {company.totalPlatoons}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="flex items-center gap-2 text-xs font-semibold text-stone-700">
+                    Average Performance:{" "}
+                    <span className="text-lg font-black text-stone-800">
+                      {company.overall}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="mb-2 grid grid-cols-2 gap-4 border-b pb-3 md:grid-cols-4">
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Physical</span>
+                  <span className="text-lg font-extrabold text-stone-700">
+                    {company.avgPhysical}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Weapons</span>
+                  <span className="text-lg font-extrabold text-[#4A5C2F]">
+                    {company.avgWeapons}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Combat</span>
+                  <span className="text-lg font-extrabold text-[#775222]">
+                    {company.avgCombat}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Tactics</span>
+                  <span className="text-lg font-extrabold text-stone-800">
+                    {company.avgTactics}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs text-stone-500">
+                    Total Platoons:{" "}
+                    <span className="font-bold text-stone-800">
+                      {company.totalPlatoons}
+                    </span>
+                  </span>
+                </div>
+                <Button
+                  size="sm"
+                  className="bg-opacity-70 rounded-full bg-[#25447C] px-5 py-1.5 text-xs font-semibold text-white shadow hover:bg-[#25447C]/80"
+                  onClick={gotoPlatoons}
+                >
+                  View Platoons
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <footer className="mt-6 text-center text-xs text-stone-500">
+        Company overview - view scores, details, and actions directly.
+      </footer>
+    </div>
+  )
+}
 
 // --- ADD: Attendance Report Section & Nav entry ---
 
@@ -138,7 +296,7 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "scores", label: "Agniveer Scores", icon: <TrendingUp size={14} /> },
   {
     id: "program",
-    label: "Program",
+    label: "Training Program",
     icon: <CalendarDays size={14} />,
   },
   { id: "upload", label: "Upload Data", icon: <Upload size={14} /> },
@@ -237,176 +395,198 @@ function MobileNav({
   )
 }
 
-// Company Officers dashboard section
-function DashboardSection({ gotoPlatoons }: { gotoPlatoons: () => void }) {
-  return (
-    <div className="space-y-8">
-      <section>
-        <h1 className="text-2xl font-bold text-[#1a2d4a]">Company Officers</h1>
-        <p className="mt-1 text-sm text-stone-500">
-          Overview of company officers in command. Click a card to view their
-          platoons.
-        </p>
-      </section>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        {COMPANY_OFFICERS.map((officer) => (
-          <Card
-            key={officer.id}
-            className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-[#6d7da7] bg-linear-to-br from-[#f4f7fb] to-[#e5eaf3] shadow-lg transition-all hover:border-[#25447C] hover:shadow-xl"
-            onClick={gotoPlatoons}
-          >
-            <CardHeader className="flex flex-row items-center gap-4 pt-6 pb-0">
-              <img
-                src={officer.profileImg}
-                className="h-20 w-20 rounded-full border-4 border-[#25447C] object-cover shadow-lg"
-                alt={officer.name}
-                style={{ background: "#dbe9ff" }}
-              />
-              <div>
-                <CardTitle className="mb-0.5 text-xl font-extrabold text-[#25447C]">
-                  {officer.name}
-                </CardTitle>
-                <span className="text-[13px] font-semibold text-stone-600">
-                  {officer.designation}
-                </span>
-              </div>
-            </CardHeader>
-            <CardContent className="px-6 py-3">
-              <div className="mb-1 flex flex-wrap items-center gap-3 text-xs">
-                <Badge className="border border-emerald-200 bg-emerald-50 px-2 text-muted-foreground">
-                  {officer.company}
-                </Badge>
-                <Badge className="border border-sky-200 bg-sky-50 px-2 text-muted-foreground">
-                  {officer.reports} Platoons
-                </Badge>
-                <Badge className="border-none bg-[#25447C] px-2 text-white">
-                  Cmd. since: {officer.commandSince}
-                </Badge>
-                {officer.medals?.length > 0 && (
-                  <Badge className="border border-amber-200 bg-amber-50 px-2 text-amber-700">
-                    <span className="font-medium">
-                      {officer.medals.join(", ")}
-                    </span>
-                  </Badge>
-                )}
-              </div>
-              <div className="mt-3 mb-4 flex flex-col gap-1 text-xs text-stone-700">
-                <div>
-                  <span className="text-stone-400">Service No: </span>
-                  {officer.serviceNo}
-                </div>
-                <div>
-                  <span className="text-stone-400">Email: </span>
-                  {officer.email}
-                </div>
-                <div>
-                  <span className="text-stone-400">Phone: </span>
-                  {officer.phone}
-                </div>
-              </div>
-              <Button
-                size="sm"
-                className="mt-3 w-full rounded-full bg-[#25447C] py-2 text-xs font-semibold text-white shadow hover:bg-[#48619a]"
-                onClick={gotoPlatoons}
-              >
-                View Platoons
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      <footer className="mt-6 text-center text-xs text-stone-500">
-        Tap or click on a company officer card to see their platoons.
-      </footer>
-    </div>
-  )
-}
+const DASHBOARD_CARD_DATAS = [
+  {
+    title: "Total Platoons",
+    value: PLATOONS.length,
+    icon: <LayoutDashboard size={18} className="text-[#25447C]" />,
+  },
+  {
+    title: "Avg. Physical Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgPhysical, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <User size={18} className="text-[#2767A0]" />,
+  },
+  {
+    title: "Avg. Weapons Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgWeapons, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <ClipboardList size={18} className="text-[#4A5C2F]" />,
+  },
+  {
+    title: "Avg. Combat Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgCombat, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <Sword size={18} className="text-[#775222]" />,
+  },
+  {
+    title: "Avg. Tactics Score",
+    value: (
+      PLATOONS.reduce((sum, p) => sum + p.avgTactics, 0) / PLATOONS.length
+    ).toFixed(1),
+    icon: <Target size={18} className="text-[#25447C]" />,
+  },
+]
 
 function PlatoonsSection({ setActive }: { setActive: (s: Section) => void }) {
   return (
     <div className="space-y-8">
-      <section>
-        <h1 className="text-2xl font-bold text-[#1a2d4a]">Platoons Overview</h1>
-        <p className="mt-1 text-sm text-stone-500">
-          Explore up-to-date profiles, key roles, and quick stats for each
-          platoon or company leader.
-        </p>
-      </section>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {PLATOON_COMMANDERS.map((cmd) => (
-          <Card
-            key={cmd.id}
-            className="group flex h-full cursor-pointer flex-col justify-between rounded-xl border border-[#b3b7bf] bg-white shadow-lg transition-all hover:border-[#25447C] hover:shadow-xl"
-            onClick={() => {
-              setActive("scores")
-              window.localStorage.setItem(
-                "selected_commander",
-                JSON.stringify(cmd)
-              )
-            }}
-          >
-            <CardHeader className="flex flex-col items-center pt-6 pb-0">
-              <img
-                src={cmd.profileImg}
-                className="mb-3 h-20 w-20 rounded-full border-4 border-[#25447C] object-cover shadow-lg"
-                alt={cmd.name}
-                style={{ background: "#cfd9eb" }}
-              />
-              <CardTitle className="mb-1 truncate text-center text-lg font-bold text-[#25447C]">
-                {cmd.name}
-              </CardTitle>
-              <span className="mb-1 text-[13px] text-stone-600">
-                {cmd.designation}
-              </span>
-              <div className="mt-1 flex flex-wrap justify-center gap-2">
-                <Badge className="border border-sky-200 bg-sky-50 px-2 py-0.5 text-xs text-sky-700">
-                  {cmd.soldiers} Agniveers
-                </Badge>
-                <Badge className="border-none bg-[#25447C] px-2 py-0.5 text-xs text-white">
-                  Joined: {cmd.joined}
-                </Badge>
-                {cmd.medals.length > 0 && (
-                  <Badge className="border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
-                    <span className="font-medium">{cmd.medals.join(", ")}</span>
-                  </Badge>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent className="flex flex-1 flex-col justify-between gap-3 px-6 py-4">
-              <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center text-sm font-semibold text-stone-800">
-                  <span className="mr-1 text-stone-400">Battalion:</span>
-                  <span className="truncate">{cmd.battalion}</span>
-                </div>
-                <div className="flex flex-wrap justify-center gap-3 text-xs text-stone-600">
-                  <div>
-                    <span className="text-stone-400">ID:</span> {cmd.id}
-                  </div>
-                  <div>
-                    <span className="text-stone-400">Svc No:</span>{" "}
-                    {cmd.serviceNo}
+      <div className="grid gap-5 md:grid-cols-5">
+        {DASHBOARD_CARD_DATAS.map((c, index) => {
+          const colors = ["#25447C", "#FF8C1A", "#4A5C2F", "#FF9800", "#25447C"]
+
+          const color = colors[index]
+
+          return (
+            <Card
+              key={c.title}
+              className="overflow-hidden border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+              style={{
+                borderTopWidth: "4px",
+                borderTopColor: color,
+              }}
+            >
+              <CardContent className="px-5 py-4">
+                {/* icon */}
+                <div className="mb-3 flex items-center justify-between">
+                  <div
+                    className="rounded-full p-2"
+                    style={{
+                      backgroundColor: `${color}15`,
+                    }}
+                  >
+                    {c.icon}
                   </div>
                 </div>
-              </div>
-              <div className="mt-6 flex justify-center">
-                <Button
-                  size="sm"
-                  className="w-[85%] rounded-full bg-[#25447C] py-2 text-xs font-semibold text-white shadow transition-colors hover:bg-[#48619a]"
+
+                {/* value */}
+                <div
+                  className="text-3xl font-black"
+                  style={{
+                    color,
+                  }}
                 >
-                  View Agniveer Scores
+                  {c.value}
+                </div>
+
+                {/* label */}
+                <div className="mt-2 flex items-center gap-1.5">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{
+                      backgroundColor: color,
+                    }}
+                  />
+
+                  <span className="text-[11px] leading-tight font-semibold tracking-wide text-stone-400 uppercase">
+                    {c.title}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+      <div className="mx-auto w-full">
+        <h2 className="mb-3 text-lg font-bold tracking-tight text-stone-700">
+          Platoon Overview
+        </h2>
+
+        <div className="flex flex-col gap-4">
+          {PLATOONS.map((platoon) => (
+            <div
+              key={platoon.id}
+              className="mb-2 flex flex-col gap-4 rounded-xl border bg-white p-6 shadow transition"
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className="h-12 w-12 flex-shrink-0 rounded-full border-4"
+                  style={{
+                    borderColor: platoon.color,
+                    background: "#f1f7ff",
+                    opacity: 0.6,
+                  }}
+                >
+                  <span
+                    className="flex h-full w-full items-center justify-center text-[1.3rem] font-black"
+                    style={{ color: platoon.color, opacity: 0.6 }}
+                  >
+                    {platoon.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                  <span className="truncate text-lg font-black">
+                    {platoon.name}
+                  </span>
+                  <span className="text-xs font-semibold text-stone-500">
+                    Company: {platoon.company}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="flex items-center gap-2 text-xs font-semibold text-stone-700">
+                    Overall Performance:{" "}
+                    <span className="text-lg font-black text-stone-800">
+                      {platoon.overall}
+                    </span>
+                  </span>
+                  <span className="mt-0.5 text-xs text-stone-400">
+                    Total Agniveers:{" "}
+                    <span className="font-bold text-stone-700">
+                      {platoon.totalSoldiers}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="mb-2 grid grid-cols-2 gap-4 border-b pb-3 md:grid-cols-4">
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Physical</span>
+                  <span className="text-lg font-extrabold text-stone-700">
+                    {platoon.avgPhysical}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Weapons</span>
+                  <span className="text-lg font-extrabold text-[#4A5C2F]">
+                    {platoon.avgWeapons}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Combat</span>
+                  <span className="text-lg font-extrabold text-[#775222]">
+                    {platoon.avgCombat}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center text-xs">
+                  <span className="mb-1 text-stone-500">Tactics</span>
+                  <span className="text-lg font-extrabold text-stone-800">
+                    {platoon.avgTactics}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs text-stone-500">
+                    Platoon ID:{" "}
+                    <span className="font-bold text-stone-800">
+                      {platoon.id}
+                    </span>
+                  </span>
+                </div>
+                <Button
+                  onClick={() => setActive("scores")}
+                  size="sm"
+                  className="bg-opacity-70 rounded-full bg-[#25447C] px-5 py-1.5 text-xs font-semibold text-white shadow hover:bg-[#25447C]/80"
+                >
+                  View Details
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
-
-      <footer className="mt-6 text-center text-xs text-stone-500">
-        Tap or click on any commander to see
-        <span className="mx-1 font-bold text-[#25447C]">
-          their platoon's Agniveer scores.
-        </span>
-      </footer>
     </div>
   )
 }
