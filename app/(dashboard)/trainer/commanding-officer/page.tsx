@@ -252,7 +252,7 @@ function DashboardSection({ gotoPlatoons }: { gotoPlatoons: () => void }) {
         {COMPANY_OFFICERS.map((officer) => (
           <Card
             key={officer.id}
-            className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-[#6d7da7] bg-gradient-to-br from-[#f4f7fb] to-[#e5eaf3] shadow-lg transition-all hover:border-[#25447C] hover:shadow-xl"
+            className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-[#6d7da7] bg-linear-to-br from-[#f4f7fb] to-[#e5eaf3] shadow-lg transition-all hover:border-[#25447C] hover:shadow-xl"
             onClick={gotoPlatoons}
           >
             <CardHeader className="flex flex-row items-center gap-4 pt-6 pb-0">
