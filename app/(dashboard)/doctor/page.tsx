@@ -1100,10 +1100,13 @@ function SickReportDialog({ report, open, onOpenChange }: {
 
         <div className="p-6 overflow-y-auto max-h-[80vh] space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field label="Agniveer Name" value={report.soldierName} />
+            <Field label="Service No." value={report.soldierId} />
+
             <Field label="Report No." value={srData.reportNo} />
             <Field label="Date" value={srData.date} />
 
-            <Field label="Attending Doctor" value={`Dr. ${srData.doctor}`} />
+            <Field label="Attending Doctor" value={`Dr. ${srData.doctor.replace('Dr. ', '')}`} />
             <Field label="Follow-up Date" value={srData.followup} />
 
             <Field label="Presenting Complaint" value={srData.complaint} />
