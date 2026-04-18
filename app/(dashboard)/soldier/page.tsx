@@ -1378,11 +1378,6 @@ function MedicalSection() {
             value: "174 cm",
             icon: <Ruler size={13} className="text-[#4a5c2f]" />,
           },
-          {
-            label: "Fitness Status",
-            value: "Fit for Duty",
-            icon: <Heart size={13} className="text-emerald-500" />,
-          },
         ].map((c) => (
           <Card key={c.label} className="border-stone-200 bg-white shadow-sm">
             <CardContent className="px-4 pt-3 pb-3">
