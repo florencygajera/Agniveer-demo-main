@@ -17,7 +17,6 @@ import { ChevronDown } from "lucide-react"
 
 const LOGIN_TABS = [
   { id: "soldier", label: "Agniveer" },
-  { id: "admin", label: "Admin" },
   { id: "trainer", label: "Trainer" },
   { id: "doctor", label: "Doctor" },
 ]
