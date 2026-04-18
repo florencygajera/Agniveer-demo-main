@@ -69,7 +69,7 @@ const AGNIVEER = {
   email: "rajveer@army.in",
   status: "active",
   medical: "Fit",
-  caste: "Rajput (General)",
+  caste: "Sikh",
   eroName: "Col. Arvind Sharma",
   nextOfKeen: "Shri Balveer Singh Chauhan (Father)",
   nextOfKeenPhone: "9876500001",
@@ -87,7 +87,6 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "profile", label: "Profile", icon: <User size={14} /> },
   { id: "training", label: "Training", icon: <Dumbbell size={14} /> },
   { id: "schedule", label: "Schedule", icon: <CalendarDays size={14} /> },
-  { id: "medical", label: "Medical", icon: <HeartPulse size={14} /> },
   { id: "equipment", label: "Equipment", icon: <Package size={14} /> },
 ]
 
@@ -113,7 +112,7 @@ function Sidebar({
               {AGNIVEER.agniveerNo}
             </div>
             <div className="text-[10px] text-stone-400">
-              {AGNIVEER.rank} · {AGNIVEER.battalionCode}
+              Punjab Regiment Center
             </div>
           </div>
         </div>
@@ -184,6 +183,23 @@ function MobileNav({
   )
 }
 
+function SectionHeader({
+  title,
+  subtitle,
+}: {
+  title: string
+  subtitle: string
+}) {
+  return (
+    <div className="space-y-1 border-b border-stone-200 pb-4">
+      <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+        {title}
+      </h1>
+      <p className="text-sm text-stone-500">{subtitle}</p>
+    </div>
+  )
+}
+
 // ── PROFILE ───────────────────────────────────────────────────────────────────
 function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
   const a = AGNIVEER
@@ -230,7 +246,7 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
       icon: <Users size={14} className="text-amber-600" />,
     },
     {
-      label: "Class / Caste",
+      label: "Class",
       value: a.caste,
       icon: <BookOpen size={14} className="text-sky-600" />,
     },
@@ -263,12 +279,10 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Agniveer Profile</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Personal & Service Information · {a.battalion}
-        </p>
-      </div>
+      <SectionHeader
+        title="Agniveer Profile"
+        subtitle="Personal and service information for Punjab Regiment Center."
+      />
 
       {/* Profile header card */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
@@ -567,12 +581,10 @@ function TrainingSection() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Training Records</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Performance history & weekly plan · 1st Rajputana Rifles
-        </p>
-      </div>
+      <SectionHeader
+        title="Training Records"
+        subtitle="Performance history and weekly training plan for Punjab Regiment Center."
+      />
 
       {/* Personal bests */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -611,27 +623,6 @@ function TrainingSection() {
               <div className="mt-0.5 text-[10px] text-stone-400">{c.sub}</div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-1 rounded-lg border border-stone-200 bg-stone-50 p-1">
-        {[
-          { key: "history", label: "Training History" },
-          { key: "plan", label: "Weekly Plan" },
-          { key: "goals", label: "Goals" },
-        ].map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setActiveTab(t.key as any)}
-            className={`flex-1 rounded-md px-3 py-2 text-xs font-semibold transition-all ${
-              activeTab === t.key
-                ? "bg-white text-[#CA3500] shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
-            }`}
-          >
-            {t.label}
-          </button>
         ))}
       </div>
 
@@ -1140,12 +1131,10 @@ function ScheduleSection() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Daily Schedule</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          March 2025 · {AGNIVEER.battalion}
-        </p>
-      </div>
+      <SectionHeader
+        title="Daily Schedule"
+        subtitle="March 2025 duty programme for Punjab Regiment Center."
+      />
 
       {/* View toggle */}
       <div className="flex w-fit gap-1 rounded-lg border border-stone-200 bg-stone-50 p-1">
@@ -1353,12 +1342,10 @@ function MedicalSection() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Medical Records</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Confidential — Health History
-        </p>
-      </div>
+      <SectionHeader
+        title="Medical Records"
+        subtitle="Confidential health history and current fitness status for Punjab Regiment Center."
+      />
 
       {/* Quick stats */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -1673,12 +1660,10 @@ function EquipmentSection() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Equipment & Arms</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          Issued weapons, uniform, and field kit
-        </p>
-      </div>
+      <SectionHeader
+        title="Equipment & Arms"
+        subtitle="Issued weapons, uniform, and field kit for Punjab Regiment Center."
+      />
 
       {/* Warning banner */}
       <div className="flex items-start gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
@@ -1804,44 +1789,20 @@ function EquipmentSection() {
 export default function AgniveerPage() {
   const [section, setSection] = useState<Section>("profile")
 
-  const sectionTitle: Record<Section, string> = {
-    profile: "Agniveer Profile",
-    training: "Training Records",
-    schedule: "Daily Schedule",
-    medical: "Medical Records",
-    equipment: "Equipment & Arms",
-  }
-
   return (
     <div className="flex min-h-screen bg-[#f4f3ef] font-sans">
-      {/* Sidebar — fixed, never scrolls */}
+      {/* Sidebar fixed, never scrolls */}
       <aside className="hidden md:flex">
         <div className="fixed top-0 left-0 z-20 h-screen w-56">
           <Sidebar active={section} setActive={setSection} />
         </div>
       </aside>
 
-      {/* Main content — offset by sidebar width */}
+      {/* Main content offset by sidebar width */}
       <div className="flex min-w-0 flex-1 flex-col md:ml-56">
-        {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
-          <div className="flex items-center justify-between px-4 py-3 sm:px-6">
-            <div>
-              <h1 className="text-base font-bold text-stone-900">
-                {sectionTitle[section]}
-              </h1>
-              <p className="text-xs text-stone-400">
-                {AGNIVEER.battalion} · Agnipath Portal
-              </p>
-            </div>
-            <Badge className="shrink-0 border border-emerald-200 bg-emerald-50 text-xs text-emerald-700">
-              Active Duty
-            </Badge>
-          </div>
-          <MobileNav active={section} setActive={setSection} />
-        </header>
+        <MobileNav active={section} setActive={setSection} />
 
-        {/* Content — full width, no artificial max-width centering gap */}
+        {/* Content full width */}
         <main className="w-full flex-1 px-4 py-5 sm:px-6">
           {section === "profile" && <ProfileSection setActive={setSection} />}
           {section === "training" && <TrainingSection />}
@@ -1853,3 +1814,4 @@ export default function AgniveerPage() {
     </div>
   )
 }
+
