@@ -50,6 +50,7 @@ import {
   Ruler,
   ScanEye,
   ClipboardList,
+  Clock7,
 } from "lucide-react"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -265,14 +266,14 @@ const INIT_RECORDS = [
 ]
 
 const EYE_SIGHT_RECORDS = [
-  { soldierId: "AGN-2024-0103", soldierName: "Arjun Mehra", rank: "Sepoy", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0101", soldierName: "Rajveer Singh", rank: "Naik", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0104", soldierName: "Sunil Kumar", rank: "Sepoy", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "15 Jan 2025" },
-  { soldierId: "AGN-2024-0203", soldierName: "Rohit Sharma", rank: "Lance Naik", eyeSight: "6/9", status: "Weak", issue: "Mild myopia detected, monitoring required", lastChecked: "20 Feb 2025" },
-  { soldierId: "AGN-2024-0403", soldierName: "Santosh More", rank: "Sepoy", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "10 Feb 2025" },
-  { soldierId: "AGN-2024-0102", soldierName: "Priya Sharma", rank: "Naik", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "01 Mar 2025" },
-  { soldierId: "AGN-2024-0201", soldierName: "Vikram Nair", rank: "Havildar", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "15 Feb 2025" },
-  { soldierId: "AGN-2024-0202", soldierName: "Ananya Krishnan", rank: "Naik", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
+  { soldierId: "AGN-2024-0103", soldierName: "Arjun Mehra", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
+  { soldierId: "AGN-2024-0101", soldierName: "Rajveer Singh", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
+  { soldierId: "AGN-2024-0104", soldierName: "Sunil Kumar", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "15 Jan 2025" },
+  { soldierId: "AGN-2024-0203", soldierName: "Rohit Sharma", eyeSight: "6/9", status: "Weak", issue: "Mild myopia detected, monitoring required", lastChecked: "20 Feb 2025" },
+  { soldierId: "AGN-2024-0403", soldierName: "Santosh More", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "10 Feb 2025" },
+  { soldierId: "AGN-2024-0102", soldierName: "Priya Sharma", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "01 Mar 2025" },
+  { soldierId: "AGN-2024-0201", soldierName: "Vikram Nair", eyeSight: "6/6", status: "Good", issue: "None", lastChecked: "15 Feb 2025" },
+  { soldierId: "AGN-2024-0202", soldierName: "Ananya Krishnan", eyeSight: "6/6", status: "Normal", issue: "None", lastChecked: "01 Mar 2025" },
 ]
 
 const LASIK_RECORDS = [
@@ -1052,6 +1053,74 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
   )
 }
 
+// ── SICK REPORT DIALOG ─────────────────────────────────────────────────────────
+function SickReportDialog({ report, open, onOpenChange }: {
+  report: typeof INIT_RECORDS[0] | null
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  if (!report) return null
+
+  // Mapped data for the sick report view
+  const srData = {
+    reportNo: `SR/RR1/2025/${report.id.replace('MR-', '').slice(-4)}`,
+    date: report.date,
+    doctor: doctorDisplayName(report.doctor),
+    followup: report.followup !== "—" ? report.followup : "N/A",
+    complaint: report.notes || "Medical issue reported during training.",
+    diagnosis: report.diagnosis,
+    treatment: report.treatment && report.treatment !== "—" ? report.treatment : "RICE protocol, pain relief medication.",
+    rest: report.status === "Under Observation" ? "5 days light duty" : "None required",
+    outcome: report.status === "Recovered" || report.status === "Normal" ? "Fully recovered — returned to full duty" : "Under active medical care",
+    status: report.status === "Normal" || report.status === "Recovered" ? "Closed" : "Active"
+  }
+
+  const badgeColor = srData.status === "Closed" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-700"
+
+  const Field = ({ label, value }: { label: string, value: string }) => (
+    <div className="bg-white p-4 rounded-lg shadow-sm border border-stone-100">
+      <div className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1.5">{label}</div>
+      <div className="text-sm font-semibold text-stone-700 leading-relaxed">{value}</div>
+    </div>
+  )
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="!max-w-4xl p-0 overflow-hidden bg-stone-50/80 border-stone-200 rounded-2xl shadow-2xl">
+        <DialogHeader className="px-6 py-4 border-b border-stone-100 bg-white flex flex-row items-center justify-between sticky top-0 z-10 m-0">
+          <div className="flex items-center gap-3">
+            <HeartPulse size={18} className="text-rose-500" />
+            <DialogTitle className="text-lg font-black text-stone-900 tracking-tight">Last Sick Report</DialogTitle>
+            <Badge className={`ml-2 border font-bold uppercase tracking-widest text-[10px] px-2.5 py-0.5 ${badgeColor}`}>
+              {srData.status}
+            </Badge>
+          </div>
+          <div className="text-xs font-bold text-stone-400 mt-0">{srData.date}</div>
+        </DialogHeader>
+
+        <div className="p-6 overflow-y-auto max-h-[80vh] space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field label="Report No." value={srData.reportNo} />
+            <Field label="Date" value={srData.date} />
+
+            <Field label="Attending Doctor" value={`Dr. ${srData.doctor}`} />
+            <Field label="Follow-up Date" value={srData.followup} />
+
+            <Field label="Presenting Complaint" value={srData.complaint} />
+            <Field label="Diagnosis" value={srData.diagnosis} />
+
+            <Field label="Treatment Given" value={srData.treatment} />
+            <Field label="Rest / Light Duty" value={srData.rest} />
+
+            <Field label="Outcome" value={srData.outcome} />
+            <Field label="Status" value={srData.status} />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 // ── RECORDS ───────────────────────────────────────────────────────────────────
 function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
   const [search, setSearch] = useState("")
@@ -1059,6 +1128,8 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
   const [typeF, setTypeF] = useState("all")
   const [selectedReport, setSelectedReport] = useState<typeof INIT_RECORDS[0] | null>(null)
   const [reportOpen, setReportOpen] = useState(false)
+  const [selectedSickReport, setSelectedSickReport] = useState<typeof INIT_RECORDS[0] | null>(null)
+  const [sickReportOpen, setSickReportOpen] = useState(false)
 
   const filtered = records.filter((r) => {
     const q = search.toLowerCase()
@@ -1071,6 +1142,7 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
   return (
     <div className="space-y-6">
       <MedicalReportDialog report={selectedReport} open={reportOpen} onOpenChange={setReportOpen} />
+      <SickReportDialog report={selectedSickReport} open={sickReportOpen} onOpenChange={setSickReportOpen} />
 
       <div>
         <h1 className="text-2xl font-black text-stone-900 tracking-tight">Medical Records</h1>
@@ -1178,23 +1250,41 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
                         <Badge className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${statusStyle(r.status)}`}>{r.status}</Badge>
                       </td>
                       <td className="px-4 py-3.5">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-stone-400 rounded-lg transition-colors"
-                              onClick={() => { setSelectedReport(r); setReportOpen(true) }}
-                              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = ACTIVE_BG; (e.currentTarget as HTMLElement).style.color = "#fff" }}
-                              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLElement).style.color = "#a8a29e" }}
-                            >
-                              <FileText size={15} />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent side="left" className="bg-stone-900 text-white text-xs font-semibold">
-                            View Medical Report
-                          </TooltipContent>
-                        </Tooltip>
+                        <div className="flex items-center gap-1.5">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-stone-400 rounded-lg transition-colors"
+                                onClick={() => { setSelectedReport(r); setReportOpen(true) }}
+                                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = ACTIVE_BG; (e.currentTarget as HTMLElement).style.color = "#fff" }}
+                                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLElement).style.color = "#a8a29e" }}
+                              >
+                                <FileText size={15} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="bg-stone-900 text-white text-xs font-semibold">
+                              View Medical Report
+                            </TooltipContent>
+                          </Tooltip>
+
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-stone-400 rounded-lg transition-colors hover:bg-rose-50 hover:text-rose-600"
+                                onClick={() => { setSelectedSickReport(r); setSickReportOpen(true) }}
+                              >
+                                <Clock7 size={15} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="bg-stone-900 text-white text-xs font-semibold">
+                              Last Sick Report
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -1585,128 +1675,6 @@ function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
             ))}
           </div>
         </CardContent>
-      </Card>
-
-      {/* ── EYE SIGHT SECTION ──────────────────────────────────────────────── */}
-      <Card className="border-stone-200 bg-white shadow-sm overflow-hidden">
-        <CollapsibleHeader
-          icon={<ScanEye size={16} className="text-teal-600" />}
-          iconBg="bg-teal-50"
-          title="Eye Sight"
-          subtitle={`${EYE_SIGHT_RECORDS.length} Agniveer assessed`}
-          pills={
-            <div className="hidden sm:flex items-center gap-1.5">
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 rounded px-2 py-0.5">{eyeSightCounts.good} Good</span>
-              <span className="text-[10px] font-bold text-sky-600 bg-sky-50 border border-sky-200 rounded px-2 py-0.5">{eyeSightCounts.normal} Normal</span>
-              <span className="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded px-2 py-0.5">{eyeSightCounts.weak} Weak</span>
-            </div>
-          }
-          expanded={eyeExpanded}
-          onToggle={() => setEyeExpanded(!eyeExpanded)}
-        />
-        {eyeExpanded && (
-          <div className="border-t border-stone-100 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-stone-50 border-b border-stone-100">
-                  {["Agniveer", "Service ID", "Rank", "Eye Sight", "Status", "Issue / Finding", "Last Checked"].map((h) => (
-                    <th key={h} className="px-5 py-3.5 text-left text-[10px] font-black tracking-widest text-stone-500 uppercase whitespace-nowrap">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-50">
-                {EYE_SIGHT_RECORDS.map((r) => (
-                  <tr key={r.soldierId} className="hover:bg-stone-50 transition-colors">
-                    <td className="px-5 py-3.5 font-bold text-stone-800 whitespace-nowrap">{r.soldierName}</td>
-                    <td className="px-5 py-3.5 font-mono text-xs text-stone-500 font-medium">{r.soldierId}</td>
-                    <td className="px-5 py-3.5 text-xs font-semibold text-stone-600">{r.rank}</td>
-                    <td className="px-5 py-3.5 font-mono text-sm font-black text-stone-800">{r.eyeSight}</td>
-                    <td className="px-5 py-3.5">
-                      <Badge className={`border text-[10px] uppercase tracking-wider font-bold px-2.5 py-0.5 ${eyeSightStatusStyle(r.status)}`}>
-                        {r.status === "Good" ? "Good Eyesight"
-                          : r.status === "Normal" ? "Normal Eyesight"
-                            : "Weak Eyesight"}
-                      </Badge>
-                    </td>
-                    <td className="px-5 py-3.5 text-xs max-w-[200px]">
-                      {r.issue === "None"
-                        ? <span className="text-stone-400 font-medium">No issue detected</span>
-                        : <span className="text-amber-700 font-semibold">{r.issue}</span>}
-                    </td>
-                    <td className="px-5 py-3.5 text-xs font-semibold text-stone-500 whitespace-nowrap">{r.lastChecked}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Card>
-
-      {/* ── LAST SEEK REPORT SECTION ────────────────────────────────────────── */}
-      <Card className="border-stone-200 bg-white shadow-sm overflow-hidden">
-        <CollapsibleHeader
-          icon={<ClipboardList size={16} className="text-sky-600" />}
-          iconBg="bg-sky-50"
-          title="Last Seek Report"
-          subtitle={`${LASIK_RECORDS.length} LASIK / Ophthalmic reports on file`}
-          pills={
-            <Badge className="border border-sky-200 bg-sky-50 text-sky-700 text-[10px] font-bold hidden sm:inline-flex">
-              {LASIK_RECORDS.length} reports
-            </Badge>
-          }
-          expanded={seekExpanded}
-          onToggle={() => setSeekExpanded(!seekExpanded)}
-        />
-        {seekExpanded && (
-          <div className="border-t border-stone-100 overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-stone-50 border-b border-stone-100">
-                  {["Agniveer Name", "Service ID", "Rank", "Report Date", "Doctor", "LASIK Status", "Action"].map((h) => (
-                    <th key={h} className="px-5 py-3.5 text-left text-[10px] font-black tracking-widest text-stone-500 uppercase whitespace-nowrap">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
-                {LASIK_RECORDS.map((lr) => {
-                  const sc =
-                    lr.status === "Cleared" ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-                      : lr.status === "Pending" ? "border-amber-300 bg-amber-50 text-amber-700"
-                        : "border-sky-300 bg-sky-50 text-sky-700"
-                  return (
-                    <tr
-                      key={lr.id}
-                      className="hover:bg-stone-50 transition-colors cursor-pointer"
-                      onClick={() => setSelectedLasikReport(lr)}
-                    >
-                      <td className="px-5 py-3.5 font-bold text-stone-800 whitespace-nowrap">{lr.soldierName}</td>
-                      <td className="px-5 py-3.5 font-mono text-xs text-stone-500 font-medium">{lr.soldierId}</td>
-                      <td className="px-5 py-3.5 text-xs font-semibold text-stone-600">{lr.rank}</td>
-                      <td className="px-5 py-3.5 text-xs font-semibold text-stone-600 whitespace-nowrap">{lr.reportDate}</td>
-                      <td className="px-5 py-3.5 whitespace-nowrap">
-                        <div className="text-xs font-bold text-stone-800">{doctorDisplayName(lr.doctor)}</div>
-                        <div className="text-[10px] text-stone-400 font-medium mt-0.5">{lr.doctorDesignation}</div>
-                      </td>
-                      <td className="px-5 py-3.5">
-                        <Badge className={`border text-[10px] uppercase tracking-widest font-bold px-2.5 py-0.5 ${sc}`}>{lr.status}</Badge>
-                      </td>
-                      <td className="px-5 py-3.5">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 text-xs font-semibold text-sky-600 hover:text-sky-700 hover:bg-sky-50 gap-1.5"
-                          onClick={(e) => { e.stopPropagation(); setSelectedLasikReport(lr) }}
-                        >
-                          <Eye size={13} /> View Report
-                        </Button>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
       </Card>
     </div>
   )
