@@ -35,12 +35,20 @@ import {
   LogOut,
   Activity,
   Pencil,
+  BarChart3,
 } from "lucide-react"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ScoresSection } from "../comp/ScoresSection"
+import AttendanceReportPage from "../comp/AttendenceReport"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type Section = "dashboard" | "upload" | "sessions" | "scores"
+type Section =
+  | "dashboard"
+  | "upload"
+  | "program"
+  | "scores"
+  | "attendanceReport"
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const TRAINER = {
@@ -60,8 +68,10 @@ const SOLDIERS = [
     mental: 78,
     combat: 89,
     attendance: 96,
-    discipline: 92,
-    overall: 89,
+    sports: 84,
+    mapReading: 74,
+    tactics: 81,
+    overall: 83.6,
     status: "active",
   },
   {
@@ -73,8 +83,10 @@ const SOLDIERS = [
     mental: 94,
     combat: 80,
     attendance: 98,
-    discipline: 95,
-    overall: 87.3,
+    sports: 90,
+    mapReading: 86,
+    tactics: 88,
+    overall: 85.4,
     status: "active",
   },
   {
@@ -86,8 +98,10 @@ const SOLDIERS = [
     mental: 88,
     combat: 95,
     attendance: 100,
-    discipline: 97,
-    overall: 95,
+    sports: 98,
+    mapReading: 92,
+    tactics: 93,
+    overall: 94.5,
     status: "active",
   },
   {
@@ -99,8 +113,10 @@ const SOLDIERS = [
     mental: 65,
     combat: 70,
     attendance: 82,
-    discipline: 75,
-    overall: 72,
+    sports: 60,
+    mapReading: 62,
+    tactics: 64,
+    overall: 67.9,
     status: "active",
   },
   {
@@ -112,8 +128,10 @@ const SOLDIERS = [
     mental: 82,
     combat: 76,
     attendance: 88,
-    discipline: 85,
-    overall: 80.5,
+    sports: 77,
+    mapReading: 85,
+    tactics: 80,
+    overall: 80.0,
     status: "on_leave",
   },
   {
@@ -125,68 +143,73 @@ const SOLDIERS = [
     mental: 70,
     combat: 84,
     attendance: 91,
-    discipline: 88,
-    overall: 84.3,
+    sports: 79,
+    mapReading: 80,
+    tactics: 84,
+    overall: 82.6,
     status: "active",
   },
 ]
 
-const SESSIONS = [
+// Army-style training program data, replacing SESSIONS
+const PROGRAM = [
   {
     date: "14 Mar 2025",
-    type: "Physical",
+    module: "Physical Endurance",
     soldiers: 6,
     avg: 88,
-    notes: "Morning PT & 5km timed run. Arjun set new record.",
-    status: "Complete",
+    remarks: "Morning PT: 5km timed run, platoon achieved new speed record.",
+    status: "Completed",
+  },
+  {
+    date: "13 Mar 2025",
+    module: "Weapons Proficiency",
+    soldiers: 6,
+    avg: 84,
+    remarks:
+      "Live range: INSAS & SLR marksmanship, all passed. Focused on accuracy.",
+    status: "Completed",
   },
   {
     date: "12 Mar 2025",
-    type: "Weapons",
+    module: "Tactical Drills",
     soldiers: 6,
-    avg: 83,
-    notes: "INSAS range practice. Focus on accuracy drills.",
-    status: "Complete",
+    avg: 81,
+    remarks: "Team obstacle navigation, section attack practice.",
+    status: "Completed",
+  },
+  {
+    date: "11 Mar 2025",
+    module: "Battlefield First Aid",
+    soldiers: 6,
+    avg: 90,
+    remarks:
+      "Basic field medical training, rapid-response simulation. All soldiers attended.",
+    status: "Completed",
   },
   {
     date: "10 Mar 2025",
-    type: "Mental",
+    module: "Night Navigation",
     soldiers: 5,
-    avg: 79,
-    notes: "Decision-making under stress. Kavita on leave.",
-    status: "Complete",
+    avg: 76,
+    remarks: "Night compass navigation. Kavita on leave.",
+    status: "Completed",
   },
   {
-    date: "07 Mar 2025",
-    type: "Combat",
+    date: "16 Mar 2025",
+    module: "Weapons Proficiency",
     soldiers: 6,
-    avg: 84,
-    notes: "Obstacle course + buddy drills.",
-    status: "Complete",
-  },
-  {
-    date: "05 Mar 2025",
-    type: "Physical",
-    soldiers: 6,
-    avg: 87,
-    notes: "Strength & endurance circuit.",
-    status: "Complete",
+    avg: 0,
+    remarks: "Scheduled: INSAS night firing.",
+    status: "Scheduled",
   },
   {
     date: "17 Mar 2025",
-    type: "Weapons",
+    module: "Combat Fitness Assessment",
     soldiers: 6,
     avg: 0,
-    notes: "Scheduled range session — pistol handling.",
-    status: "Upcoming",
-  },
-  {
-    date: "19 Mar 2025",
-    type: "Combat",
-    soldiers: 6,
-    avg: 0,
-    notes: "Night navigation & tactical exercise.",
-    status: "Upcoming",
+    remarks: "Planned: CFT route march (10km, load carry with rifle).",
+    status: "Scheduled",
   },
 ]
 
@@ -203,20 +226,7 @@ function bc(v: number) {
   if (v >= 70) return "bg-amber-500"
   return "bg-rose-500"
 }
-function grade(v: number) {
-  if (v >= 90)
-    return {
-      l: "Outstanding",
-      c: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    }
-  if (v >= 80) return { l: "Good", c: "bg-sky-100 text-sky-700 border-sky-200" }
-  if (v >= 70)
-    return { l: "Average", c: "bg-amber-100 text-amber-700 border-amber-200" }
-  return {
-    l: "Needs Improvement",
-    c: "bg-rose-100 text-rose-600 border-rose-200",
-  }
-}
+
 function avg(arr: number[]) {
   return Math.round((arr.reduce((a, b) => a + b, 0) / arr.length) * 10) / 10
 }
@@ -224,8 +234,12 @@ function avg(arr: number[]) {
 // ── Nav ───────────────────────────────────────────────────────────────────────
 const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard size={14} /> },
-  { id: "scores", label: "Soldier Scores", icon: <TrendingUp size={14} /> },
-  { id: "sessions", label: "Sessions", icon: <CalendarDays size={14} /> },
+  { id: "scores", label: "Agniveer Scores", icon: <TrendingUp size={14} /> },
+  {
+    id: "program",
+    label: "Program",
+    icon: <CalendarDays size={14} />,
+  },
   { id: "upload", label: "Upload Data", icon: <Upload size={14} /> },
 ]
 
@@ -237,59 +251,58 @@ function Sidebar({
   setActive: (s: Section) => void
 }) {
   return (
-    <aside className="hidden w-56 shrink-0 flex-col border-r border-stone-200 bg-white md:flex">
-      <div className="border-b border-stone-100 bg-stone-50 px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-sm font-bold text-white">
-            P
-          </div>
-          <div className="min-w-0">
-            <div className="truncate text-sm font-bold text-stone-800">
-              {TRAINER.name}
+    <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col border-r border-stone-200 bg-white md:flex">
+      <div className="flex h-full flex-col overflow-auto">
+        <div className="border-b border-stone-100 bg-stone-50 px-4 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1a2d4a] text-sm font-bold text-white">
+              P
             </div>
-            <div className="font-mono text-[10px] text-orange-500">
-              {TRAINER.id}
-            </div>
-            <div className="text-[10px] text-stone-400">
-              Trainer · {TRAINER.code}
+            <div className="min-w-0">
+              <div className="truncate text-sm font-bold text-stone-800">
+                Platoon commander
+              </div>
+              <div className="font-mono text-[10px] text-orange-500">Portl</div>
+              <div className="text-[10px] text-stone-400">Dashboard</div>
             </div>
           </div>
+          <div className="mt-2">
+            <Badge className="border border-sky-200 bg-sky-50 text-[10px] text-sky-700">
+              Trainer · Active
+            </Badge>
+          </div>
         </div>
-        <div className="mt-2">
-          <Badge className="border border-sky-200 bg-sky-50 text-[10px] text-sky-700">
-            Trainer · Active
-          </Badge>
+        <nav className="flex flex-1 flex-col gap-0.5 p-2">
+          <p className="px-2 pt-2 pb-1 text-[9px] font-bold tracking-widest text-stone-400 uppercase">
+            Trainer Portal
+          </p>
+          {NAV.map((n) => (
+            <button
+              key={n.id}
+              onClick={() => setActive(n.id)}
+              // For the active tab, make the button "primary"
+              className={
+                active === n.id
+                  ? "flex items-center gap-2.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-sm"
+                  : "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium text-stone-500 transition-all hover:bg-stone-100 hover:text-stone-800"
+              }
+            >
+              {n.icon}
+              {n.label}
+            </button>
+          ))}
+        </nav>
+        <div className="space-y-1 border-t border-stone-100 p-2">
+          <div className="flex items-center justify-between px-3 py-2">
+            <span className="text-xs text-stone-400">Theme</span>
+            <ThemeToggle />
+          </div>
+          <Link href="/">
+            <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700">
+              <LogOut size={14} /> Logout
+            </button>
+          </Link>
         </div>
-      </div>
-      <nav className="flex flex-1 flex-col gap-0.5 p-2">
-        <p className="px-2 pt-2 pb-1 text-[9px] font-bold tracking-widest text-stone-400 uppercase">
-          Trainer Portal
-        </p>
-        {NAV.map((n) => (
-          <button
-            key={n.id}
-            onClick={() => setActive(n.id)}
-            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
-              active === n.id
-                ? "bg-[#1a2d4a] text-white shadow-sm"
-                : "text-stone-500 hover:bg-stone-100 hover:text-stone-800"
-            }`}
-          >
-            {n.icon}
-            {n.label}
-          </button>
-        ))}
-      </nav>
-      <div className="space-y-1 border-t border-stone-100 p-2">
-        <div className="flex items-center justify-between px-3 py-2">
-          <span className="text-xs text-stone-400">Theme</span>
-          <ThemeToggle />
-        </div>
-        <Link href="/">
-          <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700">
-            <LogOut size={14} /> Logout
-          </button>
-        </Link>
       </div>
     </aside>
   )
@@ -322,7 +335,15 @@ function MobileNav({
   )
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+// --- ScoresSectionWithAttendanceButton ---
+function ScoresSectionWithAttendanceButton({
+  onViewAttendance,
+}: {
+  onViewAttendance: () => void
+}) {
+  return <ScoresSection onClick={onViewAttendance} />
+}
+
 function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
   const actives = SOLDIERS.filter((s) => s.status === "active")
   const avgScore = avg(SOLDIERS.map((s) => s.overall))
@@ -338,7 +359,6 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
     mental: avg(SOLDIERS.map((s) => s.mental)),
     combat: avg(SOLDIERS.map((s) => s.combat)),
     attendance: avg(SOLDIERS.map((s) => s.attendance)),
-    discipline: avg(SOLDIERS.map((s) => s.discipline)),
   }
 
   return (
@@ -354,7 +374,7 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
           {
-            label: "Total Soldiers",
+            label: "Total Agniveers",
             value: SOLDIERS.length,
             accent: "text-[#1a2d4a]",
             border: "border-t-[#1a2d4a]",
@@ -533,8 +553,8 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
                 icon: <TrendingUp size={13} />,
               },
               {
-                label: "Log Session",
-                section: "sessions" as Section,
+                label: "View Program",
+                section: "program" as Section,
                 icon: <CalendarDays size={13} />,
               },
               {
@@ -543,8 +563,8 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
                 icon: <Upload size={13} />,
               },
               {
-                label: "Add Session",
-                section: "sessions" as Section,
+                label: "Add Program Module",
+                section: "program" as Section,
                 icon: <Plus size={13} />,
               },
             ].map((q) => (
@@ -565,302 +585,50 @@ function DashboardSection({ setActive }: { setActive: (s: Section) => void }) {
   )
 }
 
-// ── SOLDIER SCORES ────────────────────────────────────────────────────────────
-function ScoresSection() {
-  const [search, setSearch] = useState("")
-  const [filter, setFilter] = useState("all")
-  const [editId, setEditId] = useState<string | null>(null)
-  const [scores, setScores] = useState(SOLDIERS.map((s) => ({ ...s })))
-
-  const filtered = scores.filter((s) => {
-    const q = search.toLowerCase()
-    const matchQ =
-      !q || s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q)
-    const matchF =
-      filter === "all" ||
-      (filter === "good" && s.overall >= 85) ||
-      (filter === "attn" && s.overall < 75)
-    return matchQ && matchF
-  })
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <h1 className="text-xl font-bold text-stone-900">Soldier Scores</h1>
-        <p className="mt-0.5 text-xs text-stone-400">
-          {TRAINER.battalion} · All Categories
-        </p>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[180px] flex-1">
-          <Search
-            size={13}
-            className="absolute top-1/2 left-2.5 -translate-y-1/2 text-stone-400"
-          />
-          <Input
-            placeholder="Search name or ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-8 border-stone-200 bg-white pl-8 text-xs"
-          />
-        </div>
-        {[
-          { v: "all", l: "All" },
-          { v: "good", l: "Score ≥ 85" },
-          { v: "attn", l: "Needs Attention" },
-        ].map((f) => (
-          <button
-            key={f.v}
-            onClick={() => setFilter(f.v)}
-            className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
-              filter === f.v
-                ? "border-[#1a2d4a] bg-[#1a2d4a] text-white"
-                : "border-stone-200 bg-white text-stone-500 hover:border-stone-300"
-            }`}
-          >
-            {f.l}
-          </button>
-        ))}
-        <span className="ml-auto text-xs text-stone-400">
-          {filtered.length} soldiers
-        </span>
-      </div>
-
-      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-stone-100 bg-stone-50">
-                {[
-                  "Name",
-                  "Rank",
-                  "Physical",
-                  "Weapons",
-                  "Mental",
-                  "Combat",
-                  "Attend.",
-                  "Discip.",
-                  "Overall",
-                  "Grade",
-                  "Status",
-                  "Actions",
-                ].map((h) => (
-                  <th
-                    key={h}
-                    className="px-3 py-2.5 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-stone-500 uppercase"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-50">
-              {filtered.map((s) => (
-                <React.Fragment key={s.id}>
-                  <tr className="hover:bg-stone-50">
-                    <td className="px-3 py-2.5">
-                      <div className="text-sm font-semibold text-stone-800">
-                        {s.name}
-                      </div>
-                      <div className="font-mono text-[10px] text-stone-400">
-                        {s.id}
-                      </div>
-                    </td>
-                    <td className="px-3 py-2.5 text-xs text-stone-500">
-                      {s.rank}
-                    </td>
-                    {(
-                      [
-                        "physical",
-                        "weapons",
-                        "mental",
-                        "combat",
-                        "attendance",
-                        "discipline",
-                      ] as const
-                    ).map((k) => (
-                      <td key={k} className="px-3 py-2.5">
-                        <div className="flex items-center gap-1">
-                          <div className="h-1.5 w-10 overflow-hidden rounded-full bg-stone-100">
-                            <div
-                              className={`h-full rounded-full ${bc(s[k])}`}
-                              style={{ width: `${s[k]}%` }}
-                            />
-                          </div>
-                          <span className={`text-xs font-bold ${sc(s[k])}`}>
-                            {s[k]}
-                          </span>
-                        </div>
-                      </td>
-                    ))}
-                    <td className="px-3 py-2.5">
-                      <span className={`text-base font-black ${sc(s.overall)}`}>
-                        {s.overall}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <Badge className={`border text-xs ${grade(s.overall).c}`}>
-                        {grade(s.overall).l}
-                      </Badge>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <Badge
-                        className={`border text-xs ${s.status === "active" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-700"}`}
-                      >
-                        {s.status === "active" ? "Active" : "On Leave"}
-                      </Badge>
-                    </td>
-                    <td className="px-3 py-2.5">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setEditId(editId === s.id ? null : s.id)}
-                        className="h-6 gap-1 border-stone-200 px-2 text-[10px] text-stone-600"
-                      >
-                        <Pencil size={10} />
-                        {editId === s.id ? "Cancel" : "Edit"}
-                      </Button>
-                    </td>
-                  </tr>
-                  {/* Inline score editor */}
-                  {editId === s.id && (
-                    <tr className="bg-sky-50">
-                      <td colSpan={12} className="px-4 py-4">
-                        <div className="mb-3 text-xs font-bold text-stone-600">
-                          Edit Scores — {s.name}
-                        </div>
-                        <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
-                          {(
-                            [
-                              "physical",
-                              "weapons",
-                              "mental",
-                              "combat",
-                              "attendance",
-                              "discipline",
-                            ] as const
-                          ).map((k) => (
-                            <div key={k} className="flex flex-col gap-1">
-                              <label className="text-[10px] font-semibold text-stone-500 capitalize">
-                                {k}
-                              </label>
-                              <Input
-                                type="number"
-                                min={0}
-                                max={100}
-                                value={s[k]}
-                                onChange={(e) =>
-                                  setScores((prev) =>
-                                    prev.map((x) =>
-                                      x.id === s.id
-                                        ? {
-                                            ...x,
-                                            [k]: +e.target.value,
-                                            overall:
-                                              Math.round(
-                                                ([
-                                                  "physical",
-                                                  "weapons",
-                                                  "mental",
-                                                  "combat",
-                                                  "attendance",
-                                                  "discipline",
-                                                ].reduce(
-                                                  (a, key2) =>
-                                                    a +
-                                                    (key2 === k
-                                                      ? +e.target.value
-                                                      : (x[
-                                                          key2 as keyof typeof x
-                                                        ] as number)),
-                                                  0
-                                                ) /
-                                                  6) *
-                                                  10
-                                              ) / 10,
-                                          }
-                                        : x
-                                    )
-                                  )
-                                }
-                                className="h-8 text-center text-sm"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-3 flex gap-2">
-                          <Button
-                            size="sm"
-                            className="h-7 bg-[#4a5c2f] text-xs text-white hover:bg-[#344228]"
-                            onClick={() => setEditId(null)}
-                          >
-                            <CheckCircle2 size={11} className="mr-1" /> Save
-                            Scores
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="h-7 text-xs"
-                            onClick={() => setEditId(null)}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="border-t border-stone-100 bg-stone-50/50 px-4 py-2 text-xs text-stone-400">
-          {filtered.length} of {SOLDIERS.length} soldiers · Click Edit to update
-          individual scores
-        </div>
-      </Card>
-    </div>
-  )
-}
-
-// ── SESSIONS ──────────────────────────────────────────────────────────────────
-function SessionsSection() {
+// ── PROGRAM ───────────────────────────────────────────────────────────────────
+function ProgramSection() {
   const [showAdd, setShowAdd] = useState(false)
   const [form, setForm] = useState({
     date: "",
-    type: "Physical",
+    module: "Physical Endurance",
     soldiers: "6",
-    notes: "",
+    remarks: "",
   })
-  const [sessions, setSessions] = useState(SESSIONS)
+  const [program, setProgram] = useState(PROGRAM)
   const [saved, setSaved] = useState(false)
 
   const handleAdd = () => {
-    if (!form.date || !form.type) return
-    setSessions((prev) => [
+    if (!form.date || !form.module) return
+    setProgram((prev) => [
       {
         date: form.date,
-        type: form.type,
+        module: form.module,
         soldiers: +form.soldiers,
         avg: 0,
-        notes: form.notes,
-        status: "Upcoming",
+        remarks: form.remarks,
+        status: "Scheduled",
       },
       ...prev,
     ])
-    setForm({ date: "", type: "Physical", soldiers: "6", notes: "" })
+    setForm({
+      date: "",
+      module: "Physical Endurance",
+      soldiers: "6",
+      remarks: "",
+    })
     setShowAdd(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
   }
 
   const typeColor: Record<string, string> = {
-    Physical: "border-sky-200 bg-sky-50 text-sky-700",
-    Weapons: "border-rose-200 bg-rose-50 text-rose-700",
-    Mental: "border-violet-200 bg-violet-50 text-violet-700",
-    Combat: "border-amber-200 bg-amber-50 text-amber-700",
-    Mixed: "border-stone-200 bg-stone-50 text-stone-600",
+    "Physical Endurance": "border-sky-200 bg-sky-50 text-sky-700",
+    "Weapons Proficiency": "border-rose-200 bg-rose-50 text-rose-700",
+    "Tactical Drills": "border-amber-200 bg-amber-50 text-amber-700",
+    "Battlefield First Aid": "border-violet-200 bg-violet-50 text-violet-700",
+    "Night Navigation": "border-stone-200 bg-stone-50 text-stone-600",
+    "Combat Fitness Assessment":
+      "border-emerald-200 bg-emerald-50 text-emerald-700",
   }
 
   return (
@@ -868,32 +636,32 @@ function SessionsSection() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-stone-900">
-            Training Sessions
+            Platoon Training Program
           </h1>
           <p className="mt-0.5 text-xs text-stone-400">
-            Log and manage all training activities
+            Plan and track core army training modules for your platoon
           </p>
         </div>
         <Button
           onClick={() => setShowAdd(!showAdd)}
           className="shrink-0 gap-1.5 bg-[#1a2d4a] text-xs text-white hover:bg-[#243d61]"
         >
-          <Plus size={13} /> {showAdd ? "Cancel" : "Add Session"}
+          <Plus size={13} /> {showAdd ? "Cancel" : "Add Module"}
         </Button>
       </div>
 
       {saved && (
         <div className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm text-emerald-700">
-          <CheckCircle2 size={14} /> Session added successfully.
+          <CheckCircle2 size={14} /> Module added successfully.
         </div>
       )}
 
-      {/* Add session form */}
+      {/* Add program module form */}
       {showAdd && (
         <Card className="border border-sky-200 bg-sky-50 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-semibold text-sky-800">
-              Log New Training Session
+              Add New Training Module
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4">
@@ -913,29 +681,34 @@ function SessionsSection() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label className="text-xs font-semibold text-stone-600">
-                  Session Type <span className="text-rose-500">*</span>
+                  Module <span className="text-rose-500">*</span>
                 </Label>
                 <Select
-                  value={form.type}
-                  onValueChange={(v) => setForm((f) => ({ ...f, type: v }))}
+                  value={form.module}
+                  onValueChange={(v) => setForm((f) => ({ ...f, module: v }))}
                 >
                   <SelectTrigger className="h-8 bg-white text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {["Physical", "Weapons", "Mental", "Combat", "Mixed"].map(
-                      (t) => (
-                        <SelectItem key={t} value={t}>
-                          {t}
-                        </SelectItem>
-                      )
-                    )}
+                    {[
+                      "Physical Endurance",
+                      "Weapons Proficiency",
+                      "Tactical Drills",
+                      "Battlefield First Aid",
+                      "Night Navigation",
+                      "Combat Fitness Assessment",
+                    ].map((t) => (
+                      <SelectItem key={t} value={t}>
+                        {t}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label className="text-xs font-semibold text-stone-600">
-                  Soldiers Present
+                  Agniveers Present
                 </Label>
                 <Input
                   type="number"
@@ -950,13 +723,13 @@ function SessionsSection() {
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label className="text-xs font-semibold text-stone-600">
-                  Notes
+                  Remarks
                 </Label>
                 <Input
-                  placeholder="Brief session notes..."
-                  value={form.notes}
+                  placeholder="Brief training details..."
+                  value={form.remarks}
                   onChange={(e) =>
-                    setForm((f) => ({ ...f, notes: e.target.value }))
+                    setForm((f) => ({ ...f, remarks: e.target.value }))
                   }
                   className="h-8 bg-white text-sm"
                 />
@@ -966,13 +739,13 @@ function SessionsSection() {
               onClick={handleAdd}
               className="h-8 gap-1.5 bg-[#4a5c2f] text-xs text-white hover:bg-[#344228]"
             >
-              <CheckCircle2 size={12} /> Save Session
+              <CheckCircle2 size={12} /> Save Module
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {/* Sessions table */}
+      {/* Program table */}
       <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -980,10 +753,10 @@ function SessionsSection() {
               <tr className="border-b border-stone-100 bg-stone-50">
                 {[
                   "Date",
-                  "Session Type",
-                  "Soldiers",
+                  "Module",
+                  "Agniveers",
                   "Avg. Score",
-                  "Notes",
+                  "Remarks",
                   "Status",
                 ].map((h) => (
                   <th
@@ -996,51 +769,51 @@ function SessionsSection() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-50">
-              {sessions.map((s, i) => (
+              {program.map((mod, i) => (
                 <tr
                   key={i}
-                  className={`hover:bg-stone-50 ${s.status === "Upcoming" ? "bg-sky-50/30" : ""}`}
+                  className={`hover:bg-stone-50 ${mod.status === "Scheduled" ? "bg-sky-50/30" : ""}`}
                 >
                   <td className="px-4 py-3 font-mono text-xs whitespace-nowrap text-stone-500">
-                    {s.date}
+                    {mod.date}
                   </td>
                   <td className="px-4 py-3">
                     <Badge
-                      className={`border text-xs ${typeColor[s.type] ?? typeColor.Mixed}`}
+                      className={`border text-xs ${typeColor[mod.module] ?? typeColor["Physical Endurance"]}`}
                     >
-                      {s.type}
+                      {mod.module}
                     </Badge>
                   </td>
                   <td className="px-4 py-3 text-sm font-semibold text-stone-700">
-                    {s.soldiers}
+                    {mod.soldiers}
                   </td>
                   <td className="px-4 py-3">
-                    {s.avg > 0 ? (
-                      <span className={`text-sm font-black ${sc(s.avg)}`}>
-                        {s.avg}
+                    {mod.avg > 0 ? (
+                      <span className={`text-sm font-black ${sc(mod.avg)}`}>
+                        {mod.avg}
                       </span>
                     ) : (
                       <span className="text-xs text-stone-300">—</span>
                     )}
                   </td>
                   <td className="max-w-[200px] px-4 py-3 text-xs text-stone-500">
-                    <span className="line-clamp-2">{s.notes || "—"}</span>
+                    <span className="line-clamp-2">{mod.remarks || "—"}</span>
                   </td>
                   <td className="px-4 py-3">
                     <Badge
                       className={`border text-xs ${
-                        s.status === "Complete"
+                        mod.status === "Completed"
                           ? "border-emerald-200 bg-emerald-50 text-emerald-700"
                           : "border-sky-200 bg-sky-50 text-sky-700"
                       }`}
                     >
-                      {s.status === "Complete" ? (
+                      {mod.status === "Completed" ? (
                         <>
                           <CheckCircle2 size={10} className="mr-1 inline" />
-                          Complete
+                          Completed
                         </>
                       ) : (
-                        s.status
+                        mod.status
                       )}
                     </Badge>
                   </td>
@@ -1050,8 +823,8 @@ function SessionsSection() {
           </table>
         </div>
         <div className="border-t border-stone-100 bg-stone-50/50 px-4 py-2 text-xs text-stone-400">
-          {sessions.filter((s) => s.status === "Complete").length} completed ·{" "}
-          {sessions.filter((s) => s.status === "Upcoming").length} upcoming
+          {program.filter((s) => s.status === "Completed").length} completed ·{" "}
+          {program.filter((s) => s.status === "Scheduled").length} scheduled
         </div>
       </Card>
     </div>
@@ -1169,17 +942,17 @@ function UploadSection() {
         </CardHeader>
         <CardContent className="space-y-3 px-4 pb-4">
           <div className="overflow-x-auto rounded-lg bg-stone-900 px-4 py-3 font-mono text-xs text-emerald-400">
-            soldier_id · training_date · training_type · running_min · pushups ·
-            pullups · shooting_pct · overall_score · remarks
+            soldier_id · training_date · training_module · running_min · pushups
+            · pullups · shooting_pct · overall_score · remarks
           </div>
           <div className="space-y-1 text-xs text-stone-500">
             <div>
-              • <strong>soldier_id</strong>: Must match existing Soldier ID
+              • <strong>soldier_id</strong>: Must match existing Agniveer ID
               (e.g. AGN-2024-0101)
             </div>
             <div>
-              • <strong>training_type</strong>: Physical / Weapons / Mental /
-              Combat
+              • <strong>training_module</strong>: Physical Endurance / Weapons
+              Proficiency / Tactical Drills / Battlefield First Aid etc.
             </div>
             <div>
               • <strong>overall_score</strong>: 0–100 (calculated field, or
@@ -1224,19 +997,19 @@ function UploadSection() {
             <tbody className="divide-y divide-stone-50">
               {[
                 {
-                  file: "training_mar14_2025.xlsx",
+                  file: "program_mar14_2025.xlsx",
                   date: "14 Mar 2025, 09:30",
                   records: 6,
                   status: "Success",
                 },
                 {
-                  file: "training_mar05_2025.xlsx",
+                  file: "program_mar05_2025.xlsx",
                   date: "05 Mar 2025, 10:15",
                   records: 6,
                   status: "Success",
                 },
                 {
-                  file: "training_feb28_2025.xlsx",
+                  file: "program_feb28_2025.xlsx",
                   date: "28 Feb 2025, 09:00",
                   records: 5,
                   status: "Partial",
@@ -1277,12 +1050,14 @@ export default function TrainerPage() {
 
   const titles: Record<Section, string> = {
     dashboard: "Dashboard",
-    scores: "Soldier Scores",
-    sessions: "Training Sessions",
+    scores: "Agniveer Scores",
+    program: "Training Program",
     upload: "Upload Data",
+    attendanceReport: "Attendance Report",
   }
+
   return (
-    <div className="flex min-h-screen bg-[#f4f3ef] font-sans">
+    <div className="flex min-h-screen w-full bg-[#f4f3ef] font-sans">
       <Sidebar active={section} setActive={setSection} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 border-b border-stone-200 bg-white/80 backdrop-blur-sm">
@@ -1301,12 +1076,31 @@ export default function TrainerPage() {
           </div>
           <MobileNav active={section} setActive={setSection} />
         </header>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-5 sm:px-6 lg:px-8">
+        <main className="mx-auto w-full flex-1 px-4 py-5 sm:px-6 lg:px-8">
           {section === "dashboard" && (
             <DashboardSection setActive={setSection} />
           )}
-          {section === "scores" && <ScoresSection />}
-          {section === "sessions" && <SessionsSection />}
+          {section === "scores" && (
+            <ScoresSectionWithAttendanceButton
+              onViewAttendance={() => setSection("attendanceReport")}
+            />
+          )}
+          {section === "attendanceReport" && (
+            <div>
+              <div className="mb-4">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5 border-stone-200 text-xs text-stone-600"
+                  onClick={() => setSection("scores")}
+                >
+                  ← Back to Agniveer Scores
+                </Button>
+              </div>
+              <AttendanceReportPage />
+            </div>
+          )}
+          {section === "program" && <ProgramSection />}
           {section === "upload" && <UploadSection />}
         </main>
       </div>
