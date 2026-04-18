@@ -112,7 +112,7 @@ function Sidebar({
               {AGNIVEER.agniveerNo}
             </div>
             <div className="text-[10px] text-stone-400">
-              Punjab Regiment Center
+              Punjab Regimental Center
             </div>
           </div>
         </div>
@@ -281,7 +281,7 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
     <div className="space-y-5">
       <SectionHeader
         title="Agniveer Profile"
-        subtitle="Personal and service information for Punjab Regiment Center."
+        subtitle="Personal and service information for Punjab Regimental Center."
       />
 
       {/* Profile header card */}
@@ -583,7 +583,7 @@ function TrainingSection() {
     <div className="space-y-5">
       <SectionHeader
         title="Training Records"
-        subtitle="Performance history and weekly training plan for Punjab Regiment Center."
+        subtitle="Performance history and weekly training plan for Punjab Regimental Center."
       />
 
       {/* Personal bests */}
@@ -1133,7 +1133,7 @@ function ScheduleSection() {
     <div className="space-y-5">
       <SectionHeader
         title="Daily Schedule"
-        subtitle="March 2025 duty programme for Punjab Regiment Center."
+        subtitle="March 2025 duty programme for Punjab Regimental Center."
       />
 
       {/* View toggle */}
@@ -1344,7 +1344,7 @@ function MedicalSection() {
     <div className="space-y-5">
       <SectionHeader
         title="Medical Records"
-        subtitle="Confidential health history and current fitness status for Punjab Regiment Center."
+        subtitle="Confidential health history and current fitness status for Punjab Regimental Center."
       />
 
       {/* Quick stats */}
@@ -1662,7 +1662,7 @@ function EquipmentSection() {
     <div className="space-y-5">
       <SectionHeader
         title="Equipment & Arms"
-        subtitle="Issued weapons, uniform, and field kit for Punjab Regiment Center."
+        subtitle="Issued weapons, uniform, and field kit for Punjab Regimental Center."
       />
 
       {/* Warning banner */}
