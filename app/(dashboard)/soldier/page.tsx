@@ -56,8 +56,7 @@ type Section = "profile" | "training" | "schedule" | "medical" | "equipment"
 const AGNIVEER = {
   name: "Rajveer Singh Chauhan",
   id: "AGN-2024-0101",
-  rank: "Sepoy",
-  battalion: "1st Rajputana Rifles",
+  battalion: "1st Battalion",
   battalionCode: "RR-1",
   state: "Rajasthan",
   city: "Jodhpur",
@@ -70,7 +69,7 @@ const AGNIVEER = {
   status: "active",
   medical: "Fit",
   caste: "Sikh",
-  eroName: "Col. Arvind Sharma",
+  eroName: "Col. Rajesh Singh",
   nextOfKeen: "Shri Balveer Singh Chauhan (Father)",
   nextOfKeenPhone: "9876500001",
   platoon: "Platoon 3",
@@ -266,11 +265,6 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
       icon: <Shield size={14} className="text-[#CA3500]" />,
     },
     {
-      label: "Rank",
-      value: a.rank,
-      icon: <ShieldCheck size={14} className="text-[#4a5c2f]" />,
-    },
-    {
       label: "Blood Group",
       value: a.blood,
       icon: <Droplets size={14} className="text-rose-500" />,
@@ -304,9 +298,6 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
               <div className="mt-1 flex flex-wrap gap-2">
                 <Badge className="border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700">
                   Active Duty
-                </Badge>
-                <Badge className="border border-[#c5d9a0] bg-[#eef3e6] text-[10px] text-[#4a5c2f]">
-                  {a.rank}
                 </Badge>
                 <Badge className="border border-sky-200 bg-sky-50 text-[10px] text-sky-700">
                   {a.company}

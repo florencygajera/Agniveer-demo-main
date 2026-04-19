@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { CheckCircle2, Eye, Pencil, Search } from "lucide-react"
+import { CheckCircle2, Eye, File, FileText, FileX2, Pencil, Search } from "lucide-react"
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const TRAINER = {
@@ -114,7 +114,7 @@ function bc(v: number) {
 }
 
 // ── SOLDIER SCORES ────────────────────────────────────────────────────────────
-export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
+export function ScoresSection({ onClick, onPage }: { onClick?: () => void; onPage?: () => void } = {}) {
   const [search, setSearch] = useState("")
   const [filter, setFilter] = useState("all")
   const [editId, setEditId] = useState<string | null>(null)
@@ -200,11 +200,10 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
             <button
               key={f.v}
               onClick={() => setFilter(f.v)}
-              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${
-                filter === f.v
-                  ? "border-[#1a2d4a] bg-[#1a2d4a] text-white shadow"
-                  : "border-stone-200 bg-white text-stone-500 hover:border-stone-300 hover:bg-stone-50"
-              }`}
+              className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-all ${filter === f.v
+                ? "border-[#1a2d4a] bg-[#1a2d4a] text-white shadow"
+                : "border-stone-200 bg-white text-stone-500 hover:border-stone-300 hover:bg-stone-50"
+                }`}
             >
               {f.l}
             </button>
@@ -241,6 +240,9 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
                 </th>
                 <th className="px-3 py-3 text-center text-xs font-bold tracking-widest whitespace-nowrap text-stone-600 uppercase">
                   Actions
+                </th>
+                <th className="px-3 py-3 text-center text-xs font-bold tracking-widest whitespace-nowrap text-stone-600 uppercase">
+                  Medical Report
                 </th>
                 <th className="px-3 py-3 text-center text-xs font-bold tracking-widest whitespace-nowrap text-stone-600 uppercase">
                   Attendance
@@ -292,11 +294,10 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
                     </td>
                     <td className="px-3 py-3 text-center">
                       <Badge
-                        className={`rounded-full border px-2 py-1 text-xs ${
-                          s.status === "active"
-                            ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                            : "border-amber-200 bg-amber-50 text-amber-700"
-                        }`}
+                        className={`rounded-full border px-2 py-1 text-xs ${s.status === "active"
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                          : "border-amber-200 bg-amber-50 text-amber-700"
+                          }`}
                       >
                         {s.status === "active" ? "Active" : "On Leave"}
                       </Badge>
@@ -310,6 +311,17 @@ export function ScoresSection({ onClick }: { onClick?: () => void } = {}) {
                       >
                         <Pencil size={11} />
                         {editId === s.id ? "Cancel" : "Edit"}
+                      </Button>
+                    </td>
+                    <td className="px-3 py-3 text-center">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        // @ts-ignore
+                        onClick={() => onPage && onPage("report")}
+                        className={`h-7 gap-1 rounded-lg border-stone-200 px-2 text-xs ${editId === s.id ? "border-amber-300 bg-amber-50 text-amber-700" : "text-stone-600"}`}
+                      >
+                        <FileText size={11} /> Report
                       </Button>
                     </td>
                     <td className="px-3 py-3 text-center">
