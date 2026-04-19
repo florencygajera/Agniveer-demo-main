@@ -79,7 +79,7 @@ const AgniveerS: Agniveer[] = [
   },
   {
     id: "AGN-2024-0102",
-    name: "Priya Sharma",
+    name: "Naman Sharma",
     rank: "Sepoy",
     gender: "Female",
     battalion: "RR-1",
@@ -124,7 +124,7 @@ const AgniveerS: Agniveer[] = [
   },
   {
     id: "AGN-2024-0105",
-    name: "Kavita Rajput",
+    name: "Dharmesh Rajput",
     rank: "Sepoy",
     gender: "Female",
     battalion: "RR-1",

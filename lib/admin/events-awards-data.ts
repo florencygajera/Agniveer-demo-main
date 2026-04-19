@@ -406,7 +406,7 @@ export const EVENT_RECORDS: EventRecord[] = [
     participants: [
       {
         candidateId: "AGN-2024-0102",
-        candidateName: "Priya Sharma",
+        candidateName: "Naman Sharma",
         battalion: "RR-1",
         position: 1,
         performanceTime: "98/100",
@@ -465,7 +465,7 @@ export const EVENT_RECORDS: EventRecord[] = [
     participants: [
       {
         candidateId: "AGN-2024-0102",
-        candidateName: "Priya Sharma",
+        candidateName: "Naman Sharma",
         battalion: "RR-1",
         position: 1,
         performanceTime: "96/100",
@@ -606,7 +606,7 @@ export const EVENT_RECORDS: EventRecord[] = [
     participants: [
       {
         candidateId: "AGN-2024-0105",
-        candidateName: "Kavita Rajput",
+        candidateName: "Dharmesh Rajput",
         battalion: "RR-1",
         position: 1,
         performanceTime: "Score 88",
@@ -945,7 +945,7 @@ export const AWARD_RECORDS: AwardRecord[] = [
     winners: [
       {
         candidateId: "AGN-2024-0102",
-        candidateName: "Priya Sharma",
+        candidateName: "Naman Sharma",
         battalion: "RR-1",
         awardedOn: "2024-12-15",
         awardedBy: "Maj. R. Kapoor",
@@ -971,7 +971,7 @@ export const AWARD_RECORDS: AwardRecord[] = [
     winners: [
       {
         candidateId: "AGN-2024-0102",
-        candidateName: "Priya Sharma",
+        candidateName: "Naman Sharma",
         battalion: "RR-1",
         awardedOn: "2024-12-28",
         awardedBy: "Brig. Academic Corps",
@@ -1006,7 +1006,7 @@ export const AWARD_RECORDS: AwardRecord[] = [
     winners: [
       {
         candidateId: "AGN-2024-0105",
-        candidateName: "Kavita Rajput",
+        candidateName: "Dharmesh Rajput",
         battalion: "RR-1",
         awardedOn: "2024-12-01",
         awardedBy: "Col. Women Cell",

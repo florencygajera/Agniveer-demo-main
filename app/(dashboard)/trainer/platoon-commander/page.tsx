@@ -77,7 +77,7 @@ const SOLDIERS = [
   },
   {
     id: "AGN-2024-0102",
-    name: "Priya Sharma",
+    name: "Naman Sharma",
     rank: "Sepoy",
     physical: 85,
     weapons: 72,
@@ -122,7 +122,7 @@ const SOLDIERS = [
   },
   {
     id: "AGN-2024-0105",
-    name: "Kavita Rajput",
+    name: "Dharmesh Rajput",
     rank: "Sepoy",
     physical: 78,
     weapons: 74,

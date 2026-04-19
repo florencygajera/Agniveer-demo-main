@@ -106,7 +106,7 @@ const LEADERBOARD: Agniveer[] = [
   },
   {
     rank: 6,
-    name: "Priya Sharma",
+    name: "Naman Sharma",
     battalion: "RR-1",
     physical: 85,
     weapons: 72,
@@ -190,7 +190,7 @@ const LEADERBOARD: Agniveer[] = [
   },
   {
     rank: 13,
-    name: "Kavita Rajput",
+    name: "Dharmesh Rajput",
     battalion: "RR-1",
     physical: 78,
     weapons: 74,

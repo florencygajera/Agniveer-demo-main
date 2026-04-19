@@ -326,7 +326,7 @@ const EYE_SIGHT_RECORDS = [
   },
   {
     soldierId: "AGN-2024-0102",
-    soldierName: "Priya Sharma",
+    soldierName: "Naman Sharma",
     eyeSight: "6/6",
     status: "Good",
     issue: "None",
@@ -410,10 +410,10 @@ const LASIK_RECORDS = [
 
 const SOLDIERS_LIST = [
   "Rajveer Singh Chauhan (AGN-2024-0101)",
-  "Priya Sharma (AGN-2024-0102)",
+  "Naman Sharma (AGN-2024-0102)",
   "Arjun Mehra (AGN-2024-0103)",
   "Sunil Kumar (AGN-2024-0104)",
-  "Kavita Rajput (AGN-2024-0105)",
+  "Dharmesh Rajput (AGN-2024-0105)",
   "Mahesh Choudhary (AGN-2024-0106)",
   "Vikram Nair (AGN-2024-0201)",
   "Ananya Krishnan (AGN-2024-0202)",
