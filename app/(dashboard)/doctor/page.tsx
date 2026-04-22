@@ -52,8 +52,9 @@ import {
   Stethoscope,
   User,
   X,
+  Zap,
 } from "lucide-react";
-import { UserCog, Rocket, GraduationCap, Factory,  ShieldOff, FlaskConical, Wrench, Tractor } from "lucide-react";
+import { UserCog, Rocket, GraduationCap, Factory, ShieldOff, FlaskConical, Wrench, Tractor } from "lucide-react";
 
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -82,7 +83,7 @@ const INIT_RECORDS = [
     description: "Low Energy",
     doctor: "Dr. Sunita Rao",
     doctorDesignation: "Medical Officer",
-    diagnosis: "General Fatigue",
+    diagnosis: "High fever",
     status: "Under Care",
     followup: "22 Mar 2026",
     bp: "118/76",
@@ -91,7 +92,7 @@ const INIT_RECORDS = [
     notes:
       "Soldier complaining of low energy during field obstacle training. Suggested rest and protein intake.",
     admitDate: "15 Mar 2026",
-    dischargeDate: "—",
+    dischargeDate: "18 Mar 2026",
     hospitalLocation: "Base Hospital Delhi",
     treatment: "Rest (2 days), balanced diet recommendation.",
     prescriptions: "Iron supplement (21 days)",
@@ -104,7 +105,7 @@ const INIT_RECORDS = [
     soldierName: "Jay Chauhan",
     soldierId: "AGN-2024-0104",
     date: "12 Mar 2026",
-    description: "Knee Pain after Training Maneuvers",
+    description: "Severe chills",
     doctor: "Col. Sharma",
     doctorDesignation: "Orthopedic Surgeon",
     diagnosis: "Knee Tendinitis",
@@ -116,7 +117,7 @@ const INIT_RECORDS = [
     notes:
       "Acute knee pain following long march practice. Restricted from high-impact exercises and loaded marching.",
     admitDate: "12 Mar 2026",
-    dischargeDate: "—",
+    dischargeDate: "16 Mar 2026",
     hospitalLocation: "Command Hospital Pune",
     treatment: "Ice therapy, physiotherapy 3x weekly.",
     prescriptions: "Ibuprofen 400mg (10 days), pain relief gel.",
@@ -132,7 +133,7 @@ const INIT_RECORDS = [
     description: "Deep Weakness",
     doctor: "Maj. Sharma",
     doctorDesignation: "Senior Medical Officer",
-    diagnosis: "Mild Anemia",
+    diagnosis: "Knee pain",
     status: "Under Care",
     followup: "24 Mar 2026",
     bp: "112/70",
@@ -141,7 +142,7 @@ const INIT_RECORDS = [
     notes:
       "Soldier showing signs of fatigue during parade. Additional rest and iron supplements advised.",
     admitDate: "10 Mar 2026",
-    dischargeDate: "—",
+    dischargeDate: "14 Mar 2026",
     hospitalLocation: "Base Hospital Delhi",
     treatment: "Iron-rich diet, light duty schedule.",
     prescriptions: "Iron tablets daily (30 days), multivitamin.",
@@ -157,7 +158,7 @@ const INIT_RECORDS = [
     description: "Severe Headache and Intense Chills",
     doctor: "Col. Chauhan",
     doctorDesignation: "Chief Medical Officer",
-    diagnosis: "Migraine with possible infection",
+    diagnosis: "Body ache",
     status: "Under Care",
     followup: "09 Mar 2026",
     bp: "122/80",
@@ -166,7 +167,7 @@ const INIT_RECORDS = [
     notes:
       "Severe headache, intense chills, and high fever after overnight field exercises. Soldier appears extremely weak and low on energy.",
     admitDate: "05 Mar 2026",
-    dischargeDate: "—",
+    dischargeDate: "08 Mar 2026",
     hospitalLocation: "Base Hospital Delhi",
     treatment: "Paracetamol, IV fluids, isolation for observation.",
     prescriptions:
@@ -183,7 +184,7 @@ const INIT_RECORDS = [
     description: "High Fever and Body Aches after Night Outpost Duty",
     doctor: "Dr. Sunita Rao",
     doctorDesignation: "Medical Officer",
-    diagnosis: "Suspected Dengue",
+    diagnosis: "Headache",
     status: "Discharge",
     followup: "07 Mar 2026",
     bp: "119/78",
@@ -208,7 +209,7 @@ const INIT_RECORDS = [
     description: "Shoulder Injury During Live-Fire Drill",
     doctor: "Maj. Rajput",
     doctorDesignation: "Senior Medical Officer",
-    diagnosis: "Rotator Cuff Strain",
+    diagnosis: "Weakness",
     status: "Discharge",
     followup: "10 Mar 2026",
     bp: "117/76",
@@ -325,7 +326,7 @@ const EYE_SIGHT_RECORDS = [
   },
   {
     soldierId: "AGN-2024-0102",
-    soldierName: "Priya Sharma",
+    soldierName: "Naman Sharma",
     eyeSight: "6/6",
     status: "Good",
     issue: "None",
@@ -409,10 +410,10 @@ const LASIK_RECORDS = [
 
 const SOLDIERS_LIST = [
   "Rajveer Singh Chauhan (AGN-2024-0101)",
-  "Priya Sharma (AGN-2024-0102)",
+  "Naman Sharma (AGN-2024-0102)",
   "Arjun Mehra (AGN-2024-0103)",
   "Sunil Kumar (AGN-2024-0104)",
-  "Kavita Rajput (AGN-2024-0105)",
+  "Dharmesh Rajput (AGN-2024-0105)",
   "Mahesh Choudhary (AGN-2024-0106)",
   "Vikram Nair (AGN-2024-0201)",
   "Ananya Krishnan (AGN-2024-0202)",
@@ -471,9 +472,8 @@ function InfoField(
         {label}
       </div>
       <div
-        className={`text-sm font-semibold text-stone-800 ${
-          mono ? "font-mono" : ""
-        }`}
+        className={`text-sm font-semibold text-stone-800 ${mono ? "font-mono" : ""
+          }`}
       >
         {value || "—"}
       </div>
@@ -546,11 +546,10 @@ function Sidebar(
             <button
               key={n.id}
               onClick={() => setActive(n.id)}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 w-full text-left cursor-pointer ${
-                isActive
+              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 w-full text-left cursor-pointer ${isActive
                   ? "text-white shadow-sm"
                   : "text-stone-600 hover:bg-stone-100"
-              }`}
+                }`}
               style={isActive
                 ? { backgroundColor: ACTIVE_BG }
                 : { backgroundColor: "transparent" }}
@@ -653,21 +652,25 @@ function DashboardSection(
         {[
           {
             label: "Total Admited",
-            value: SOLDIERS_LIST.length,
+            //@ts-ignore
+            value: "9" || SOLDIERS_LIST.length,
             color: SIDEBAR_BG,
           },
           {
             label: "Total Under Care",
-            value: "10" || records.length,
+            //@ts-ignore
+            value: "6" || records.length,
             color: "#0284c7",
           },
           {
-            label: "Under Discharge",
-            value: "8" || underObs.length,
+            label: "Discharge",
+            //@ts-ignore
+            value: "3" || underObs.length,
             color: ACTIVE_BG,
           },
           {
             label: "Average BMI",
+            //@ts-ignore
             value: "24.9" || underObs.length,
             color: "green",
           },
@@ -735,9 +738,8 @@ function DashboardSection(
                     </div>
                   </div>
                   <Badge
-                    className={`ml-3 shrink-0 border text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 ${
-                      statusStyle(r.status)
-                    }`}
+                    className={`ml-3 shrink-0 border text-[10px] font-bold uppercase tracking-wide px-2.5 py-0.5 ${statusStyle(r.status)
+                      }`}
                   >
                     {r.status}
                   </Badge>
@@ -877,6 +879,7 @@ function AddRecordSection(
       soldierName: name,
       soldierId: id,
       date: form.date,
+      //@ts-ignore
       type: form.type,
       doctor: DOCTOR.name,
       doctorDesignation: DOCTOR.role,
@@ -1184,10 +1187,10 @@ function AddRecordSection(
 }
 
 // ── MEDICAL REPORT DIALOG ─────────────────────────────────────────────────────
-function MedicalReportDialog({ report, open, onOpenChange }: {
-  report: typeof INIT_RECORDS[0] | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+export function MedicalReportDialog({ report, open, onOpenChange }: {
+  report?: typeof INIT_RECORDS[0] | null;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   if (!report) return null;
 
@@ -1229,9 +1232,8 @@ function MedicalReportDialog({ report, open, onOpenChange }: {
               </div>
             </div>
             <Badge
-              className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${
-                statusStyle(report.status)
-              }`}
+              className={`border font-bold uppercase tracking-widest text-[10px] px-3 py-1.5 shrink-0 mt-1 ${statusStyle(report.status)
+                }`}
             >
               {report.status}
             </Badge>
@@ -1505,6 +1507,7 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
     const matchQ = !q || r.soldierName.toLowerCase().includes(q) ||
       r.soldierId.toLowerCase().includes(q);
     const matchS = statusF === "all" || r.status === statusF;
+    //@ts-ignore
     const matchT = typeF === "all" || r.type === typeF;
     return matchQ && matchS && matchT;
   });
@@ -1614,11 +1617,10 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
                     filtered.map((r) => (
                       <tr
                         key={r.id}
-                        className={`transition-colors hover:bg-stone-50/80 ${
-                          r.status === "Under Observation"
+                        className={`transition-colors hover:bg-stone-50/80 ${r.status === "Under Observation"
                             ? "bg-amber-50/20"
                             : ""
-                        }`}
+                          }`}
                       >
                         <td className="px-4 py-3.5 font-mono text-xs text-stone-400 font-medium whitespace-nowrap">
                           {r.id}
@@ -1682,9 +1684,8 @@ function RecordsSection({ records }: { records: typeof INIT_RECORDS }) {
                         </td>
                         <td className="px-4 py-3.5 whitespace-nowrap">
                           <Badge
-                            className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${
-                              statusStyle(r.status)
-                            }`}
+                            className={`border text-[10px] uppercase tracking-wide font-bold px-2 py-0.5 ${statusStyle(r.status)
+                              }`}
                           >
                             {r.status}
                           </Badge>
@@ -1773,8 +1774,8 @@ function LasikReportDialog({ report, open, onOpenChange }: {
   const sc = report.status === "Cleared"
     ? "border-emerald-300 bg-emerald-50 text-emerald-700"
     : report.status === "Pending"
-    ? "border-amber-300 bg-amber-50 text-amber-700"
-    : "border-sky-300 bg-sky-50 text-sky-700";
+      ? "border-amber-300 bg-amber-50 text-amber-700"
+      : "border-sky-300 bg-sky-50 text-sky-700";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -1988,6 +1989,7 @@ function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
 
   const types: Record<string, number> = {};
   records.forEach((r) => {
+    //@ts-ignore
     types[r.type] = (types[r.type] || 0) + 1;
   });
   const maxTypeCount = Math.max(...Object.values(types), 1);
@@ -2043,8 +2045,8 @@ function StatsSection({ records }: { records: typeof INIT_RECORDS }) {
     </button>
   );
 
-  
-const [energyTab, setEnergyTab] = useState(0);
+
+  const [energyTab, setEnergyTab] = useState(0);
 
   return (
     <div className="space-y-6">
@@ -2194,7 +2196,7 @@ const [energyTab, setEnergyTab] = useState(0);
                 color: "#f43f5e",
                 textCls: "text-rose-700",
               }
-              
+
             ].map((item) => {
               // Calculate max for better divisibility if not part of main total
               const allDesisTotal = 18 + 13 + 10 + 7 + 6 + normal + underObs + recovered;
@@ -2238,7 +2240,7 @@ const [energyTab, setEnergyTab] = useState(0);
                 </div>
               );
             })}
-   
+
           </CardContent>
         </Card>
 
@@ -2256,7 +2258,7 @@ const [energyTab, setEnergyTab] = useState(0);
               <div>
                 <div>Agniveer Disease Cases</div>
                 <p className="text-[10px] font-semibold tracking-wider text-stone-400 mt-0.5">
-                  Top agniveer(s) by disease incidence
+                  Top agniveers by disease incidence
                 </p>
               </div>
             </CardTitle>
@@ -2270,20 +2272,27 @@ const [energyTab, setEnergyTab] = useState(0);
               const agniveerMap = {};
               records.forEach(rec => {
                 if (!rec.soldierName || !rec.diagnosis) return;
+                //@ts-ignore
                 if (!agniveerMap[rec.soldierName]) {
+                  //@ts-ignore
                   agniveerMap[rec.soldierName] = { count: 0, diseases: {} };
                 }
+                //@ts-ignore
                 agniveerMap[rec.soldierName].count += 1;
-                agniveerMap[rec.soldierName].diseases[rec.diagnosis] = 
+                //@ts-ignore
+                agniveerMap[rec.soldierName].diseases[rec.diagnosis] =
+                  //@ts-ignore
                   (agniveerMap[rec.soldierName].diseases[rec.diagnosis] || 0) + 1;
               });
 
               // Top 5 Agniveers by count
               const agniveerArray = Object.entries(agniveerMap)
+                //@ts-ignore
                 .sort(([, a], [, b]) => b.count - a.count)
                 .slice(0, 5);
 
               const maxCount =
+                //@ts-ignore
                 agniveerArray.length > 0 ? agniveerArray[0][1].count : 1;
 
               return agniveerArray.length === 0 ? (
@@ -2311,8 +2320,11 @@ const [energyTab, setEnergyTab] = useState(0);
                             {name}
                           </span>
                           {/* Disease breakdown */}
+
                           <span className="flex flex-wrap gap-1 mt-0.5">
-                            {Object.entries(data.diseases)
+                            {/* @ts-ignore */}
+                            {Object.entries(data?.diseases)
+                              //@ts-ignore
                               .sort(([, a], [, b]) => b - a)
                               .slice(0, 2) // top 2 desis only, for clarity
                               .map(([disease, cnt], i) => (
@@ -2324,10 +2336,13 @@ const [energyTab, setEnergyTab] = useState(0);
                                     color: ["#7c3aed", "#eab308"][i % 2],
                                   }}
                                 >
+                                  {/* @ts-ignore */}
                                   {disease} ({cnt})
                                 </span>
                               ))}
+                            {/* @ts-ignore */}
                             {Object.keys(data.diseases).length > 2 && (
+                              // @ts-ignore 
                               <span className="text-[10px] text-stone-400">+{Object.keys(data.diseases).length - 2} more</span>
                             )}
                           </span>
@@ -2335,9 +2350,11 @@ const [energyTab, setEnergyTab] = useState(0);
                       </div>
                       <div className="flex flex-col items-end">
                         <span className="font-black text-stone-900 text-lg tabular-nums">
+                          {/* @ts-ignore */}
                           {data.count}
                         </span>
                         <span className="text-[10px] text-stone-400 font-semibold mt-0.5">
+                          {/* @ts-ignore */}
                           {(Math.round((data.count / maxCount) * 100))}%
                         </span>
                       </div>
@@ -2347,6 +2364,7 @@ const [energyTab, setEnergyTab] = useState(0);
                       <div
                         className="absolute inset-y-0 left-0 rounded-full transition-all duration-700"
                         style={{
+                          // @ts-ignore
                           width: `${(data.count / maxCount) * 100}%`,
                           background: `linear-gradient(90deg, ${["#7c3aed", "#eab308", "#f43f5e", "#0284c7", "#059669"][idx % 5]} 60%, #fff 100%)`,
                         }}
@@ -2360,81 +2378,101 @@ const [energyTab, setEnergyTab] = useState(0);
         </Card>
       </div>
 
-    
-    <Card className="border-stone-200 bg-white shadow-sm">
-      <CardHeader className="pb-2 pt-5 px-5 border-b border-stone-100">
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-[15px] font-black text-amber-700 uppercase tracking-wide drop-shadow-sm">
-            <Bolt size={18} className="text-amber-400 animate-pulse" /> Agniveer Energy By Month
-          </CardTitle>
-          <div className="flex items-center gap-1.5">
-            {energyByMonth.map((m, idx) => (
-              <button
-                key={m.month}
-                onClick={() => setEnergyTab(idx)}
-                className={`px-3 py-1 text-[13px] font-bold rounded-full border transition
-                  ${energyTab === idx
-                    ? "bg-gradient-to-r from-amber-200/80 via-amber-100 to-amber-50 text-amber-800 border-amber-300 shadow-md scale-105"
-                    : "bg-white text-stone-400 border-stone-100 hover:bg-amber-50"}
-                `}
-                style={{
-                  marginLeft: idx > 0 ? "0.75rem" : 0,
-                  outline: energyTab === idx ? "2.5px solid #facc15" : undefined,
-                }}
-              >
-                {m.month}
-              </button>
-            ))}
-          </div>
+<Card className="border-stone-200 bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+  <CardHeader className="pb-3 pt-5 px-6 border-b border-stone-100 bg-gradient-to-r from-stone-50/50 to-transparent">
+    <div className="flex items-center justify-between flex-wrap gap-3">
+      <CardTitle className="flex items-center gap-2.5 text-base font-black text-amber-700 uppercase tracking-wide">
+        <div className="p-1.5 bg-amber-100 rounded-lg">
+          <Bolt size={16} className="text-amber-500" />
         </div>
-      </CardHeader>
-      <CardContent className="px-5 pb-5 pt-4">
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {energyByMonth[energyTab].records.map((rec, i) => (
-            <div
-              key={rec.soldierId}
-              className="rounded-xl border border-stone-200 hover:shadow-lg transition-shadow bg-white p-5 flex flex-col gap-3 relative"
-              style={{
-                background: "linear-gradient(135deg, #e0eaef 65%, #f5f7fa 100%)",
-                minHeight: 170,
-              }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-2xl border border-slate-200 shadow-sm">
-                  <span>{rec.avatar}</span>
-                </div>
-                <div>
-                  <div className="text-base font-extrabold text-stone-900">{rec.name}</div>
-                  <div className="text-xs font-mono text-stone-400">{rec.soldierId}</div>
-                </div>
-                <span className="ml-auto flex flex-col items-end">
-                  <span className="flex items-center text-sky-600 font-extrabold text-lg">
-                    <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1 lucide lucide-zap">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-                    </svg>
-                    {rec.energy}
-                  </span>
-                  <span className="text-xs text-slate-500 font-medium">{rec.energyName}</span>
-                </span>
+        <span className="bg-gradient-to-r from-amber-700 to-amber-600 bg-clip-text text-transparent">
+          Agniveer Energy By Month
+        </span>
+      </CardTitle>
+      
+      <div className="flex items-center gap-2">
+        {energyByMonth.map((m, idx) => (
+          <button
+            key={m.month}
+            onClick={() => setEnergyTab(idx)}
+            className={`px-3.5 py-1.5 text-[12px] font-bold rounded-lg transition-all duration-200
+              ${energyTab === idx
+                ? "bg-amber-500 text-white shadow-md shadow-amber-200 scale-105"
+                : "bg-stone-100 text-stone-500 hover:bg-stone-200 hover:text-stone-700"
+              }`}
+          >
+            {m.month.slice(0, 3)}
+          </button>
+        ))}
+      </div>
+    </div>
+  </CardHeader>
+  
+  <CardContent className="px-6 pb-6 pt-5">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {energyByMonth[energyTab].records.map((rec) => (
+        <div
+          key={rec.soldierId}
+          className="group rounded-2xl border border-stone-100 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden"
+        >
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          {/* Content */}
+          <div className="relative z-10">
+            {/* Header */}
+            <div className="flex items-start gap-3 mb-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 text-2xl shadow-sm ring-1 ring-amber-200/50">
+                <span className="drop-shadow-sm">{rec.avatar}</span>
               </div>
-              <div className="text-sm text-stone-700 leading-snug mt-1 flex-1">
-                {rec.desc}
-              </div>
-              <div className="flex items-center justify-between mt-3">
-                <span className="text-[11px] bg-slate-200 rounded px-2 py-0.5 font-medium text-sky-700 shadow-sm">
-                  {energyByMonth[energyTab].month}
-                </span>
-                <span className="text-[11px] text-stone-400 font-mono">{rec.date}</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-black text-stone-800 truncate">{rec.name}</div>
+                <div className="text-[10px] font-mono text-stone-400 mt-0.5">{rec.soldierId}</div>
               </div>
             </div>
-          ))}
-     
-          {energyByMonth[energyTab].records.length === 0 && (
-            <div className="text-stone-400 text-sm col-span-full text-center py-6">No energy records for this month.</div>
-          )}
+
+            {/* Description */}
+            <div className="text-[13px] text-stone-600 leading-relaxed mb-4 line-clamp-2">
+              {rec.desc}
+            </div>
+
+            {/* Energy Badge */}
+            <div className="flex items-center justify-between pt-3 border-t border-stone-100">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg">
+                  <Zap size={14} className="text-amber-500" />
+                  <span className="text-base font-black text-amber-600">{rec.energy}</span>
+                  <span className="text-[10px] font-medium text-amber-400 uppercase tracking-wide">
+                     {/* @ts-ignore */}
+                    {rec.energyName}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="text-right">
+                <div className="text-[10px] font-medium text-stone-400 bg-stone-50 px-2 py-1 rounded-md">
+                  {energyByMonth[energyTab].month}
+                </div>
+                <div className="text-[9px] font-mono text-stone-300 mt-1">{rec.date}</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      ))}
+
+      {energyByMonth[energyTab].records.length === 0 && (
+        <div className="col-span-full text-center py-12">
+          <div className="inline-flex flex-col items-center gap-2">
+            <div className="p-4 bg-stone-100 rounded-full">
+              <Bolt size={24} className="text-stone-400" />
+            </div>
+            <p className="text-stone-400 font-medium">No energy records for this month</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </CardContent>
+</Card>
     </div>
   );
 }

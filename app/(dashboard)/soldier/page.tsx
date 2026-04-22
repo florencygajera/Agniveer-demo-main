@@ -50,14 +50,19 @@ import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-type Section = "profile" | "training" | "schedule" | "medical" | "equipment"
+type Section =
+  | "profile"
+  | "training"
+  | "schedule"
+  | "medical"
+  | "equipment"
+  | "agniAI"
 
 // ── Agniveer Data ──────────────────────────────────────────────────────────────
 const AGNIVEER = {
   name: "Rajveer Singh Chauhan",
   id: "AGN-2024-0101",
-  rank: "Sepoy",
-  battalion: "1st Rajputana Rifles",
+  battalion: "1st Battalion",
   battalionCode: "RR-1",
   state: "Rajasthan",
   city: "Jodhpur",
@@ -70,7 +75,7 @@ const AGNIVEER = {
   status: "active",
   medical: "Fit",
   caste: "Sikh",
-  eroName: "Col. Arvind Sharma",
+  eroName: "Col. Rajesh Singh",
   nextOfKeen: "Shri Balveer Singh Chauhan (Father)",
   nextOfKeenPhone: "9876500001",
   platoon: "Platoon 3",
@@ -88,6 +93,7 @@ const NAV: { id: Section; label: string; icon: React.ReactNode }[] = [
   { id: "training", label: "Training", icon: <Dumbbell size={14} /> },
   { id: "schedule", label: "Schedule", icon: <CalendarDays size={14} /> },
   { id: "equipment", label: "Equipment", icon: <Package size={14} /> },
+  { id: "agniAI", label: "AgniAI", icon: <Brain size={14} /> },
 ]
 
 function Sidebar({
@@ -266,11 +272,6 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
       icon: <Shield size={14} className="text-[#CA3500]" />,
     },
     {
-      label: "Rank",
-      value: a.rank,
-      icon: <ShieldCheck size={14} className="text-[#4a5c2f]" />,
-    },
-    {
       label: "Blood Group",
       value: a.blood,
       icon: <Droplets size={14} className="text-rose-500" />,
@@ -304,9 +305,6 @@ function ProfileSection({ setActive }: { setActive: (s: Section) => void }) {
               <div className="mt-1 flex flex-wrap gap-2">
                 <Badge className="border border-emerald-200 bg-emerald-50 text-[10px] text-emerald-700">
                   Active Duty
-                </Badge>
-                <Badge className="border border-[#c5d9a0] bg-[#eef3e6] text-[10px] text-[#4a5c2f]">
-                  {a.rank}
                 </Badge>
                 <Badge className="border border-sky-200 bg-sky-50 text-[10px] text-sky-700">
                   {a.company}
@@ -1785,6 +1783,170 @@ function EquipmentSection() {
   )
 }
 
+function AgniAISection() {
+  const [messages, setMessages] = useState<
+    { role: "ai" | "user"; text: string }[]
+  >([
+    {
+      role: "ai",
+      text: "Jai Hind, Agniveer Rajveer! I am AgniAI, your personal assistant at Punjab Regimental Center. Ask me anything about your training, schedule, medical records, equipment, or welfare. How can I assist you today?",
+    },
+  ])
+  const [input, setInput] = useState("")
+  const [typing, setTyping] = useState(false)
+  const messagesEndRef = React.useRef<HTMLDivElement>(null)
+
+  const CHIPS = [
+    "Today's training schedule",
+    "How to improve 5km run?",
+    "What is Be Scale equipment?",
+    "Sick leave procedure",
+    "Weapons cleaning tips",
+    "Next checkup date",
+  ]
+
+  const RESPONSES: Record<string, string> = {
+    schedule:
+      "Today is Friday. Your schedule:\n05:00 — Morning PT (Parade Ground)\n08:30 — Weapons Training (Range Area)\n11:00 — Combat Drills (Obstacle Course) — In Progress\n14:30 — Mental Resilience Class (Classroom A)\n16:30 — Evening Run 5km (Track)\n19:00 — Study Hours\n22:00 — Lights Out.",
+    run: "To improve your 5km time from 23:10 to under 22:00:\n1. Run 3–4 times per week at varied paces.\n2. Add interval training — sprint 400m, jog 200m, repeat 5x.\n3. Strengthen core and legs with squats and lunges.\n4. Ensure 7–8 hours sleep for recovery.\n5. Stay hydrated throughout the day.",
+    "be scale":
+      "The Be Scale (Basic Equipment Scale) is your complete personal field kit. It includes: water bottle, mess tin, large pack haversack, bayonet with scabbard, entrenching tool, ammunition pouches, and cape groundsheet. All items are your personal responsibility.",
+    sick: "To report sick:\n1. Report to the Medical Inspection Room before 0630 hrs.\n2. Carry your medical book (AB-64).\n3. The MO will examine you and issue a sick report if required.\n4. Inform your platoon JCO before going sick.",
+    weapon:
+      "INSAS Rifle cleaning drill:\n1. Clear and make safe before cleaning.\n2. Field strip — remove magazine, bolt group, and barrel.\n3. Use pull-through for barrel — 4 to 6 passes.\n4. Clean bolt face and extractor with brush.\n5. Lightly oil all moving parts. Avoid oil in gas port.\n6. Reassemble and do function test.",
+    checkup:
+      "Your next scheduled medical checkup is 01 Sep 2025. Current status: Fit for Duty. BP: 118/76 mmHg, Heart rate: 68 bpm, Vision: 6/6 both eyes.",
+  }
+
+  function findResponse(q: string) {
+    const lower = q.toLowerCase()
+    for (const key in RESPONSES) {
+      if (lower.includes(key)) return RESPONSES[key]
+    }
+    return "For detailed information on this topic, please speak with your Platoon Commander or the Regimental Office at Punjab Regimental Center. I am here to help with training, medical info, equipment queries, and welfare matters."
+  }
+
+  function send(q?: string) {
+    const text = q ?? input.trim()
+    if (!text) return
+    setMessages((prev) => [...prev, { role: "user", text }])
+    setInput("")
+    setTyping(true)
+    setTimeout(() => {
+      setTyping(false)
+      setMessages((prev) => [...prev, { role: "ai", text: findResponse(text) }])
+    }, 900)
+  }
+
+  React.useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages, typing])
+
+  return (
+    <div className="space-y-4">
+      <SectionHeader
+        title="AgniAI Assistant"
+        subtitle="Your personal AI assistant at Punjab Regimental Center."
+      />
+
+      {/* Header card */}
+      <Card className="border-stone-200 bg-white shadow-sm">
+        <CardContent className="px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#CA3500] text-sm font-bold text-white">
+              AI
+            </div>
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-stone-800">
+                <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+                AgniAI — Punjab Regimental Center
+              </div>
+              <div className="text-xs text-stone-400">
+                Ask about training, schedule, medical, equipment & welfare
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Quick chips */}
+      <div className="flex flex-wrap gap-2">
+        {CHIPS.map((chip) => (
+          <button
+            key={chip}
+            onClick={() => send(chip)}
+            className="rounded-full border border-stone-200 bg-white px-4 py-1.5 text-xs font-medium text-stone-500 transition hover:border-[#CA3500] hover:text-[#CA3500]"
+          >
+            {chip}
+          </button>
+        ))}
+      </div>
+
+      {/* Chat area */}
+      <Card className="overflow-hidden border-stone-200 bg-white shadow-sm">
+        <div className="flex flex-col" style={{ height: "420px" }}>
+          {/* Messages */}
+          <div className="flex-1 space-y-3 overflow-y-auto p-4">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={`flex items-start gap-2 ${m.role === "user" ? "flex-row-reverse" : ""}`}
+              >
+                <div
+                  className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold ${m.role === "ai" ? "bg-[#CA3500] text-white" : "border border-stone-200 bg-stone-100 text-stone-500"}`}
+                >
+                  {m.role === "ai" ? "AI" : "R"}
+                </div>
+                <div
+                  className={`max-w-[78%] rounded-xl px-3 py-2 text-xs leading-relaxed whitespace-pre-line ${m.role === "ai" ? "rounded-tl-sm bg-stone-100 text-stone-800" : "rounded-tr-sm bg-[#CA3500] text-white"}`}
+                >
+                  {m.text}
+                </div>
+              </div>
+            ))}
+            {typing && (
+              <div className="flex items-start gap-2">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#CA3500] text-[11px] font-semibold text-white">
+                  AI
+                </div>
+                <div className="flex items-center gap-1 rounded-xl rounded-tl-sm bg-stone-100 px-3 py-3">
+                  {[0, 150, 300].map((delay) => (
+                    <span
+                      key={delay}
+                      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-stone-400"
+                      style={{ animationDelay: `${delay}ms` }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input */}
+          <div className="flex items-center gap-2 border-t border-stone-100 p-3">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && send()}
+              placeholder="Ask AgniAI anything..."
+              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-800 outline-none focus:border-[#CA3500] focus:ring-0"
+            />
+            <Button
+              size="sm"
+              onClick={() => send()}
+              className="bg-[#CA3500] px-4 text-xs text-white hover:bg-[#a82e00]"
+            >
+              Send
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </div>
+  )
+}
+
 // ── ROOT PAGE ─────────────────────────────────────────────────────────────────
 export default function AgniveerPage() {
   const [section, setSection] = useState<Section>("profile")
@@ -1809,9 +1971,9 @@ export default function AgniveerPage() {
           {section === "schedule" && <ScheduleSection />}
           {section === "medical" && <MedicalSection />}
           {section === "equipment" && <EquipmentSection />}
+          {section === "agniAI" && <AgniAISection />}
         </main>
       </div>
     </div>
   )
 }
-

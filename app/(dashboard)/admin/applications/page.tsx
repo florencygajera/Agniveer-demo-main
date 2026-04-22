@@ -325,7 +325,7 @@ const INIT_Agniveer: Agniveer[] = [
   {
     id: "2",
     AgniveerId: "AGN-2024-0102",
-    name: "Priya Sharma",
+    name: "Naman Sharma",
     rank: "Sepoy",
     battalion: "RR-1",
     state: "Rajasthan",
@@ -394,7 +394,7 @@ const INIT_Agniveer: Agniveer[] = [
   {
     id: "5",
     AgniveerId: "AGN-2024-0105",
-    name: "Kavita Rajput",
+    name: "Dharmesh Rajput",
     rank: "Sepoy",
     battalion: "RR-1",
     state: "UP",

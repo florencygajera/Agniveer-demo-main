@@ -1,8 +1,8 @@
 export const PLATOONS = [
   {
     id: "PL-001",
-    name: "Alpha Platoon",
-    company: "Sikh Regiment",
+    name: "Platoon 1",
+    company: "Lakhwinder",
     totalSoldiers: 38,
     commander: "Maj. Vikram Rathore",
     avgPhysical: 86.2,
@@ -14,8 +14,8 @@ export const PLATOONS = [
   },
   {
     id: "PL-002",
-    name: "Bravo Platoon",
-    company: "Punjab Regiment",
+    name: "Platoon 2",
+    company: "Jaswant",
     totalSoldiers: 35,
     commander: "Capt. Suresh Negi",
     avgPhysical: 81.9,
@@ -27,8 +27,8 @@ export const PLATOONS = [
   },
   {
     id: "PL-003",
-    name: "Charlie Platoon",
-    company: "Grenadiers",
+    name: "Platoon 3",
+    company: "Arora",
     totalSoldiers: 33,
     commander: "Capt. Rajeev Sharma",
     avgPhysical: 87.7,
@@ -40,8 +40,8 @@ export const PLATOONS = [
   },
   {
     id: "PL-004",
-    name: "Delta Platoon",
-    company: "Jat Regiment",
+    name: "Platoon 4",
+    company: "Thorat",
     totalSoldiers: 29,
     commander: "Lt. Amit Singh",
     avgPhysical: 73.2,
@@ -53,8 +53,8 @@ export const PLATOONS = [
   },
   {
     id: "PL-005",
-    name: "Foxtrot Platoon",
-    company: "Punjab Regiment",
+    name: "Platoon 5",
+    company: "Mahadev",
     totalSoldiers: 30,
     commander: "Lt. Rohit Shekhawat",
     avgPhysical: 79.9,
